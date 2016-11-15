@@ -1,0 +1,2 @@
+class BasketsController < ApplicationController
+end
