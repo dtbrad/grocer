@@ -5,21 +5,23 @@ You bought the following items on <%= @basket.date %>
   <tr>
     <th>Item</th>
     <th>Qty</th>
+    <th></th>
     <th>Total Price</th>
   </tr>
   <% @basket.line_items.each do |li| %>
     <tr>
       <td> <%= li.product.name %> </td>
       <td> <%= li.quantity.to_i %> </td>
-      <td> <%= li.price %> </td>
+      <td> <% if li.quantity != 1 %>
+              (<%= number_to_currency(li.price) %> x <%= li.quantity %>)
+              <% end %>
+      </td>
+      <td> <%= number_to_currency(li.price * li.quantity.to_i) %> </td>
     </tr>
   <% end %>
     <tr>
-      <td>Total:</td>
+      <td><strong>Total:</strong></td>
       <td></td>
-      <td><%= @basket.total %></td>
-
-
-
-
+      <td></td>
+      <td><strong><%= number_to_currency(@basket.total) %></strong></td>
 </table>

@@ -3,8 +3,8 @@ class CreateLineItems < ActiveRecord::Migration[5.0]
     create_table :line_items do |t|
       t.integer :product_id
       t.integer :basket_id
-      t.decimal :quantity
-      t.decimal :price
+      t.integer :quantity
+      t.integer :price_cents
 
       t.timestamps
     end

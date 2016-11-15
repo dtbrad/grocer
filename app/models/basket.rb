@@ -16,11 +16,11 @@ class Basket < ApplicationRecord
         quantity = r.css('.basket-item-qty').text.to_f
         quantity = 1 unless quantity != 0
         description = r.css('.basket-item-desc').text.rstrip!.lstrip!
-        price = r.css('.basket-item-amt').text.to_f
+        price = r.css('.basket-item-amt').text.to_f * 100
         product = Product.find_or_create_by(name: description)
         line_item = basket.line_items.build(
           quantity: quantity,
-          price: price / quantity,
+          price_cents: price / quantity,
           product_id: product.id
         )
       end
