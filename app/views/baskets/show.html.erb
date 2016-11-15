@@ -1,21 +1,25 @@
 You bought the following items on <%= @basket.date %>
+</br></br>
 
-<table>
+<table class="table">
   <tr>
     <th>Item</th>
     <th>Qty</th>
-    <th>Price</th>
-
+    <th>Total Price</th>
   </tr>
   <% @basket.line_items.each do |li| %>
     <tr>
       <td> <%= li.product.name %> </td>
-      <td> <%= li.quantity %> </td>
+      <td> <%= li.quantity.to_i %> </td>
       <td> <%= li.price %> </td>
     </tr>
   <% end %>
-  <h3>
-    Total for the purchase is: <%= @basket.total %>
-  </h3>
+    <tr>
+      <td>Total:</td>
+      <td></td>
+      <td><%= @basket.total %></td>
+
+
+
 
 </table>
