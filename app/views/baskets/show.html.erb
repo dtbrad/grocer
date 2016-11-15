@@ -1,0 +1,21 @@
+You bought the following items on <%= @basket.date %>
+
+<table>
+  <tr>
+    <th>Item</th>
+    <th>Qty</th>
+    <th>Price</th>
+
+  </tr>
+  <% @basket.line_items.each do |li| %>
+    <tr>
+      <td> <%= li.product.name %> </td>
+      <td> <%= li.quantity %> </td>
+      <td> <%= li.price %> </td>
+    </tr>
+  <% end %>
+  <h3>
+    Total for the purchase is: <%= @basket.total %>
+  </h3>
+
+</table>

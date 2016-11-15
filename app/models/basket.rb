@@ -28,4 +28,10 @@ class Basket < ApplicationRecord
     end
   end
 
+  def total
+    amount = 0
+    line_items.each {|li| amount += li.price * li.quantity}
+    amount
+  end
+
 end
