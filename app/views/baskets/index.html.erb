@@ -1,7 +1,10 @@
-
-<p> You went shopping on the following dates: </p>
-<ul>
-  <% @baskets.each do |b| %>
-    <li> <%= link_to b.date, basket_path(b) %></li>
+<% if !@baskets.empty? %>
+  <p> You went shopping on the following dates: </p>
+  <ul>
+    <% @baskets.each do |b| %>
+      <li> <%= link_to b.date, basket_path(b) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>
   <% end %>
-</ul>

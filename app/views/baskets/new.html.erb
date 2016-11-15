@@ -1,3 +1,7 @@
+<h4> Import Purchase History </h4>
+
+<p>This web app currently works only for gmail, and only if you have receipts from New Seasons in your inbox. Enter in your username and password and it will retrieve every email from new seasons receipts and present you with your purchase history. The method employed is a crude first draft, and can only be done once otherwise you will have duplicate entries.</p>
+
 <%= form_tag("/baskets", method: "post") do %>
   <%= label_tag(:username, "username:") %>
   <%= text_field_tag(:username) %>
@@ -5,3 +9,5 @@
   <%= password_field_tag(:password) %>
   <%= submit_tag("Submit") %>
 <% end %>
+
+<p> Depending on how extensive your purchase history is, this could take a few minutes (I have 250 trips and it took about four minutes to process them). Be patient, and maybe look at your terminal and see the SQL firing after hitting submit button!</p>

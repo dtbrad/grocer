@@ -13,7 +13,6 @@ class BasketsController < ApplicationController
 
   def create
     Basket.create_basket(params[:username], params[:password])
-    binding.pry
     redirect_to baskets_path
   end
 end
