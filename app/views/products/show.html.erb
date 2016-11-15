@@ -1,0 +1,3 @@
+<h1> <%= @product.name %> </h1>
+
+<p> You have bought  <%= @product.name %> <%= @product.times_bought %> <% if @product.times_bought != 1 %> times <% else %> time <% end %></p> 
