@@ -1,7 +1,11 @@
 class BasketsController < ApplicationController
 
   def index
-    @baskets = Basket.all
+    if current_user
+      @baskets = current_user.baskets.all
+    else
+      @baskets = Basket.all
+    end
   end
 
   def new
@@ -12,7 +16,7 @@ class BasketsController < ApplicationController
   end
 
   def create
-    Basket.create_basket(params[:username], params[:password], params[:num])
+    Basket.create_basket(current_user, params[:num])
     redirect_to baskets_path
   end
 end

@@ -4,9 +4,6 @@
 
 <%= form_tag("/baskets", method: "post") do %>
 <div class = "well">
-  <%= text_field_tag(:username, "", placeholder: "username", class: "form-control") %></br>
-  <%= password_field_tag(:password, "", placeholder: "password:", class: "form-control") %></br>
-
   <%= text_field_tag(:num, "", placeholder: "# of emails to process (starts with most recent)", class: "form-control") %></br>
 
   <%= submit_tag("Submit", class: "btn btn-primary") %>
