@@ -3,11 +3,14 @@
 <p>This web app currently works only for gmail, and only if you have receipts from New Seasons in your inbox. Enter in your username and password and it will retrieve every email from new seasons receipts and present you with your purchase history. The method employed is a crude first draft, and can only be done once otherwise you will have duplicate entries.</p>
 
 <%= form_tag("/baskets", method: "post") do %>
-  <%= label_tag(:username, "username:") %>
-  <%= text_field_tag(:username) %>
-  <%= label_tag(:password, "password:") %>
-  <%= password_field_tag(:password) %>
-  <%= submit_tag("Submit") %>
+<div class = "well">
+  <%= text_field_tag(:username, "", placeholder: "username", class: "form-control") %></br>
+  <%= password_field_tag(:password, "", placeholder: "password:", class: "form-control") %></br>
+
+  <%= text_field_tag(:num, "", placeholder: "# of emails to process (starts with most recent)", class: "form-control") %></br>
+
+  <%= submit_tag("Submit", class: "btn btn-primary") %>
+</div>
 <% end %>
 
-<p> Depending on how extensive your purchase history is, this could take a few minutes (I have 250 trips and it took about four minutes to process them). Be patient, and maybe look at your terminal and see the SQL firing after hitting submit button!</p>
+<p> Depending on how many email receipts you choose to process, this could take a few minutes (I have 250 emails and it took about four minutes to process them). Be patient, and maybe look at your terminal and see the SQL firing after hitting submit button!</p>

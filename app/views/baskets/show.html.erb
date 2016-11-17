@@ -1,4 +1,4 @@
-You bought the following items on <%= @basket.date %>
+You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p') %>
 </br></br>
 
 <table class="table">

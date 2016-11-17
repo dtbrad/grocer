@@ -2,7 +2,7 @@
   <p> You went shopping on the following dates: </p>
   <ul>
     <% @baskets.each do |b| %>
-      <li> <%= link_to b.date, basket_path(b) %></li>
+      <li> <%= link_to b.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(b) %></li>
     <% end %>
   </ul>
 <% else %>
