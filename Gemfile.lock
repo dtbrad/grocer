@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/gmailgem/gmail.git
+  revision: d95a0a4fa4b8c0ce771d0e951811d2623fa0dfa3
+  specs:
+    gmail (0.6.0)
+      gmail_xoauth (>= 0.3.0)
+      mail (>= 2.2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,9 +70,6 @@ GEM
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
-    gmail (0.6.0)
-      gmail_xoauth (>= 0.3.0)
-      mail (>= 2.2.1)
     gmail_xoauth (0.4.2)
       oauth (>= 0.3.6)
     hashie (3.4.6)
@@ -207,7 +212,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
   dotenv-rails (~> 2.1, >= 2.1.1)
-  gmail (~> 0.6.0)
+  gmail!
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

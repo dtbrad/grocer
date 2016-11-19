@@ -24,7 +24,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
-gem 'gmail', '~> 0.6.0', require: 'gmail'
+gem 'gmail', git: 'https://github.com/gmailgem/gmail.git', require: 'gmail'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 # Use Redis adapter to run Action Cable in production

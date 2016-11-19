@@ -1,6 +1,7 @@
 <% if current_user %>
   Signed in as <strong><%= current_user.name %></strong>!
-  <%= link_to "Sign out", signout_path, id: "sign_out" %>
+  <%= link_to "Sign out", signout_path, id: "sign_out" %> | 
+  <%= link_to "Delete your entire purchase history", remove_path %>
 <% else %>
   <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
 <% end %>

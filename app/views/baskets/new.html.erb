@@ -1,13 +1,13 @@
 <h4> Import Purchase History </h4>
 
-<p>This web app currently works only for gmail, and only if you have receipts from New Seasons in your inbox. Enter in your username and password and it will retrieve every email from new seasons receipts and present you with your purchase history. The method employed is a crude first draft, and can only be done once otherwise you will have duplicate entries.</p>
+<p>This web app currently works only for gmail, and only if you have receipts from New Seasons in your inbox. Enter in a date in year-month-day format (i.e 2016-11-01) and it will provide you with your purchase history from that date to the present. The records of these purchases will be stored in a database so click on the "Delete your entire purchase history" link above to delete all of it in one fell swoop.</p>
 
 <%= form_tag("/baskets", method: "post") do %>
 <div class = "well">
-  <%= text_field_tag(:num, "", placeholder: "# of emails to process (starts with most recent)", class: "form-control") %></br>
+  <%= text_field_tag(:date, "", placeholder: "Enter the earliest date you want to search to in this format (2016-01-01)", class: "form-control") %></br>
 
   <%= submit_tag("Submit", class: "btn btn-primary") %>
 </div>
 <% end %>
 
-<p> Depending on how many email receipts you choose to process, this could take a few minutes (I have 250 emails and it took about four minutes to process them). Be patient, and maybe look at your terminal and see the SQL firing after hitting submit button!</p>
+<p> Depending on how many email receipts you choose to process, this could take a few minutes (I had 250 emails to parse and it took about four minutes to process them).</p>

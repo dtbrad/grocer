@@ -3,21 +3,16 @@ class Basket < ApplicationRecord
   has_many :line_items
   has_many :products, through: :line_items
 
-  def self.create_basket(user, num)
+  def self.create_basket(user, date)
     gmail = Gmail.connect(:xoauth2, user.email, user.oauth_token)
-    all_emails = gmail.inbox.emails(from: 'receipts@newseasonsmarket.com')
-    num = num.to_i
-    num = all_emails.length unless num.to_i <= all_emails.length
-    wanted_emails = all_emails[all_emails.length - num..all_emails.length - 1]
-    wanted_emails.each do |email|
+    emails = gmail.inbox.emails(from: 'receipts@newseasonsmarket.com', after: Date.parse(date))
+    emails.each do |email|
       self.save_to_database(email, user) unless Basket.find_by(date: email.date)
     end
   end
 
   def self.save_to_database(email, user)
-    binding.pry
     basket = user.baskets.create(date: DateTime.parse(email.date))
-    binding.pry
     body = Nokogiri::HTML(email.body.decoded)
     wanted_rows = body.xpath(
       '//tr[td[(@class = "basket-item-qty") and normalize-space()]
