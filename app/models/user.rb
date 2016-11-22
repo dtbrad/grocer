@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :baskets
+  has_many :products, through: :baskets
+  has_many :line_items, through: :baskets
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
@@ -8,11 +10,12 @@ class User < ApplicationRecord
       user.name = auth.info.name
       user.email = auth.info.email
       user.image = auth.info.image
-      user.oauth_refresh_token = auth.credentials.refresh_token if auth.credentials.refresh_token
+      if auth.credentials.refresh_token
+        user.oauth_refresh_token = auth.credentials.refresh_token
+      end
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
     end
   end
-
 end

@@ -1,5 +1,11 @@
-<ul>
-  <% @products.each do |p| %>
-    <li><%= link_to p.name, product_path(p) %> </li>
+<% if current_user %>
+  <% if !@products.empty? %>
+    <p> You have purchased the following products: </p>
+    <ul>
+      <% @products.each do |p| %>
+        <li><%= link_to p.name, product_path(p) %> </li>      <% end %>
+    </ul>
+  <% else %>
+    <p> You currently have no purchase history loaded so there are no products associated with your account.</p>
+    <% end %>
   <% end %>
-</ul>
