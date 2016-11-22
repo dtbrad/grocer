@@ -1,6 +1,6 @@
 class BasketsController < ApplicationController
   def index
-    @baskets = current_user.baskets.all unless !current_user
+    @baskets = current_user.baskets.order(:date) unless !current_user
   end
 
   def new
