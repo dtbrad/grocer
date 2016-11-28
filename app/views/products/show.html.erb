@@ -1,3 +1,12 @@
 <h1> <%= @product.name %> </h1>
 
-<p> You have bought  <%= @product.name %> <%= @product.times_bought.to_i %> <% if @product.times_bought != 1 %> times <% else %> time <% end %></p> 
+<p> You have bought  <%= @product.name %> <%= @product.times_bought.to_i %> <% if @product.times_bought != 1 %> times <% else %> time <% end %></p>
+
+<ul>
+  <% @product.line_items.each do |l| %>
+    <li><%= link_to l.basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(l.basket) %></li>
+  <% end %>
+</ul>
+
+<p>The most you paid for this item was <%= number_to_currency(@product.highest_price) %></p>
+<p>The least you paid for this item was <%= number_to_currency(@product.lowest_price) %></p>

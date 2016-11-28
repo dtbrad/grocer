@@ -5,4 +5,12 @@ class Product < ApplicationRecord
   def times_bought
     line_items.inject(0) { |sum, l| sum + l.quantity }
   end
+
+  def highest_price
+    line_items.order(:price_cents).max.price
+  end
+
+  def lowest_price
+    line_items.order(:price_cents).min.price
+  end
 end
