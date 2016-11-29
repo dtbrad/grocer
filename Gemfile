@@ -36,12 +36,22 @@ gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+  gem 'factory_girl_rails', '~> 4.7'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'pry'
+end
+
+group :test do
+  gem 'faker', '~> 1.6', '>= 1.6.6'
+  gem 'capybara', '~> 2.10', '>= 2.10.1'
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.3'
+  gem 'launchy', '~> 2.4', '>= 2.4.3'
+  gem 'selenium-webdriver', '~> 3.0', '>= 3.0.2'
 end
 
 group :development do
-  gem 'pry'
   gem 'rubocop'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
