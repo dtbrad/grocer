@@ -2,6 +2,7 @@ class Basket < ApplicationRecord
   belongs_to :user
   has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
+  validates :date, presence: true
 
   def self.create_basket(user, date)
     gmail = Gmail.connect(:xoauth2, user.email, user.oauth_token)
