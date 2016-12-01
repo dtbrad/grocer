@@ -32,5 +32,9 @@ describe LineItem do
     expect(line_item.errors[:basket]).to include("must exist")
   end
 
+  it "matches model attribute without a '_cents' suffix by default" do
+     is_expected.to monetize(:price)
+   end
+
 
 end

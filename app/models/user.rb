@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :baskets
-  has_many :products, through: :baskets
+  has_many :products, through: :line_items
   has_many :line_items, through: :baskets
+  validates :name, presence: true
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|

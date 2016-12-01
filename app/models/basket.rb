@@ -38,6 +38,7 @@ class Basket < ApplicationRecord
   end
 
   def self.build_products_and_line_items(basket, quantity, description, price)
+    # binding.pry
     product = Product.find_or_create_by(name: description)
     basket.line_items.build(
       quantity: quantity,

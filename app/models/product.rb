@@ -8,10 +8,10 @@ class Product < ApplicationRecord
   end
 
   def highest_price
-    line_items.order(:price_cents).max.price
+    line_items.order(:price_cents).last.price
   end
 
   def lowest_price
-    line_items.order(:price_cents).min.price
+    line_items.order(:price_cents).first.price
   end
 end
