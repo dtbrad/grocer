@@ -1,8 +1,6 @@
 class ProductsController < ApplicationController
   def index
-    @products = current_user.products.order(:name).distinct
-    # @products = current_user.products
-    # @products = Product.all
+    @products = current_user.products.order(:name)
   end
 
   def show

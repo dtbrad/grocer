@@ -38,13 +38,14 @@ class Basket < ApplicationRecord
   end
 
   def self.build_products_and_line_items(basket, quantity, description, price)
-    # binding.pry
-    product = Product.find_or_create_by(name: description)
-    basket.line_items.build(
-      quantity: quantity,
-      price_cents: price / quantity,
-      product_id: product.id
-    )
+    if description != nil
+      product = Product.find_or_create_by(name: description)
+      basket.line_items.build(
+        quantity: quantity,
+        price_cents: price / quantity,
+        product_id: product.id
+      )
+    end
   end
 
   def total
