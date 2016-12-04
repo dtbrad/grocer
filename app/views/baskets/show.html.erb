@@ -4,19 +4,22 @@ You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b
 <table class="table">
   <tr>
     <th>Item</th>
+    <th>Unit Price</th>
     <th>Qty</th>
-    <th></th>
     <th>Total Price</th>
   </tr>
   <% @basket.line_items.each do |li| %>
     <tr>
       <td> <%= li.product.name %> </td>
-      <td> <%= li.quantity.to_i %> </td>
-      <td> <% if li.quantity != 1 %>
-              (<%= number_to_currency(li.price) %> x <%= li.quantity %>)
-              <% end %>
+      <td> <%= number_to_currency(li.price) %> </td>
+      <td>
+        <% if li.quantity % 1 == 0 %>
+          <%= li.quantity.floor %>
+        <% else %>
+          <%= li.quantity %> lb
+          <% end %>
       </td>
-      <td> <%= number_to_currency(li.price * li.quantity.to_i) %> </td>
+      <td> <%= number_to_currency(li.price * li.quantity) %> </td>
     </tr>
   <% end %>
     <tr>
