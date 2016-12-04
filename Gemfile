@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'gmail', git: 'https://github.com/gmailgem/gmail.git', require: 'gmail'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

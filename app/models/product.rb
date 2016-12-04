@@ -4,7 +4,10 @@ class Product < ApplicationRecord
   validates :name, presence: true
 
   def times_bought
-    line_items.inject(0) { |sum, l| sum + l.quantity }
+    line_items.inject(0) do |sum, l|
+      l.quantity % 1 == 0 ? quantity = l.quantity : quantity = 1
+      sum + quantity
+    end
   end
 
   def highest_price

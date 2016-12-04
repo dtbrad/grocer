@@ -5,14 +5,14 @@
     <table class="table">
       <tr>
         <th>Product</th>
-        <th>Times Bought</th>
+        <th>Total Purchased</th>
         <th>Highest Price</th>
         <th>Lowest Price</th>
         <th>Most Recently Purchased</th>
       </tr>
       <% @products.each do |product| %>
         <tr>
-          <td> <%= product.name %> </td>
+          <td> <%= link_to product.name, product_path(product) %> </td>
           <td> <%= product.times_bought.to_i %> </td>
           <td> <%= number_to_currency(product.highest_price) %> </td>
           <td> <%= number_to_currency(product.lowest_price) %> </td>
