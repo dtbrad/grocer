@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-sass": "^3.3.7"
+    "bootstrap-sass": "^3.3.7",
+    "tablesorter": "jquery.tablesorter#^2.28.0"
   }
 }
