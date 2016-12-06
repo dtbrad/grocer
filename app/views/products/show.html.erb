@@ -1,12 +1,32 @@
-<h1> <%= @product.name %> </h1>
+<h4> <%= @product.name %> </h4>
 
 <p> You have bought  <%= @product.name %> <%= @product.times_bought.to_i %> <% if @product.times_bought != 1 %> times <% else %> time <% end %></p>
 
-<ul>
-  <% @product.line_items.each do |l| %>
-    <li><%= link_to l.basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(l.basket) %></li>
-  <% end %>
-</ul>
+<% if @product.highest_price == @product.lowest_price %>
+  <p> Price has remained stable at <%= number_to_currency(@product.highest_price) %> </p>
+<% else %>
+  <p>The most you paid for this item was <%= number_to_currency(@product.highest_price) %></p>
+  <p>The least you paid for this item was <%= number_to_currency(@product.lowest_price) %></p>
+<% end %>
 
-<p>The most you paid for this item was <%= number_to_currency(@product.highest_price) %></p>
-<p>The least you paid for this item was <%= number_to_currency(@product.lowest_price) %></p>
+<h4> Purchase History </h4>
+<table id="productsTable" class="tablesorter table">
+  <thead>
+  <tr>
+    <th>Date Purchased</th>
+    <th>Price</th>
+    <th>Qty Purchased</th>
+    <th>Price of All Items Bought that Day</th>
+  </tr>
+</thead>
+<tbody>
+  <% @product.line_items.each do |line_item| %>
+    <tr>
+      <td> <%= link_to line_item.basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(line_item.basket) %> </td>
+      <td> <%= number_to_currency(line_item.price) %> </td>
+      <td> <%= line_item.quantity % 1 == 0 ? line_item.quantity.to_i : line_item.quantity  %> </td>
+      <td> <%= number_to_currency(line_item.basket.total) %> </td>
+    </tr>
+  <% end %>
+</tbody>
+</table>

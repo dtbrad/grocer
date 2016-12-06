@@ -1,5 +1,5 @@
-You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p') %>
 </br></br>
+<h4>You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p') %></h4>
 
 <table class="table">
   <tr>
@@ -10,7 +10,7 @@ You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b
   </tr>
   <% @basket.line_items.each do |li| %>
     <tr>
-      <td> <%= li.product.name %> </td>
+      <td> <%= link_to li.product.name, product_path(li.product) %> </td>
       <td> <%= number_to_currency(li.price) %> </td>
       <td>
         <% if li.quantity % 1 == 0 %>
