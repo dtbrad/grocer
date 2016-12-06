@@ -1,8 +1,12 @@
 class SessionsController < ApplicationController
   def create
-    user = User.from_omniauth(env['omniauth.auth'])
+    if params[:email] == 'sampleuser@mail.com'
+      user = User.find_by(email: 'sampleuser@mail.com')
+    else
+      user = User.from_omniauth(env['omniauth.auth'])
+    end
     session[:user_id] = user.id
-    redirect_to new_basket_path
+    redirect_to baskets_path
   end
 
   def destroy

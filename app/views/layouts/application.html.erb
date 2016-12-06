@@ -16,15 +16,18 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav">
+            <% if current_user %>
               <li><%= link_to "purchase history", baskets_path %></li>
               <li><%= link_to "products", products_path %></li>
-              <li><%= link_to "import your purchase history", new_basket_path %></li>
-      </ul>
-    </div>
-
-</nav>
-<%= render 'auth' %>
+              <% if current_user.id != 100 %>
+                <li><%= link_to "import your purchase history", new_basket_path %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+      <%= render 'auth' %>
       <%= yield %>
     </div>
   </body>

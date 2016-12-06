@@ -14,26 +14,26 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-12-04T14:15:47-08:00">2016-12-04T14:15:47-08:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-12-06T11:08:59-08:00">2016-12-06T11:08:59-08:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="yellow">80.75%</span></span>
+    (<span class="covered_percent"><span class="yellow">80.91%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.22
+         1.21
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>36</b> files in total.
-    <b>239</b> relevant lines. 
-    <span class="green"><b>193</b> lines covered</span> and
+    <b>241</b> relevant lines. 
+    <span class="green"><b>195</b> lines covered</span> and
     <span class="red"><b>46</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -122,10 +122,10 @@
       
       <tr>
         <td class="strong"><a href="#c2d25350d8699b4fe6e17b1f72454cc38ca32c0c" class="src_link" title="app/models/product.rb">app/models/product.rb</a></td>
-        <td class="red strong">70.59 %</td>
-        <td>28</td>
-        <td>17</td>
-        <td>12</td>
+        <td class="red strong">73.68 %</td>
+        <td>31</td>
+        <td>19</td>
+        <td>14</td>
         <td>5</td>
         <td>0.8</td>
       </tr>
@@ -1089,10 +1089,10 @@
         <div class="source_table" id="c2d25350d8699b4fe6e17b1f72454cc38ca32c0c">
   <div class="header">
     <h3>app/models/product.rb</h3>
-    <h4><span class="red">70.59 %</span> covered</h4>
+    <h4><span class="red">73.68 %</span> covered</h4>
     <div>
-      <b>17</b> relevant lines. 
-      <span class="green"><b>12</b> lines covered</span> and
+      <b>19</b> relevant lines. 
+      <span class="green"><b>14</b> lines covered</span> and
       <span class="red"><b>5</b> lines missed.</span>
     </div>
   </div>
@@ -1136,133 +1136,151 @@
           <code class="ruby">  def times_bought</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="7">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="1" data-linenumber="7">
+          <span class="hits">1</span>
           
-          <code class="ruby">    line_items.inject(0) { |sum, l| sum + l.quantity }</code>
+          <code class="ruby">    line_items.inject(0) do |sum, l|</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="8">
+        <li class="covered" data-hits="2" data-linenumber="8">
+          <span class="hits">2</span>
+          
+          <code class="ruby">      l.quantity % 1 == 0 ? quantity = l.quantity : quantity = 1</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="9">
+          <span class="hits">2</span>
+          
+          <code class="ruby">      sum + quantity</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="10">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="11">
           
           
           <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="9">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="10">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def highest_price</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="11">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    line_items.order(:price_cents).last.price</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="12">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="13">
+        <li class="covered" data-hits="1" data-linenumber="13">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">  def highest_price</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
-          <code class="ruby">  def lowest_price</code>
+          <code class="ruby">    line_items.order(:price_cents).last.price</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="15">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="15">
           
-          <code class="ruby">    line_items.order(:price_cents).first.price</code>
+          
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="16">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="17">
+        <li class="covered" data-hits="1" data-linenumber="17">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">  def lowest_price</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="18">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.stable_price</code>
+          <code class="ruby">    line_items.order(:price_cents).first.price</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="19">
-          
-          
-          <code class="ruby">    binding.pry</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="20">
-          
-          
-          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="21">
-          
-          
-          <code class="ruby">    x.each {|p| puts p.name}</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="22">
-          
-          
-          <code class="ruby">    puts x.count</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="23">
+        <li class="never" data-hits="" data-linenumber="19">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="24">
+        <li class="never" data-hits="" data-linenumber="20">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="25">
+        <li class="covered" data-hits="1" data-linenumber="21">
           <span class="hits">1</span>
           
-          <code class="ruby">  def most_recently_purchased</code>
+          <code class="ruby">  def self.stable_price</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="26">
+        <li class="missed" data-hits="0" data-linenumber="22">
           
           
-          <code class="ruby">    baskets.order(:date).last.date</code>
+          <code class="ruby">    binding.pry</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="27">
+        <li class="missed" data-hits="0" data-linenumber="23">
+          
+          
+          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="24">
+          
+          
+          <code class="ruby">    x.each {|p| puts p.name}</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="25">
+          
+          
+          <code class="ruby">    puts x.count</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="26">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="28">
+        <li class="never" data-hits="" data-linenumber="27">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="28">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def most_recently_purchased</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="29">
+          
+          
+          <code class="ruby">    baskets.order(:date).last.date</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="30">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="31">
           
           
           <code class="ruby">end</code>

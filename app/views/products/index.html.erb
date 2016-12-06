@@ -1,9 +1,7 @@
-<% if current_user %>
-  <% if !@products.empty? %>
-    <p> You have purchased the following products: </p>
-
-    <table id="productsTable" class="tablesorter table">
-      <thead>
+<% if current_user && !@products.empty? %>
+  <p> You have purchased the following products: </p>
+  <table id="productsTable" class="tablesorter table">
+    <thead>
       <tr>
         <th>Product</th>
         <th>Total Purchased</th>
@@ -24,10 +22,6 @@
       <% end %>
     </tbody>
     </table>
-
-
-
-  <% else %>
-    <p> You currently have no purchase history loaded so there are no products associated with your account.</p>
-    <% end %>
+  <% elsif current_user && @products.empty?%>
+    <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
   <% end %>

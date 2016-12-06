@@ -1,6 +1,6 @@
 <% if current_user %>
   <% if !@baskets.empty? %>
-    <p> You went shopping on the following dates: </p>
+    <p> <%= current_user.name %> went shopping on the following dates: </p>
     <ul>
       <% @baskets.each do |b| %>
         <li> <%= link_to b.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(b) %></li>
@@ -9,4 +9,4 @@
   <% else %>
     <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>
     <% end %>
-  <% end %>
+    <% end %>

@@ -19,10 +19,8 @@ class Product < ApplicationRecord
   end
 
   def self.stable_price
-    binding.pry
     x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count > 1}
     x.each {|p| puts p.name}
-    puts x.count
   end
 
   def most_recently_purchased

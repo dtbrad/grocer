@@ -1,9 +1,11 @@
 class BasketsController < ApplicationController
+  # before_action: current_user = current_user || User.find(100)
   def index
     @baskets = current_user.baskets.order(:date) unless !current_user
   end
 
   def new
+    redirect_to baskets_path unless current_user.id != 100
   end
 
   def show
