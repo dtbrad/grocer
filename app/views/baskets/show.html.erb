@@ -1,7 +1,12 @@
 </br></br>
-<h4>You bought the following items on <%= format_date(@basket.date) %></h4>
 
-<table id="basketTable" class="table">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h5>You bought the following items on <%= format_date(@basket.date) %></h5>
+    </div>
+    <div class="panel-body">
+
+<table id="basketTable" class="tablesorter table table-hover">
   <thead>
     <tr class="fake-link">
       <th>Item</th>
@@ -33,3 +38,5 @@
     </tr>
   </tbody>
 </table>
+</div>
+</div>

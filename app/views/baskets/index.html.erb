@@ -1,11 +1,15 @@
 <% if current_user && !@baskets.empty? %>
-  <p> <%= current_user.name %>'s purchase history: </p>
-  <table id="basketsTable" class="tablesorter table">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h5><%= current_user.name %>'s purchase history</h5>
+    </div>
+    <div class="panel-body">
+  <table id="basketsTable" class="tablesorter table table-hover">
     <thead>
       <tr class="fake-link">
         <th>Date</th>
-        <th>Number of Items Purchased</th>
-        <th>Purchase Total</th>
+        <th># of Items</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +22,9 @@
       <% end %>
     </tbody>
     </table>
-<% else current_user && @baskets.empty?%>
+  </div>
+</div>
+
+<% elsif current_user && @baskets.empty?%>
   <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>
 <% end %>

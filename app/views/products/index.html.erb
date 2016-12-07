@@ -1,6 +1,13 @@
 <% if current_user && !@products.empty? %>
-  <p> You have purchased the following products: </p>
-  <table id="productsTable" class="tablesorter table">
+
+  <div class="panel panel-default">
+      <div class="panel-heading">
+          <h5>You have purchased the following products</h5>
+      </div>
+      <div class="panel-body">
+
+
+  <table id="productsTable" class="tablesorter table table-hover">
     <thead>
       <tr class="fake-link">
         <th>Product</th>
@@ -22,6 +29,8 @@
       <% end %>
     </tbody>
     </table>
+  </div>
+</div>
   <% elsif current_user && @products.empty?%>
     <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
   <% end %>
