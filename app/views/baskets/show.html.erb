@@ -1,30 +1,35 @@
 </br></br>
 <h4>You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p') %></h4>
 
-<table class="table">
-  <tr>
-    <th>Item</th>
-    <th>Unit Price</th>
-    <th>Qty</th>
-    <th>Total Price</th>
-  </tr>
-  <% @basket.line_items.each do |li| %>
-    <tr>
-      <td> <%= link_to li.product.name, product_path(li.product) %> </td>
-      <td> <%= number_to_currency(li.price) %> </td>
-      <td>
-        <% if li.quantity % 1 == 0 %>
-          <%= li.quantity.floor %>
-        <% else %>
-          <%= li.quantity %> lb
-          <% end %>
-      </td>
-      <td> <%= number_to_currency(li.price * li.quantity) %> </td>
+<table id="basketTable" class="table">
+  <thead>
+    <tr class="fake-link">
+      <th>Item</th>
+      <th>Unit Price</th>
+      <th>Qty</th>
+      <th>Total Price</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @basket.line_items.each do |li| %>
+      <tr>
+        <td> <%= link_to li.product.name, product_path(li.product) %> </td>
+        <td> <%= number_to_currency(li.price) %> </td>
+        <td>
+          <% if li.quantity % 1 == 0 %>
+            <%= li.quantity.floor %>
+          <% else %>
+            <%= li.quantity %> lb
+            <% end %>
+        </td>
+        <td> <%= number_to_currency(li.price * li.quantity) %> </td>
+      </tr>
+    <% end %>
     <tr>
       <td><strong>Total:</strong></td>
       <td></td>
       <td></td>
       <td><strong><%= number_to_currency(@basket.total) %></strong></td>
+    </tr>
+  </tbody>
 </table>

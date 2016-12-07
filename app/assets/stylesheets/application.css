@@ -13,5 +13,12 @@
  *= require_tree .
  *= require_self
  *= require bootstrap-sass
+ *= require tablesorter/dist/css/theme.blue
 
  */
+
+ .fake-link {
+    color: #337ab7;
+    text-decoration: underline;
+    cursor: pointer;
+}

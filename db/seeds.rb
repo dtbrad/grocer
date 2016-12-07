@@ -1,6 +1,6 @@
-User.create!(name: "Sample User", email: "sampleuser@mail.com", id: 100)
+User.create(name: "Sample User", email: "sampleuser@mail.com", id: 100)
 
-Basket.create!([
+Basket.create([
   {date: "2015-10-02 19:10:53", user_id: 100},
   {date: "2015-10-03 00:24:20", user_id: 100},
   {date: "2015-10-04 00:13:30", user_id: 100},
@@ -66,7 +66,7 @@ Basket.create!([
   {date: "2015-12-06 01:06:08", user_id: 100}
 ])
 
-Product.create!([
+Product.create([
   {name: "BAGEL"},
   {name: "NSM OG MILK"},
   {name: "BAG REFUND"},
