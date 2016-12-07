@@ -24,7 +24,7 @@
           <td> <%= product.times_bought.to_i %> </td>
           <td> <%= number_to_currency(product.highest_price) %> </td>
           <td> <%= number_to_currency(product.lowest_price) %> </td>
-          <td> <%= format_date(product.most_recently_purchased) %> </td>
+          <td> <%= format_date(product.most_recently_purchased(current_user)) %> </td>
         </tr>
       <% end %>
     </tbody>

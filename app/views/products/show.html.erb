@@ -19,7 +19,7 @@
   </tr>
 </thead>
 <tbody>
-  <% @product.line_items.each do |line_item| %>
+  <% @product.this_users_line_items(current_user).each do |line_item| %>
     <tr>
       <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
       <td> <%= number_to_currency(line_item.price) %> </td>
