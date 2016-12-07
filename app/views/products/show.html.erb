@@ -22,7 +22,7 @@
 <tbody>
   <% @product.line_items.each do |line_item| %>
     <tr>
-      <td> <%= link_to line_item.basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p'), basket_path(line_item.basket) %> </td>
+      <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
       <td> <%= number_to_currency(line_item.price) %> </td>
       <td> <%= line_item.quantity % 1 == 0 ? line_item.quantity.to_i : line_item.quantity  %> </td>
       <td> <%= number_to_currency(line_item.basket.total) %> </td>

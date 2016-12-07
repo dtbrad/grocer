@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-12-06T11:08:59-08:00">2016-12-06T11:08:59-08:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-12-07T10:03:05-08:00">2016-12-07T10:03:05-08:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="yellow">80.91%</span></span>
+    (<span class="covered_percent"><span class="yellow">81.25%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.21
+         1.2
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>36</b> files in total.
-    <b>241</b> relevant lines. 
+    <b>240</b> relevant lines. 
     <span class="green"><b>195</b> lines covered</span> and
-    <span class="red"><b>46</b> lines missed </span>
+    <span class="red"><b>45</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -102,12 +102,12 @@
       
       <tr>
         <td class="strong"><a href="#fd3de4cf1bc3a718db039b817b8e86e1908abd3b" class="src_link" title="app/models/basket.rb">app/models/basket.rb</a></td>
-        <td class="red strong">25.0 %</td>
-        <td>70</td>
-        <td>40</td>
+        <td class="red strong">24.39 %</td>
+        <td>71</td>
+        <td>41</td>
         <td>10</td>
-        <td>30</td>
-        <td>0.3</td>
+        <td>31</td>
+        <td>0.2</td>
       </tr>
       
       <tr>
@@ -122,12 +122,12 @@
       
       <tr>
         <td class="strong"><a href="#c2d25350d8699b4fe6e17b1f72454cc38ca32c0c" class="src_link" title="app/models/product.rb">app/models/product.rb</a></td>
-        <td class="red strong">73.68 %</td>
-        <td>31</td>
-        <td>19</td>
+        <td class="yellow strong">82.35 %</td>
+        <td>29</td>
+        <td>17</td>
         <td>14</td>
-        <td>5</td>
-        <td>0.8</td>
+        <td>3</td>
+        <td>0.9</td>
       </tr>
       
       <tr>
@@ -585,11 +585,11 @@
         <div class="source_table" id="fd3de4cf1bc3a718db039b817b8e86e1908abd3b">
   <div class="header">
     <h3>app/models/basket.rb</h3>
-    <h4><span class="red">25.0 %</span> covered</h4>
+    <h4><span class="red">24.39 %</span> covered</h4>
     <div>
-      <b>40</b> relevant lines. 
+      <b>41</b> relevant lines. 
       <span class="green"><b>10</b> lines covered</span> and
-      <span class="red"><b>30</b> lines missed.</span>
+      <span class="red"><b>31</b> lines missed.</span>
     </div>
   </div>
   
@@ -647,370 +647,376 @@
         <li class="missed" data-hits="0" data-linenumber="9">
           
           
-          <code class="ruby">    emails = gmail.inbox.emails(</code>
+          <code class="ruby">    binding.pry</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="10">
+        <li class="missed" data-hits="0" data-linenumber="10">
           
           
-          <code class="ruby">      from: &#39;receipts@newseasonsmarket.com&#39;,</code>
+          <code class="ruby">    emails = gmail.inbox.emails(</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="11">
           
           
-          <code class="ruby">      after: Date.parse(date)</code>
+          <code class="ruby">      from: &#39;receipts@newseasonsmarket.com&#39;,</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="12">
           
           
-          <code class="ruby">    )</code>
+          <code class="ruby">      after: Date.parse(date)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="13">
+        <li class="never" data-hits="" data-linenumber="13">
           
           
-          <code class="ruby">    emails.each do |email|</code>
+          <code class="ruby">    )</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="14">
           
           
-          <code class="ruby">      get_the_right_rows(email, user) unless Basket.find_by(date: email.date)</code>
+          <code class="ruby">    emails.each do |email|</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="15">
+        <li class="missed" data-hits="0" data-linenumber="15">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      get_the_right_rows(email, user) unless Basket.find_by(date: email.date)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="16">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="17">
           
           
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="18">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="18">
+        <li class="covered" data-hits="1" data-linenumber="19">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.get_the_right_rows(email, user)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="19">
+        <li class="missed" data-hits="0" data-linenumber="20">
           
           
           <code class="ruby">    basket = user.baskets.build(date: DateTime.parse(email.date))</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="20">
+        <li class="missed" data-hits="0" data-linenumber="21">
           
           
           <code class="ruby">    body = Nokogiri::HTML(email.body.decoded)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="21">
+        <li class="missed" data-hits="0" data-linenumber="22">
           
           
           <code class="ruby">    wanted_rows = body.xpath(</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="22">
+        <li class="never" data-hits="" data-linenumber="23">
           
           
           <code class="ruby">      &#39;//tr[(td[(@class = &quot;basket-item-qty&quot;) and normalize-space()]</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="23">
+        <li class="never" data-hits="" data-linenumber="24">
           
           
           <code class="ruby">      and td[(@class = &quot;basket-item-desc&quot;) and normalize-space()]</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="24">
+        <li class="never" data-hits="" data-linenumber="25">
           
           
           <code class="ruby">      and td[(@class = &quot;basket-item-amt&quot;) and normalize-space()]) or td[span]]&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="25">
+        <li class="never" data-hits="" data-linenumber="26">
           
           
           <code class="ruby">    )</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="26">
+        <li class="missed" data-hits="0" data-linenumber="27">
           
           
           <code class="ruby">    extract_line_item_info(wanted_rows, basket)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="27">
+        <li class="missed" data-hits="0" data-linenumber="28">
           
           
           <code class="ruby">    basket.save</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="28">
+        <li class="never" data-hits="" data-linenumber="29">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="29">
+        <li class="never" data-hits="" data-linenumber="30">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
+        <li class="covered" data-hits="1" data-linenumber="31">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.extract_line_item_info(wanted_rows, basket)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="31">
+        <li class="missed" data-hits="0" data-linenumber="32">
           
           
           <code class="ruby">    length = wanted_rows.length</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="32">
+        <li class="missed" data-hits="0" data-linenumber="33">
           
           
           <code class="ruby">    length.times do |i|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="33">
+        <li class="missed" data-hits="0" data-linenumber="34">
           
           
           <code class="ruby">      if !wanted_rows[i].css(&#39;span&#39;).text.include?(&quot;$&quot;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="34">
+        <li class="missed" data-hits="0" data-linenumber="35">
           
           
           <code class="ruby">        if wanted_rows[i+1] &amp;&amp; wanted_rows[i+1].css(&#39;span&#39;).text.include?(&quot;$&quot;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="35">
-          
-          
-          <code class="ruby">          description = wanted_rows[i].css(&#39;.basket-item-desc&#39;).text.rstrip!.lstrip!</code>
-        </li>
-      
         <li class="missed" data-hits="0" data-linenumber="36">
           
           
-          <code class="ruby">          price = wanted_rows[i+1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100</code>
+          <code class="ruby">          description = wanted_rows[i].css(&#39;.basket-item-desc&#39;).text.rstrip!.lstrip!</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="37">
           
           
-          <code class="ruby">          if wanted_rows[i+1].text.include?(&quot;@&quot;)</code>
+          <code class="ruby">          price = wanted_rows[i+1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="38">
           
           
+          <code class="ruby">          if wanted_rows[i+1].text.include?(&quot;@&quot;)</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="39">
+          
+          
           <code class="ruby">            quantity = wanted_rows[i+1].text[/([\d.]+)\s/].to_f</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="39">
+        <li class="never" data-hits="" data-linenumber="40">
           
           
           <code class="ruby">          else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="40">
+        <li class="missed" data-hits="0" data-linenumber="41">
           
           
           <code class="ruby">            quantity = wanted_rows[i].css(&#39;.basket-item-qty&#39;).text.to_f</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="41">
+        <li class="never" data-hits="" data-linenumber="42">
           
           
           <code class="ruby">          end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="42">
+        <li class="never" data-hits="" data-linenumber="43">
           
           
           <code class="ruby">        else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="43">
+        <li class="missed" data-hits="0" data-linenumber="44">
           
           
           <code class="ruby">          description = wanted_rows[i].css(&#39;.basket-item-desc&#39;).text.rstrip!.lstrip!</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="44">
+        <li class="missed" data-hits="0" data-linenumber="45">
           
           
           <code class="ruby">          price = wanted_rows[i].css(&#39;.basket-item-amt&#39;).text.to_f * 100</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="45">
+        <li class="missed" data-hits="0" data-linenumber="46">
           
           
           <code class="ruby">          quantity = wanted_rows[i].css(&#39;.basket-item-qty&#39;).text.to_f</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="46">
+        <li class="missed" data-hits="0" data-linenumber="47">
           
           
           <code class="ruby">          quantity = 1 unless quantity.nonzero?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="47">
+        <li class="never" data-hits="" data-linenumber="48">
           
           
           <code class="ruby">        end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="48">
+        <li class="missed" data-hits="0" data-linenumber="49">
           
           
           <code class="ruby">        quantity = 1 unless quantity.nonzero?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="49">
+        <li class="missed" data-hits="0" data-linenumber="50">
           
           
           <code class="ruby">        build_products_and_line_items(basket, quantity, description, price)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="50">
+        <li class="never" data-hits="" data-linenumber="51">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="51">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
         <li class="never" data-hits="" data-linenumber="52">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="53">
           
           
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="54">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="54">
+        <li class="covered" data-hits="1" data-linenumber="55">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.build_products_and_line_items(basket, quantity, description, price)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="55">
+        <li class="missed" data-hits="0" data-linenumber="56">
           
           
           <code class="ruby">    if description != nil</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="56">
+        <li class="missed" data-hits="0" data-linenumber="57">
           
           
           <code class="ruby">      product = Product.find_or_create_by(name: description)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="57">
+        <li class="missed" data-hits="0" data-linenumber="58">
           
           
           <code class="ruby">      basket.line_items.build(</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="58">
+        <li class="never" data-hits="" data-linenumber="59">
           
           
           <code class="ruby">        quantity: quantity,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="59">
+        <li class="never" data-hits="" data-linenumber="60">
           
           
           <code class="ruby">        price_cents: price,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="60">
+        <li class="never" data-hits="" data-linenumber="61">
           
           
           <code class="ruby">        product_id: product.id</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="never" data-hits="" data-linenumber="62">
           
           
           <code class="ruby">      )</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="62">
+        <li class="never" data-hits="" data-linenumber="63">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="63">
+        <li class="never" data-hits="" data-linenumber="64">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="64">
+        <li class="never" data-hits="" data-linenumber="65">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="65">
+        <li class="covered" data-hits="1" data-linenumber="66">
           <span class="hits">1</span>
           
           <code class="ruby">  def total</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="66">
+        <li class="missed" data-hits="0" data-linenumber="67">
           
           
           <code class="ruby">    amount = 0</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="67">
+        <li class="missed" data-hits="0" data-linenumber="68">
           
           
           <code class="ruby">    line_items.each { |li| amount += li.price * li.quantity }</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="68">
+        <li class="missed" data-hits="0" data-linenumber="69">
           
           
           <code class="ruby">    amount</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="69">
+        <li class="never" data-hits="" data-linenumber="70">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="70">
+        <li class="never" data-hits="" data-linenumber="71">
           
           
           <code class="ruby">end</code>
@@ -1089,11 +1095,11 @@
         <div class="source_table" id="c2d25350d8699b4fe6e17b1f72454cc38ca32c0c">
   <div class="header">
     <h3>app/models/product.rb</h3>
-    <h4><span class="red">73.68 %</span> covered</h4>
+    <h4><span class="yellow">82.35 %</span> covered</h4>
     <div>
-      <b>19</b> relevant lines. 
+      <b>17</b> relevant lines. 
       <span class="green"><b>14</b> lines covered</span> and
-      <span class="red"><b>5</b> lines missed.</span>
+      <span class="red"><b>3</b> lines missed.</span>
     </div>
   </div>
   
@@ -1229,58 +1235,46 @@
         <li class="missed" data-hits="0" data-linenumber="22">
           
           
-          <code class="ruby">    binding.pry</code>
+          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="23">
           
           
-          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="24">
-          
-          
           <code class="ruby">    x.each {|p| puts p.name}</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="25">
-          
-          
-          <code class="ruby">    puts x.count</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="26">
+        <li class="never" data-hits="" data-linenumber="24">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="27">
+        <li class="never" data-hits="" data-linenumber="25">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="28">
+        <li class="covered" data-hits="1" data-linenumber="26">
           <span class="hits">1</span>
           
           <code class="ruby">  def most_recently_purchased</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="29">
+        <li class="missed" data-hits="0" data-linenumber="27">
           
           
           <code class="ruby">    baskets.order(:date).last.date</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="30">
+        <li class="never" data-hits="" data-linenumber="28">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="31">
+        <li class="never" data-hits="" data-linenumber="29">
           
           
           <code class="ruby">end</code>
@@ -3263,7 +3257,7 @@
         <li class="never" data-hits="" data-linenumber="5">
           
           
-          <code class="ruby">    scope: [&#39;https://mail.google.com/&#39;, &#39;email&#39;],</code>
+          <code class="ruby">    # scope: [&#39;https://mail.google.com/&#39;, &#39;email&#39;],</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="6">
@@ -3281,7 +3275,7 @@
         <li class="never" data-hits="" data-linenumber="8">
           
           
-          <code class="ruby">    # scope: [&#39;https://www.googleapis.com/auth/gmail.readonly&#39;, &#39;email&#39;],</code>
+          <code class="ruby">    scope: [&#39;https://www.googleapis.com/auth/gmail.readonly&#39;, &#39;email&#39;],</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="9">

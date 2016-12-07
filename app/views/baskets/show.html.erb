@@ -1,5 +1,5 @@
 </br></br>
-<h4>You bought the following items on <%= @basket.date.localtime.strftime('%A, %d %b %Y %l:%M %p') %></h4>
+<h4>You bought the following items on <%= format_date(@basket.date) %></h4>
 
 <table id="basketTable" class="table">
   <thead>

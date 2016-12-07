@@ -17,7 +17,7 @@
           <td> <%= product.times_bought.to_i %> </td>
           <td> <%= number_to_currency(product.highest_price) %> </td>
           <td> <%= number_to_currency(product.lowest_price) %> </td>
-          <td> <%= product.most_recently_purchased.localtime.strftime('%A, %d %b %Y %l:%M %p') %> </td>
+          <td> <%= format_date(product.most_recently_purchased) %> </td>
         </tr>
       <% end %>
     </tbody>
