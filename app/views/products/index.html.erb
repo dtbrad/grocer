@@ -7,7 +7,7 @@
       <div class="panel-body">
 
 
-  <table id="productsTable" class="tablesorter table table-hover">
+  <table class="tablesorter table table-hover">
     <thead>
       <tr class="fake-link">
         <th>Product</th>
@@ -21,7 +21,7 @@
       <% @products.each do |product| %>
         <tr>
           <td> <%= link_to product.name, product_path(product) %> </td>
-          <td> <%= product.times_bought.to_i %> </td>
+          <td> <%= product.times_bought(current_user) %> </td>
           <td> <%= number_to_currency(product.highest_price) %> </td>
           <td> <%= number_to_currency(product.lowest_price) %> </td>
           <td> <%= format_date(product.most_recently_purchased(current_user)) %> </td>

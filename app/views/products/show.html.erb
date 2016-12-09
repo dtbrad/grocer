@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h5> You've purchased <%= @product.name %> <%= @product.times_bought.to_i %> <% if @product.times_bought != 1 %> times.<% else %> time.<% end %>
+        <h5> You've purchased <%= @product.name %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
         <% if @product.highest_price == @product.lowest_price %>
            Its price has remained stable at <%= number_to_currency(@product.highest_price) %> </h5>
           <% else %>
@@ -9,12 +9,14 @@
     </div>
     <div class="panel-body">
 
-<table id="productTable" class="tablesorter table">
+<table class="tablesorter table">
   <thead>
   <tr class="fake-link">
     <th>Date Purchased</th>
     <th>Price</th>
     <th>Qty Purchased</th>
+    <th>Weight</th>
+    <th>Total Price for that item</th>
     <th>Price of All Items Bought that Day</th>
   </tr>
 </thead>
@@ -23,7 +25,9 @@
     <tr>
       <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
       <td> <%= number_to_currency(line_item.price) %> </td>
-      <td> <%= line_item.quantity % 1 == 0 ? line_item.quantity.to_i : line_item.quantity  %> </td>
+      <td> <%= line_item.quantity %> </td>
+      <td> <%= line_item.weight %> lb </td>
+      <td> <%= number_to_currency(line_item.total_price) %> </td>
       <td> <%= number_to_currency(line_item.basket.total) %> </td>
     </tr>
   <% end %>

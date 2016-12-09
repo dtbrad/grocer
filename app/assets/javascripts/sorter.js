@@ -1,6 +1,12 @@
 $(document).on("turbolinks:load", function(){
-  $("#basketsTable").tablesorter();
-  $("#basketTable").tablesorter();
-  $("#productsTable").tablesorter();
-  $("#productTable").tablesorter();
+  $('table').tablesorter({
+  	  headers: {
+  	    0: {
+  	      sorter: 'shortdate',
+          theme : 'blue',
+          cssInfoBlock : "avoid-sort", 
+  	    }
+  	  }
+  	});
+
 });

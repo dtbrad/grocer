@@ -1,15 +1,12 @@
 class Product < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :baskets, through: :line_items
-  # has_many :users, through: :baskets
-  has_many :users, -> { distinct }, through: :line_items
+  has_many :users, through: :baskets
   validates :name, presence: true
 
-  def times_bought
-    line_items.inject(0) do |sum, l|
-      l.quantity % 1 == 0 ? quantity = l.quantity : quantity = 1
-      sum + quantity
-    end
+  def times_bought(user)
+    user_line_items = user.line_items.where(product: self)
+    user_line_items.sum("quantity")
   end
 
   def highest_price

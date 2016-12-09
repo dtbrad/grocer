@@ -6,12 +6,13 @@
     </div>
     <div class="panel-body">
 
-<table id="basketTable" class="tablesorter table table-hover">
+<table class="tablesorter table table-hover">
   <thead>
     <tr class="fake-link">
       <th>Item</th>
       <th>Unit Price</th>
       <th>Qty</th>
+      <th>Weight</th>
       <th>Total Price</th>
     </tr>
   </thead>
@@ -20,18 +21,16 @@
       <tr>
         <td> <%= link_to li.product.name, product_path(li.product) %> </td>
         <td> <%= number_to_currency(li.price) %> </td>
-        <td>
-          <% if li.quantity % 1 == 0 %>
-            <%= li.quantity.floor %>
-          <% else %>
-            <%= li.quantity %> lb
-            <% end %>
-        </td>
-        <td> <%= number_to_currency(li.price * li.quantity) %> </td>
+        <td> <%= li.quantity %></td>
+        <td> <%= "#{li.weight} lb" unless li.weight == nil %> </td>
+        <td> <%= number_to_currency(li.total_price) %> </td>
       </tr>
     <% end %>
+    </tbody>
+    <tbody class="avoid-sort">
     <tr>
       <td><strong>Total:</strong></td>
+      <td></td>
       <td></td>
       <td></td>
       <td><strong><%= number_to_currency(@basket.total) %></strong></td>

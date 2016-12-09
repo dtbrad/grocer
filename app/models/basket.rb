@@ -35,7 +35,8 @@ class Basket < ApplicationRecord
           description = wanted_rows[i].css('.basket-item-desc').text.rstrip!.lstrip!
           price = wanted_rows[i+1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100
           if wanted_rows[i+1].text.include?("@")
-            quantity = wanted_rows[i+1].text[/([\d.]+)\s/].to_f
+            quantity = 1
+            weight = wanted_rows[i+1].text[/([\d.]+)\s/].to_f
           else
             quantity = wanted_rows[i].css('.basket-item-qty').text.to_f
           end
@@ -46,16 +47,17 @@ class Basket < ApplicationRecord
           quantity = 1 unless quantity.nonzero?
         end
         quantity = 1 unless quantity.nonzero?
-        build_products_and_line_items(basket, quantity, description, price)
+        build_products_and_line_items(basket, quantity, weight, description, price)
       end
     end
   end
 
-  def self.build_products_and_line_items(basket, quantity, description, price)
+  def self.build_products_and_line_items(basket, quantity, weight, description, price)
     if description != nil
       product = Product.find_or_create_by(name: description)
       basket.line_items.build(
         quantity: quantity,
+        weight: weight,
         price_cents: price,
         product_id: product.id
       )

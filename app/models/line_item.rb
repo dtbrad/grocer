@@ -6,4 +6,8 @@ class LineItem < ApplicationRecord
   validates :price_cents, presence: true
   validates :quantity, presence: true
 
+  def total_price
+    weight == nil ? quantity * price : weight * price
+  end
+
 end
