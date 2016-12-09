@@ -26,7 +26,7 @@
       <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
       <td> <%= number_to_currency(line_item.price) %> </td>
       <td> <%= line_item.quantity %> </td>
-      <td> <%= line_item.weight %> lb </td>
+      <td> <%= line_item.formatted_weight %> </td>
       <td> <%= number_to_currency(line_item.total_price) %> </td>
       <td> <%= number_to_currency(line_item.basket.total) %> </td>
     </tr>

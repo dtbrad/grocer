@@ -10,4 +10,8 @@ class LineItem < ApplicationRecord
     weight == nil ? quantity * price : weight * price
   end
 
+  def formatted_weight
+    "#{weight} lb" unless weight == nil
+  end
+  
 end

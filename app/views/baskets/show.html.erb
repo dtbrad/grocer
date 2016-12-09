@@ -22,7 +22,7 @@
         <td> <%= link_to li.product.name, product_path(li.product) %> </td>
         <td> <%= number_to_currency(li.price) %> </td>
         <td> <%= li.quantity %></td>
-        <td> <%= "#{li.weight} lb" unless li.weight == nil %> </td>
+        <td> <%= li.formatted_weight %> </td>
         <td> <%= number_to_currency(li.total_price) %> </td>
       </tr>
     <% end %>
