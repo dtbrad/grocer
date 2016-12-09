@@ -1,7 +1,7 @@
 <% if current_user %>
   Signed in as <strong><%= current_user.name %></strong>!
   <%= link_to "Sign out", signout_path, id: "sign_out" %>
-  <% if current_user.id != 100 && !current_user.baskets.empty?%>
+  <% if current_user.name != 'Sample User' && !current_user.baskets.empty?%>
   | <%= link_to "Delete your entire purchase history", remove_path %>
   <% end %>
 <% else %>
