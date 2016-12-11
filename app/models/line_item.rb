@@ -6,12 +6,12 @@ class LineItem < ApplicationRecord
   validates :price_cents, presence: true
   validates :quantity, presence: true
 
-  def total_price
-    weight == nil ? quantity * price : weight * price
-  end
-
   def formatted_weight
     "#{weight} lb" unless weight == nil
   end
-  
+
+  def total
+    weight == nil ? quantity * price : weight * price
+  end
+
 end
