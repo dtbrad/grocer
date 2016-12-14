@@ -45,6 +45,7 @@ class Basket < ApplicationRecord
       if !unit_pricing
         info[:price_cents] = rows[i].css('.basket-item-amt').text.to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
+        info[:quantity] = 1 unless info[:quantity].nonzero?
 
       elsif unit_pricing && !has_weight_unit
         info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100
