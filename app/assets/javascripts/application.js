@@ -15,4 +15,8 @@
 //= require bootstrap-sass
 //= require tablesorter
 //= require turbolinks
-//= require_tree .
+//= require_tree
+
+setTimeout(function(){
+    $('#flash').remove();
+  }, 2000);

@@ -1,5 +1,4 @@
 class BasketsController < ApplicationController
-  # before_action: current_user = current_user || User.find(100)
   def index
     @baskets = current_user.baskets.order(:date) unless !current_user
   end
@@ -10,6 +9,9 @@ class BasketsController < ApplicationController
 
   def show
     @basket = Basket.find(params[:id])
+    if @basket.user != current_user
+      redirect_to baskets_path,  flash: { alert: "You can only view your own baskets" }
+    end
   end
 
   def create

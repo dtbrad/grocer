@@ -9,37 +9,40 @@
   </head>
 
   <body>
-      <nav class="navbar navbar-default" role="navigation">
-  			<div class="container-fluid">
-  				<div class="navbar-header">
-  					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-  						<span class="sr-only">Toggle navigation</span>
-  						<span class="icon-bar"></span>
-  						<span class="icon-bar"></span>
-  						<span class="icon-bar"></span>
-  					</button>
-  					<a class="navbar-brand" href="#">New Seasons Purchase Tracker</a>
-  				</div>
-
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  					<ul class="nav navbar-nav">
-              <% if current_user %>
-                <li><%= link_to "purchase history", baskets_path %></li>
-                <li><%= link_to "products", products_path %></li>
-                <% if current_user.name != 'Sample User' %>
-                  <li><%= link_to "import your purchase history", new_basket_path %></li>
-                <% end %>
-              <% end %>
-  					</ul>
-  				</div>
-  				<!-- /.navbar-collapse -->
+    <nav class="navbar navbar-default" role="navigation">
+  		<div class="container-fluid">
+  			<div class="navbar-header">
+  				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+  					<span class="sr-only">Toggle navigation</span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  					<span class="icon-bar"></span>
+  				</button>
+  				<a class="navbar-brand" href="#">New Seasons Purchase Tracker</a>
   			</div>
-  			<!-- /.container-fluid -->
-  		</nav>
-      <div class="text-center"><%= render 'auth' %></div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  				<ul class="nav navbar-nav">
+            <% if current_user %>
+              <li><%= link_to "purchase history", baskets_path %></li>
+              <li><%= link_to "products", products_path %></li>
+              <% if current_user.name != 'Sample User' %>
+                <li><%= link_to "import your purchase history", new_basket_path %></li>
+              <% end %>
+            <% end %>
+  				</ul>
+  			</div>
+  			<!-- /.navbar-collapse -->
+  		</div>
+  		<!-- /.container-fluid -->
+  	</nav>
+    <div class="text-center"><%= render 'auth' %></div>
     </br>
-      <div class="container">
-      <%= yield %>
+    <div class="container">
+      <% flash.each do |name, msg| -%>
+        <div class="alert alert-danger" data-dismiss="alert" id="flash"><%= content_tag :div, msg, class: name %></div>
+      <% end -%>
+    <%= yield %>
     </div>
   </body>
 </html>
