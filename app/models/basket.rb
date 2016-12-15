@@ -38,7 +38,7 @@ class Basket < ApplicationRecord
   def self.get_data(rows, i)
     unless rows[i].css('span').text.include?('$')
 
-      info = { name: rows[i].css('.basket-item-desc').text.rstrip!.lstrip! }
+      info = { name: rows[i].css('.basket-item-desc').text.rstrip!.lstrip }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
 

@@ -4,7 +4,7 @@
         <% if @product.highest_price == @product.lowest_price %>
            Its price has remained stable at <%= number_to_currency(@product.highest_price) %> </h5>
           <% else %>
-          The most you paid for it was <%= number_to_currency(@product.highest_price) %>. The least you paid for it was <%= number_to_currency(@product.lowest_price) %></h5>
+          In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
           <% end %>
     </div>
     <div class="panel-body">
