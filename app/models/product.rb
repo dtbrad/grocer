@@ -10,7 +10,7 @@ class Product < ApplicationRecord
   end
 
   def highest_price
-    line_items.order(:price_cents).last.price
+    line_items.order(price_cents: :desc).first.price
   end
 
   def lowest_price
@@ -28,6 +28,10 @@ class Product < ApplicationRecord
 
   def this_users_line_items(user)
     line_items.where(basket: Basket.where(user: user))
+  end
+
+  def self.most_popular_product
+    joins(:line_items).group('products.id').order('SUM(quantity)').last
   end
 
 end
