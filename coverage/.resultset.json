@@ -713,6 +713,10 @@
         1,
         null,
         null,
+        1,
+        1,
+        null,
+        null,
         null
       ],
       "/Users/danielbrad/code/grocer/spec/models/user_spec.rb": [
@@ -756,6 +760,6 @@
         null
       ]
     },
-    "timestamp": 1482623100
+    "timestamp": 1482624879
   }
 }

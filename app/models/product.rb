@@ -31,7 +31,11 @@ class Product < ApplicationRecord
   end
 
   def self.most_popular_product
-    joins(:line_items).group('products.id').order('SUM(quantity)').last
+    filtered_products.joins(:line_items).group('products.id').order('SUM(quantity)').last
+  end
+
+  def self.filtered_products
+    Product.where.not(name: ['BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer'])
   end
 
 end
