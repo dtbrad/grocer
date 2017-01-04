@@ -5,8 +5,7 @@ class Product < ApplicationRecord
   validates :name, presence: true
 
   def times_bought(user)
-    user_line_items = user.line_items.where(product: self)
-    user_line_items.sum("quantity")
+    user.line_items.where(product: self).sum(:quantity)
   end
 
   def highest_price
@@ -31,6 +30,14 @@ class Product < ApplicationRecord
 
   def self.least_expensive_product_by_user(user)
     LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product
+  end
+
+  def self.sorted_array
+    joins(:line_items).group('products.id').order('SUM(quantity)')
+  end
+
+  def self.most_popular_product
+    joins(:line_items).group('products.id').order('SUM(quantity)').last
   end
 
   def self.stable_price
