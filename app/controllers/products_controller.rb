@@ -1,7 +1,8 @@
 class ProductsController < ApplicationController
 
   def index
-    @products = current_user.products.filtered_products.order(:name) unless !current_user
+    @products = current_user.products.filtered_products.order(:name).distinct unless !current_user
+    binding.pry
   end
 
   def show
