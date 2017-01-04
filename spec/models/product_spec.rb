@@ -15,19 +15,29 @@ describe Product do
   describe "knows about its purchase history" do
     before :each do
       @user = create(:user)
+      @user_two = create(:user)
+
       @product_one = create(:product)
       @product_two = create(:product)
+
       @basket_one = @user.baskets.create(date: '2016-01-01')
-      @basket_two = @user.baskets.create(date: '2016-01-01')
       @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900)
+      @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500)
+
+      @basket_two = @user.baskets.create(date: '2016-01-01')
       @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300)
-      @line_item_three = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500)
+
+      @basket_three = @user_two.baskets.create(date: '2016-01-01')
+      @line_item_three = @product_one.line_items.create(basket_id: @basket_three.id, quantity: 1, price_cents: 600)
+      @line_item_four = @product_two.line_items.create(basket_id: @basket_three.id, quantity: 3, price_cents: 400)
+
       @product_one.save
       @product_two.save
     end
 
-    it "knows how many times it has been purchased" do
+    it "knows how many times it has been purchased by a user" do
       expect(@product_one.times_bought(@user)).to eq 6
+      expect(@product_two.times_bought(@user)).to eq 20
     end
 
     it "knows the highest price it sold for" do
@@ -42,5 +52,12 @@ describe Product do
       expect(Product.most_popular_product).to eq @product_two
     end
 
+    it "knows the most expensive product" do
+      expect(Product.most_expensive_product).to eq @product_one
+    end
+
+    it "knows the most expensive product by user" do
+      expect(Product.most_expensive_product_by_user(@user_two)).to eq @product_one
+    end
   end
 end
