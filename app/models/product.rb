@@ -25,6 +25,14 @@ class Product < ApplicationRecord
     LineItem.where(basket: Basket.where(user: user)).order(price_cents: :desc).first.product
   end
 
+  def self.least_expensive_product
+    LineItem.order(:price_cents).first.product
+  end
+
+  def self.least_expensive_product_by_user(user)
+    LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product
+  end
+
   def self.stable_price
     x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count > 1}
     x.each {|p| puts p.name}

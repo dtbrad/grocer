@@ -57,7 +57,19 @@ describe Product do
     end
 
     it "knows the most expensive product by user" do
+      expect(Product.most_expensive_product_by_user(@user)).to eq @product_one
       expect(Product.most_expensive_product_by_user(@user_two)).to eq @product_one
+
+    end
+
+    it "knows the least expensive product" do
+      expect(Product.least_expensive_product).to eq @product_one
+    end
+
+    it "knows the least expensive product by user" do
+      expect(Product.least_expensive_product_by_user(@user)).to eq @product_one
+      expect(Product.least_expensive_product_by_user(@user_two)).to eq @product_two
+
     end
   end
 end
