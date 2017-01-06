@@ -21,7 +21,7 @@
       <% @products.each do |product| %>
         <tr>
           <td> <%= link_to product.name, product_path(product) %> </td>
-          <td> <%= product.times_bought(current_user) %> </td>
+          <td> <%= product.line_items_sum %> </td>
           <td> <%= number_to_currency(product.highest_price) %> </td>
           <td> <%= number_to_currency(product.lowest_price) %> </td>
           <td> <%= format_date(product.most_recently_purchased(current_user)) %> </td>

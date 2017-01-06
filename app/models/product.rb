@@ -4,16 +4,14 @@ class Product < ApplicationRecord
   has_many :users, through: :baskets
   validates :name, presence: true
 
-  def self.custom_sort(category, direction, user)
+  def self.custom_sort(category, direction)
+    products = select('products.*', 'SUM(line_items.quantity) as line_items_sum').group('products.id')
     if category == "times_bought"
-      products = user.products.sort_by_qty(direction, user)
-      # products = user.products.sort_by{ |p| p.times_bought(user) }.uniq
-      # direction == "asc" ? products : products.reverse
+      products = products.sort_by_qty(direction)
     # elsif Product.column_names.include?(category)
     #   products = user.products.order(category + " " + direction)
-    else
-      products = user.products
     end
+    products
   end
 
   def times_bought(user)
@@ -67,12 +65,8 @@ class Product < ApplicationRecord
     LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product
   end
 
-  def self.sort_by_qty(direction, user)
-    # binding.pry
-    raise filtered_products.joins(line_items: {basket: :user})
-    .group('products.id')
-    .order("SUM(line_items.quantity) #{direction}").to_sql
-    # binding.pry
+  def self.sort_by_qty(direction)
+    order("line_items_sum #{direction}")
   end
 
   def self.most_popular_product
