@@ -1,8 +1,11 @@
 class ProductsController < ApplicationController
+  helper_method :sort_column, :sort_direction
 
   def index
-    @products = current_user.products.filtered_products.order(:name).distinct unless !current_user
-    binding.pry
+    # @products = current_user.products.filtered_products.order(:name).to_a.paginate(page: params[:page], per_page: 10) unless !current_user
+    # binding.pry
+    @products = current_user.products.filtered_products.custom_sort(sort_column, sort_direction, current_user).to_a.paginate(page: params[:page], per_page: 10) unless !current_user
+    # binding.pry
   end
 
   def show
@@ -12,5 +15,16 @@ class ProductsController < ApplicationController
       redirect_to products_path,  flash: { alert: "You can only view products you have purchased" }
     end
   end
+
+  private
+
+  def sort_column
+    params[:sort]
+  end
+
+  def sort_direction
+    ["asc", "desc"].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 
 end

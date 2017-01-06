@@ -4,9 +4,44 @@ class Product < ApplicationRecord
   has_many :users, through: :baskets
   validates :name, presence: true
 
+  def self.custom_sort(category, direction, user)
+    if category == "times_bought"
+      products = user.products.sort_by_qty(direction, user)
+      # products = user.products.sort_by{ |p| p.times_bought(user) }.uniq
+      # direction == "asc" ? products : products.reverse
+    # elsif Product.column_names.include?(category)
+    #   products = user.products.order(category + " " + direction)
+    else
+      products = user.products
+    end
+  end
+
   def times_bought(user)
+    # binding.pry
     user.line_items.where(product: self).sum(:quantity)
   end
+
+  # def sort_by_last_date(direction)
+  #   binding.pry
+  #   if direction == "desc"
+  #     joins(:line_items).group('products.id').order('SUM(line_items.quantity) desc')
+  #   else
+
+  # def sort_by_highest_price(direction)
+  #   if direction == "desc"
+  #     line_items.order(price_cents: :desc)
+  #   else
+  #       line_items.order(price_cents: :asc)
+  #   end
+  # end
+  #
+  # def sort_by_lowest_price(direction)
+  #   if direction == "desc"
+  #     line_items.order(price_cents: :desc)
+  #   else
+  #       line_items.order(price_cents: :asc)
+  #   end
+  # end
 
   def highest_price
     line_items.order(price_cents: :desc).first.price
@@ -32,8 +67,12 @@ class Product < ApplicationRecord
     LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product
   end
 
-  def self.sorted_array
-    joins(:line_items).group('products.id').order('SUM(quantity)')
+  def self.sort_by_qty(direction, user)
+    # binding.pry
+    raise filtered_products.joins(line_items: {basket: :user})
+    .group('products.id')
+    .order("SUM(line_items.quantity) #{direction}").to_sql
+    # binding.pry
   end
 
   def self.most_popular_product

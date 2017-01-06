@@ -76,4 +76,8 @@ class Basket < ApplicationRecord
   def total
     line_items.inject(0) { |sum, li| sum + li.total }
   end
+
+  def self.most_recent_by_user_and_product(user, product)
+    binding.pry
+  end
 end

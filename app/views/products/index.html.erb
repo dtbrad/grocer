@@ -7,12 +7,12 @@
       <div class="panel-body">
 
 
-  <table id="productsTable" class="tablesorter table table-hover">
+  <table class="table table-hover">
     <thead>
       <tr class="fake-link">
-        <th>Product</th>
-        <th>Total Purchased</th>
-        <th>Highest Price</th>
+        <th><%= sortable("name") %></th>
+        <th><%= sortable("times_bought", "Total Purchased") %></th>
+        <th><%= sortable("highest_price", "Highest Price") %></th>
         <th>Lowest Price</th>
         <th>Most Recently Purchased</th>
       </tr>
@@ -34,3 +34,5 @@
   <% elsif current_user && @products.empty?%>
     <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
   <% end %>
+
+<%= will_paginate @products %>
