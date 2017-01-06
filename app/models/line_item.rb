@@ -14,4 +14,9 @@ class LineItem < ApplicationRecord
     weight == nil ? quantity * price : weight * price
   end
 
+  def self.total_spent
+    where(weight: nil).sum("quantity * price_cents") +
+    where("weight > 0").sum("weight * price_cents")
+  end
+
 end

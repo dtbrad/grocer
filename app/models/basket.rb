@@ -73,11 +73,55 @@ class Basket < ApplicationRecord
     end
   end
 
-  def total
-    line_items.inject(0) { |sum, li| sum + li.total }
+  def self.custom_sort(category, direction, user)
+    # binding.pry
+    if category == "items"
+      baskets = user.baskets.sort_by_quantity(direction, user)
+    elsif category == "total"
+      baskets = user.baskets.sort_by_total(direction, user)
+    # elsif Basket.column_names.include?(category)
+    elsif category == "date"
+      baskets = user.baskets.order(category + " " + direction)
+    else
+      baskets = user.baskets
+    end
   end
 
-  def self.most_recent_by_user_and_product(user, product)
-    binding.pry
+  def total
+    Money.new(line_items.total_spent)
   end
+
+  def quantity
+    line_items.sum('quantity')
+  end
+
+  def self.sort_by_total(direction, user)
+    if direction == "desc"
+      baskets = user.baskets.sort_by{|b| b.total}.reverse
+    else
+      baskets = user.baskets.sort_by{|b| b.total}
+    end
+  end
+
+  def self.sort_by_quantity(direction, user)
+    if direction == "desc"
+      baskets = user.baskets.sort_by{|b| b.quantity}.reverse
+    else
+      baskets = user.baskets.sort_by{|b| b.quantity}
+    end
+  end
+
+  def self.sort_by_date(direction, user)
+    if direction == "desc"
+      baskets = user.baskets.sort_by{|b| b.date}.reverse
+    else
+      baskets = user.baskets.sort_by{|b| b.date}
+    end
+  end
+
+
+
+  # def self.sort_by_basket_qty(direction, user)
+  #   if direction == "desc"
+  #     all.where(user: user).sort_by{|b| b.}
 end

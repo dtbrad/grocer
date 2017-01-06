@@ -4,19 +4,19 @@
         <h5><%= current_user.name %>'s purchase history</h5>
     </div>
     <div class="panel-body">
-  <table id="basketsTable" class="tablesorter table table-hover">
+  <table class="table table-hover">
     <thead>
       <tr class="fake-link">
-        <th>Date</th>
-        <th># of Items</th>
-        <th>Total</th>
+        <th><%= sortable("date") %></th>
+        <th><%= sortable("items", "# of Items") %></th>
+        <th><%= sortable("total") %></th>
       </tr>
     </thead>
     <tbody>
       <% @baskets.each do |basket| %>
         <tr>
           <td> <%= link_to format_date(basket.date), basket_path(basket) %> </td>
-          <td> <%= basket.line_items.count %> </td>
+          <td> <%= basket.quantity %> </td>
           <td> <%= number_to_currency(basket.total) %> </td>
         </tr>
       <% end %>
@@ -24,6 +24,7 @@
     </table>
   </div>
 </div>
+<%= will_paginate @baskets %>
 
 <% elsif current_user && @baskets.empty?%>
   <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>

@@ -106,7 +106,7 @@ class Product < ApplicationRecord
   end
 
   def self.filtered_products
-    Product.where.not(name: ['BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer', '$5 OFF COUPON', 'BEER DEPOSIT 30C'])
+    Product.where.not(name: ['$10 OFF COUPON', '25% WINE DISCOUNT', 'BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer', '$5 OFF COUPON', 'BEER DEPOSIT 30C'])
   end
 
 end
