@@ -4,49 +4,64 @@ class Product < ApplicationRecord
   has_many :users, through: :baskets
   validates :name, presence: true
 
-  def self.custom_sort(category, direction)
+  def self.custom_sort(category, direction, user)
     products = select('products.*', 'SUM(line_items.quantity) as line_items_sum').group('products.id')
     if category == "times_bought"
       products = products.sort_by_qty(direction)
-    # elsif Product.column_names.include?(category)
-    #   products = user.products.order(category + " " + direction)
+    elsif category == "highest_price"
+      products = products.sort_by_highest_price(direction, user)
+    elsif category == "lowest_price"
+      products = products.sort_by_lowest_price(direction, user)
+    elsif category == "most_recently_purchased"
+      products = products.sort_by_last_purchase(direction, user)
+    elsif Product.column_names.include?(category)
+      products = products.order(category + " " + direction)
     end
     products
   end
 
   def times_bought(user)
-    # binding.pry
     user.line_items.where(product: self).sum(:quantity)
   end
 
-  # def sort_by_last_date(direction)
-  #   binding.pry
-  #   if direction == "desc"
-  #     joins(:line_items).group('products.id').order('SUM(line_items.quantity) desc')
-  #   else
+  def self.sort_by_highest_price(direction, user)
+    if direction == "desc"
+      distinct.sort_by{|p| p.highest_price_by_user(user)}.reverse
+    else
+      distinct.sort_by{|p| p.highest_price_by_user(user)}
+    end
+  end
 
-  # def sort_by_highest_price(direction)
-  #   if direction == "desc"
-  #     line_items.order(price_cents: :desc)
-  #   else
-  #       line_items.order(price_cents: :asc)
-  #   end
-  # end
-  #
-  # def sort_by_lowest_price(direction)
-  #   if direction == "desc"
-  #     line_items.order(price_cents: :desc)
-  #   else
-  #       line_items.order(price_cents: :asc)
-  #   end
-  # end
+  def self.sort_by_lowest_price(direction, user)
+    if direction == "desc"
+      distinct.sort_by{|p| p.lowest_price_by_user(user)}.reverse
+    else
+      distinct.sort_by{|p| p.lowest_price_by_user(user)}
+    end
+  end
+
+  def self.sort_by_last_purchase(direction, user)
+    if direction == "desc"
+      distinct.sort_by{|p| p.most_recently_purchased(user)}.reverse
+    else
+      distinct.sort_by{|p| p.most_recently_purchased(user)}
+    end
+  end
 
   def highest_price
     line_items.order(price_cents: :desc).first.price
   end
 
+  def highest_price_by_user(user)
+    line_items.where(basket: Basket.where(user: user)).order(:price_cents).last.price
+  end
+
   def lowest_price
     line_items.order(:price_cents).first.price
+  end
+
+  def lowest_price_by_user(user)
+    line_items.where(basket: Basket.where(user: user)).order(:price_cents).first.price
   end
 
   def self.most_expensive_product
@@ -91,7 +106,7 @@ class Product < ApplicationRecord
   end
 
   def self.filtered_products
-    Product.where.not(name: ['BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer'])
+    Product.where.not(name: ['BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer', '$5 OFF COUPON', 'BEER DEPOSIT 30C'])
   end
 
 end
