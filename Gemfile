@@ -29,6 +29,7 @@ gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 gem 'will_paginate'
+gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

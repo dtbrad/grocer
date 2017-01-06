@@ -31,8 +31,9 @@
     </table>
   </div>
 </div>
+<div class="text-center">
+  <%= will_paginate @products, renderer: BootstrapPagination::Rails %>
+</div>
   <% elsif current_user && @products.empty?%>
     <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
   <% end %>
-
-<%= will_paginate @products %>

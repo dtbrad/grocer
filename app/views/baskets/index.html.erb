@@ -24,7 +24,9 @@
     </table>
   </div>
 </div>
-<%= will_paginate @baskets %>
+<div class="text-center">
+<%= will_paginate @baskets, renderer: BootstrapPagination::Rails %>
+</div>
 
 <% elsif current_user && @baskets.empty?%>
   <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>
