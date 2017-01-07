@@ -22,7 +22,7 @@ class Product < ApplicationRecord
       group('products.id').
       order("max_date #{direction}")
     elsif Product.column_names.include?(category)
-      products = products.order(category + " " + direction)
+      products = select('products.*').order(category + " " + direction)
     else
       products = select('products.*').
       group('products.id').
