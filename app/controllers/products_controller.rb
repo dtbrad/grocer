@@ -2,10 +2,7 @@ class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    @products = current_user.products.
-      filtered_products.
-      custom_sort(sort_column, sort_direction, current_user).
-      paginate(page: params[:page], per_page: 15) unless !current_user
+    @products = current_user.products.filtered_products.custom_sort(sort_column, sort_direction, current_user).paginate(page: params[:page], per_page: 15) unless !current_user
   end
 
   def show
