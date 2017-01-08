@@ -4,10 +4,6 @@ class Product < ApplicationRecord
   has_many :users, through: :baskets
   validates :name, presence: true
 
-  def display_name
-    nickname ? nickname : name
-  end
-
   def self.custom_sort(category, direction)
     if category == "times_bought"
       products = select('products.*', 'SUM(line_items.quantity) as line_items_sum').
@@ -25,7 +21,7 @@ class Product < ApplicationRecord
       products = select('products.*', 'MAX(baskets.date) as max_date').
       group('products.id').
       order("max_date #{direction}")
-    elsif category == "display_name"
+    elsif category == "nickname"
       products = select('products.*').
       group('products.id').
       order("nickname #{direction}")

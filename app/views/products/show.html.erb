@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h5> You've purchased <%= @product.display_name %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+        <h5> You've purchased <%= @product.nickname %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
         <% if @product.highest_price == @product.lowest_price %>
            Its price has remained stable at <%= number_to_currency(@product.highest_price) %> </h5>
           <% else %>
