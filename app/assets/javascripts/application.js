@@ -20,3 +20,10 @@
 setTimeout(function(){
     $('#flash').remove();
   }, 2000);
+
+
+  $(document).ready ->
+    $("#edit_product").on("ajax:success", (e, data, status, xhr) ->
+      $("#edit_product").append xhr.responseText
+    ).on "ajax:error", (e, xhr, status, error) ->
+      $("#edit_product").append "<p>ERROR</p>"

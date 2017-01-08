@@ -66,7 +66,7 @@ class Basket < ApplicationRecord
 
   def build_products_and_line_items(info)
     unless info.nil?
-      product = Product.find_or_create_by(name: info[:name])
+      product = Product.find_or_create_by(name: info[:name].titleize, nickname: info[:name].titleize)
       line_items.build(
         product: product,
         price_cents: info[:price_cents],

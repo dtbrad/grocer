@@ -4,7 +4,11 @@ class Product < ApplicationRecord
   has_many :users, through: :baskets
   validates :name, presence: true
 
-  def self.custom_sort(category, direction, user)
+  def display_name
+    nickname ? nickname : name
+  end
+
+  def self.custom_sort(category, direction)
     if category == "times_bought"
       products = select('products.*', 'SUM(line_items.quantity) as line_items_sum').
       group('products.id').
@@ -21,8 +25,10 @@ class Product < ApplicationRecord
       products = select('products.*', 'MAX(baskets.date) as max_date').
       group('products.id').
       order("max_date #{direction}")
-    elsif Product.column_names.include?(category)
-      products = select('products.*').order(category + " " + direction)
+    elsif category == "display_name"
+      products = select('products.*').
+      group('products.id').
+      order("nickname #{direction}")
     else
       products = select('products.*').
       group('products.id').
@@ -89,7 +95,7 @@ class Product < ApplicationRecord
   end
 
   def self.filtered_products
-    Product.where.not(name: ['$10 OFF COUPON', '25% WINE DISCOUNT', 'BAG REFUND', 'BAG IT FORWARD', '$5 off $30 offer', '$5 OFF COUPON', 'BEER DEPOSIT 30C'])
+    Product.where.not(name: ['Beer Bottle Dep', 'Beer Deposit 30 C', 'Beer Deposit 60 C', '$5 Off $30 Offer', '$10 Off Coupon', '25% Wine Discount', 'Bag Refund', 'Bag It Forward', '$5 Off $30 offer', '$5 Off Coupon', 'Beer Deposit 30C'])
   end
 
 end

@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h5> You've purchased <%= @product.name %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+        <h5> You've purchased <%= @product.display_name %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
         <% if @product.highest_price == @product.lowest_price %>
            Its price has remained stable at <%= number_to_currency(@product.highest_price) %> </h5>
           <% else %>
@@ -21,7 +21,7 @@
   </tr>
 </thead>
 <tbody>
-  <% @product.this_users_line_items(current_user).each do |line_item| %>
+  <% @line_items.each do |line_item| %>
     <tr>
       <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
       <td> <%= number_to_currency(line_item.price) %> </td>
@@ -35,3 +35,14 @@
 </table>
 </div>
 </div>
+
+<%= form_for(@product, remote: true) do |f| %>
+<div class="well">
+  <form>
+    <div class="form-group">
+      <p><%= f.label "rename" %> <%=f.text_field :nickname, class: "form-control" %></p>
+    </div>
+    <%= f.submit :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+  </form>

@@ -19,7 +19,7 @@
   <tbody>
     <% @basket.line_items.each do |li| %>
       <tr>
-        <td> <%= link_to li.product.name, product_path(li.product) %> </td>
+        <td> <%= link_to li.product.display_name, product_path(li.product) %> </td>
         <td> <%= number_to_currency(li.price) %> </td>
         <td> <%= li.quantity %></td>
         <td> <%= li.formatted_weight %> </td>

@@ -10,7 +10,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th><%= sortable("name") %></th>
+        <th><%= sortable("display_name", "Name") %></th>
         <th><%= sortable("times_bought", "Total Purchased") %></th>
         <th><%= sortable("highest_price", "Highest Price") %></th>
         <th><%= sortable("lowest_price", "Lowest Price") %></th>
@@ -20,7 +20,7 @@
     <tbody>
       <% @products.each do |product| %>
         <tr>
-          <td> <%= link_to product.name, product_path(product) %> </td>
+          <td> <%= link_to product.display_name, product_path(product) %> </td>
           <td> <%= product.times_bought(current_user) %> </td>
           <td> <%= number_to_currency(product.highest_price_by_user(current_user)) %> </td>
           <td> <%= number_to_currency(product.lowest_price_by_user(current_user)) %> </td>
