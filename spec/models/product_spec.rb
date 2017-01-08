@@ -21,15 +21,15 @@ describe Product do
       @product_two = create(:product)
 
       @basket_one = @user.baskets.create(date: '2016-01-01')
-      @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900)
-      @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500)
+      @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900, total_cents: 900)
+      @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500, total_cents: 10000)
 
       @basket_two = @user.baskets.create(date: '2016-01-01')
-      @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300)
+      @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300, total_cents: 1500)
 
       @basket_three = @user_two.baskets.create(date: '2016-01-01')
-      @line_item_three = @product_one.line_items.create(basket_id: @basket_three.id, quantity: 1, price_cents: 600)
-      @line_item_four = @product_two.line_items.create(basket_id: @basket_three.id, quantity: 3, price_cents: 400)
+      @line_item_three = @product_one.line_items.create(basket_id: @basket_three.id, quantity: 1, price_cents: 600, total_cents: 600)
+      @line_item_four = @product_two.line_items.create(basket_id: @basket_three.id, quantity: 3, price_cents: 400, total_cents: 1200)
 
       @product_one.save
       @product_two.save

@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2017-01-06T14:07:08-08:00">2017-01-06T14:07:08-08:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2017-01-07T21:02:52-08:00">2017-01-07T21:02:52-08:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">71.88%</span></span>
+    (<span class="covered_percent"><span class="red">75.46%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.31
+         1.43
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>37</b> files in total.
-    <b>345</b> relevant lines. 
-    <span class="green"><b>248</b> lines covered</span> and
-    <span class="red"><b>97</b> lines missed </span>
+    <b>326</b> relevant lines. 
+    <span class="green"><b>246</b> lines covered</span> and
+    <span class="red"><b>80</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -102,32 +102,32 @@
       
       <tr>
         <td class="strong"><a href="#fd3de4cf1bc3a718db039b817b8e86e1908abd3b" class="src_link" title="app/models/basket.rb">app/models/basket.rb</a></td>
-        <td class="red strong">24.24 %</td>
-        <td>127</td>
-        <td>66</td>
-        <td>16</td>
-        <td>50</td>
+        <td class="red strong">22.81 %</td>
+        <td>107</td>
+        <td>57</td>
+        <td>13</td>
+        <td>44</td>
         <td>0.2</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#2c4453c0d88dbe75c746cb0ec903f143c7dd9df1" class="src_link" title="app/models/line_item.rb">app/models/line_item.rb</a></td>
-        <td class="red strong">76.92 %</td>
-        <td>22</td>
-        <td>13</td>
+        <td class="yellow strong">83.33 %</td>
+        <td>18</td>
+        <td>12</td>
         <td>10</td>
-        <td>3</td>
+        <td>2</td>
         <td>0.8</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#c2d25350d8699b4fe6e17b1f72454cc38ca32c0c" class="src_link" title="app/models/product.rb">app/models/product.rb</a></td>
-        <td class="red strong">53.97 %</td>
-        <td>112</td>
-        <td>63</td>
-        <td>34</td>
-        <td>29</td>
-        <td>0.6</td>
+        <td class="red strong">61.22 %</td>
+        <td>95</td>
+        <td>49</td>
+        <td>30</td>
+        <td>19</td>
+        <td>0.7</td>
       </tr>
       
       <tr>
@@ -343,11 +343,11 @@
       <tr>
         <td class="strong"><a href="#7b8dc069e2520848d15573aded25ec83a13294a5" class="src_link" title="spec/factories/line_items.rb">spec/factories/line_items.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>11</td>
-        <td>7</td>
-        <td>7</td>
+        <td>14</td>
+        <td>10</td>
+        <td>10</td>
         <td>0</td>
-        <td>3.3</td>
+        <td>4.1</td>
       </tr>
       
       <tr>
@@ -383,9 +383,9 @@
       <tr>
         <td class="strong"><a href="#8f664c48236e07c6934bbcec435bdadf0610d0de" class="src_link" title="spec/models/line_item_spec.rb">spec/models/line_item_spec.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>40</td>
-        <td>24</td>
-        <td>24</td>
+        <td>43</td>
+        <td>26</td>
+        <td>26</td>
         <td>0</td>
         <td>1.0</td>
       </tr>
@@ -661,11 +661,11 @@
         <div class="source_table" id="fd3de4cf1bc3a718db039b817b8e86e1908abd3b">
   <div class="header">
     <h3>app/models/basket.rb</h3>
-    <h4><span class="red">24.24 %</span> covered</h4>
+    <h4><span class="red">22.81 %</span> covered</h4>
     <div>
-      <b>66</b> relevant lines. 
-      <span class="green"><b>16</b> lines covered</span> and
-      <span class="red"><b>50</b> lines missed.</span>
+      <b>57</b> relevant lines. 
+      <span class="green"><b>13</b> lines covered</span> and
+      <span class="red"><b>44</b> lines missed.</span>
     </div>
   </div>
   
@@ -960,475 +960,355 @@
           <code class="ruby">        info[:quantity] = 1 unless info[:quantity].nonzero?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="49">
+        <li class="missed" data-hits="0" data-linenumber="49">
+          
+          
+          <code class="ruby">        info[:total_cents] = info[:quantity] * info[:price_cents]</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="50">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="50">
-          
-          
-          <code class="ruby">      elsif unit_pricing &amp;&amp; !has_weight_unit</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="51">
           
           
-          <code class="ruby">        info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100</code>
+          <code class="ruby">      elsif unit_pricing &amp;&amp; !has_weight_unit</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="52">
           
           
-          <code class="ruby">        info[:quantity] = rows[i].css(&#39;.basket-item-qty&#39;).text.to_i</code>
+          <code class="ruby">        info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="53">
+        <li class="missed" data-hits="0" data-linenumber="53">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">        info[:quantity] = rows[i].css(&#39;.basket-item-qty&#39;).text.to_i</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="54">
           
           
-          <code class="ruby">      elsif unit_pricing &amp;&amp; has_weight_unit</code>
+          <code class="ruby">        info[:total_cents] = info[:quantity] * info[:price_cents]</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="55">
+        <li class="never" data-hits="" data-linenumber="55">
           
           
-          <code class="ruby">        info[:price_cents] = rows[i + 1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="56">
           
           
-          <code class="ruby">        info[:quantity] = rows[i].css(&#39;.basket-item-qty&#39;).text.to_i</code>
+          <code class="ruby">      elsif unit_pricing &amp;&amp; has_weight_unit</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="57">
           
           
+          <code class="ruby">        info[:price_cents] = rows[i + 1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="58">
+          
+          
+          <code class="ruby">        info[:quantity] = rows[i].css(&#39;.basket-item-qty&#39;).text.to_i</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="59">
+          
+          
           <code class="ruby">        info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_f</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="58">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="59">
-          
-          
-          <code class="ruby">      end</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="60">
           
           
-          <code class="ruby">      info</code>
+          <code class="ruby">        info[:total_cents] = info[:weight] * info[:price_cents]</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="61">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="62">
           
           
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="63">
+          
+          
+          <code class="ruby">      info</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="64">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="65">
+          
+          
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="63">
+        <li class="never" data-hits="" data-linenumber="66">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="64">
+        <li class="covered" data-hits="1" data-linenumber="67">
           <span class="hits">1</span>
           
           <code class="ruby">  def build_products_and_line_items(info)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="65">
+        <li class="missed" data-hits="0" data-linenumber="68">
           
           
           <code class="ruby">    unless info.nil?</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="66">
+        <li class="missed" data-hits="0" data-linenumber="69">
           
           
           <code class="ruby">      product = Product.find_or_create_by(name: info[:name])</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="67">
+        <li class="missed" data-hits="0" data-linenumber="70">
           
           
           <code class="ruby">      line_items.build(</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="68">
+        <li class="never" data-hits="" data-linenumber="71">
           
           
           <code class="ruby">        product: product,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="69">
+        <li class="never" data-hits="" data-linenumber="72">
           
           
           <code class="ruby">        price_cents: info[:price_cents],</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="70">
+        <li class="never" data-hits="" data-linenumber="73">
           
           
           <code class="ruby">        quantity: info[:quantity],</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="71">
-          
-          
-          <code class="ruby">        weight: info[:weight]</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="72">
-          
-          
-          <code class="ruby">      )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="73">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
         <li class="never" data-hits="" data-linenumber="74">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">        weight: info[:weight],</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="75">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">        total_cents: info[:total_cents]</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="76">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="76">
           
-          <code class="ruby">  def self.custom_sort(category, direction, user)</code>
+          
+          <code class="ruby">      )</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="77">
           
           
-          <code class="ruby">    # binding.pry</code>
+          <code class="ruby">    end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="78">
+        <li class="never" data-hits="" data-linenumber="78">
           
           
-          <code class="ruby">    if category == &quot;items&quot;</code>
+          <code class="ruby">  end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="79">
+        <li class="never" data-hits="" data-linenumber="79">
           
           
-          <code class="ruby">      baskets = user.baskets.sort_by_quantity(direction, user)</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="80">
+        <li class="covered" data-hits="1" data-linenumber="80">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">    elsif category == &quot;total&quot;</code>
+          <code class="ruby">  def self.custom_sort(category, direction)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="81">
           
           
-          <code class="ruby">      baskets = user.baskets.sort_by_total(direction, user)</code>
+          <code class="ruby">    if category==&quot;date&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="82">
+        <li class="missed" data-hits="0" data-linenumber="82">
           
           
-          <code class="ruby">    # elsif Basket.column_names.include?(category)</code>
+          <code class="ruby">      baskets = select(&#39;baskets.*&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="83">
+        <li class="never" data-hits="" data-linenumber="83">
           
           
-          <code class="ruby">    elsif category == &quot;date&quot;</code>
+          <code class="ruby">      order(&quot;baskets.date #{direction}&quot;)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="84">
           
           
-          <code class="ruby">      baskets = user.baskets.order(category + &quot; &quot; + direction)</code>
+          <code class="ruby">    elsif category == &quot;items&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="85">
+        <li class="missed" data-hits="0" data-linenumber="85">
           
           
-          <code class="ruby">    else</code>
+          <code class="ruby">      baskets = select(&#39;baskets.*&#39;, &#39;SUM(line_items.quantity)&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="86">
+        <li class="never" data-hits="" data-linenumber="86">
           
           
-          <code class="ruby">      baskets = user.baskets</code>
+          <code class="ruby">      joins(:line_items).</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="87">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      group(&#39;baskets.id&#39;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="88">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      .order(&quot;SUM(line_items.quantity) #{direction}&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="89">
+        <li class="missed" data-hits="0" data-linenumber="89">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    elsif category == &quot;total&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="90">
           
-          <code class="ruby">  def total</code>
+          
+          <code class="ruby">      baskets = select(&#39;baskets.*&#39;, &#39;SUM(line_items.total_cents)&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="91">
+        <li class="never" data-hits="" data-linenumber="91">
           
           
-          <code class="ruby">    Money.new(line_items.total_spent)</code>
+          <code class="ruby">      joins(:line_items).</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="92">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      group(&#39;baskets.id&#39;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="93">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      .order(&quot;SUM(line_items.total_cents) #{direction}&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="94">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="94">
           
-          <code class="ruby">  def quantity</code>
+          
+          <code class="ruby">    else</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="95">
           
           
-          <code class="ruby">    line_items.sum(&#39;quantity&#39;)</code>
+          <code class="ruby">      baskets = select(&#39;baskets.*&#39;).</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="96">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      order(&#39;baskets.date desc&#39;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="97">
           
           
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="98">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="99">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="98">
+        <li class="covered" data-hits="1" data-linenumber="100">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.sort_by_total(direction, user)</code>
+          <code class="ruby">  def total</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="99">
+        <li class="missed" data-hits="0" data-linenumber="101">
           
           
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
+          <code class="ruby">    Money.new(line_items.total_spent)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="100">
+        <li class="never" data-hits="" data-linenumber="102">
           
           
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.total}.reverse</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="101">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="102">
-          
-          
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.total}</code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="103">
           
           
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="104">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="105">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="106">
+        <li class="covered" data-hits="1" data-linenumber="104">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.sort_by_quantity(direction, user)</code>
+          <code class="ruby">  def quantity</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="107">
+        <li class="missed" data-hits="0" data-linenumber="105">
           
           
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
+          <code class="ruby">    line_items.sum(&#39;quantity&#39;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="108">
-          
-          
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.quantity}.reverse</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="109">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="110">
-          
-          
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.quantity}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="111">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="112">
+        <li class="never" data-hits="" data-linenumber="106">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="113">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="114">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.sort_by_date(direction, user)</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="115">
-          
-          
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="116">
-          
-          
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.date}.reverse</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="117">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="118">
-          
-          
-          <code class="ruby">      baskets = user.baskets.sort_by{|b| b.date}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="119">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="120">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="121">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="122">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="123">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="124">
-          
-          
-          <code class="ruby">  # def self.sort_by_basket_qty(direction, user)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="125">
-          
-          
-          <code class="ruby">  #   if direction == &quot;desc&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="126">
-          
-          
-          <code class="ruby">  #     all.where(user: user).sort_by{|b| b.}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="127">
+        <li class="never" data-hits="" data-linenumber="107">
           
           
           <code class="ruby">end</code>
@@ -1441,11 +1321,11 @@
         <div class="source_table" id="2c4453c0d88dbe75c746cb0ec903f143c7dd9df1">
   <div class="header">
     <h3>app/models/line_item.rb</h3>
-    <h4><span class="red">76.92 %</span> covered</h4>
+    <h4><span class="yellow">83.33 %</span> covered</h4>
     <div>
-      <b>13</b> relevant lines. 
+      <b>12</b> relevant lines. 
       <span class="green"><b>10</b> lines covered</span> and
-      <span class="red"><b>3</b> lines missed.</span>
+      <span class="red"><b>2</b> lines missed.</span>
     </div>
   </div>
   
@@ -1485,100 +1365,76 @@
         <li class="covered" data-hits="1" data-linenumber="6">
           <span class="hits">1</span>
           
-          <code class="ruby">  validates :price_cents, presence: true</code>
+          <code class="ruby">  monetize :total_cents, as: &quot;total&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="7">
           <span class="hits">1</span>
           
+          <code class="ruby">  validates :price_cents, presence: true</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="8">
+          <span class="hits">1</span>
+          
           <code class="ruby">  validates :quantity, presence: true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="8">
+        <li class="never" data-hits="" data-linenumber="9">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="9">
+        <li class="covered" data-hits="1" data-linenumber="10">
           <span class="hits">1</span>
           
           <code class="ruby">  def formatted_weight</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="10">
+        <li class="missed" data-hits="0" data-linenumber="11">
           
           
           <code class="ruby">    &quot;#{weight} lb&quot; unless weight == nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="11">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
         <li class="never" data-hits="" data-linenumber="12">
           
           
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="13">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def total</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="14">
-          
-          
-          <code class="ruby">    weight == nil ? quantity * price : weight * price</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="15">
-          
-          
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="16">
+        <li class="never" data-hits="" data-linenumber="13">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="17">
+        <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.total_spent</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="18">
+        <li class="missed" data-hits="0" data-linenumber="15">
           
           
-          <code class="ruby">    where(weight: nil).sum(&quot;quantity * price_cents&quot;) +</code>
+          <code class="ruby">    self.sum(&#39;total_cents&#39;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="19">
-          
-          
-          <code class="ruby">    where(&quot;weight &gt; 0&quot;).sum(&quot;weight * price_cents&quot;)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="20">
+        <li class="never" data-hits="" data-linenumber="16">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="21">
+        <li class="never" data-hits="" data-linenumber="17">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="22">
+        <li class="never" data-hits="" data-linenumber="18">
           
           
           <code class="ruby">end</code>
@@ -1591,11 +1447,11 @@
         <div class="source_table" id="c2d25350d8699b4fe6e17b1f72454cc38ca32c0c">
   <div class="header">
     <h3>app/models/product.rb</h3>
-    <h4><span class="red">53.97 %</span> covered</h4>
+    <h4><span class="red">61.22 %</span> covered</h4>
     <div>
-      <b>63</b> relevant lines. 
-      <span class="green"><b>34</b> lines covered</span> and
-      <span class="red"><b>29</b> lines missed.</span>
+      <b>49</b> relevant lines. 
+      <span class="green"><b>30</b> lines covered</span> and
+      <span class="red"><b>19</b> lines missed.</span>
     </div>
   </div>
   
@@ -1647,415 +1503,415 @@
         <li class="missed" data-hits="0" data-linenumber="8">
           
           
-          <code class="ruby">    products = select(&#39;products.*&#39;, &#39;SUM(line_items.quantity) as line_items_sum&#39;).group(&#39;products.id&#39;)</code>
+          <code class="ruby">    if category == &quot;times_bought&quot;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="9">
           
           
-          <code class="ruby">    if category == &quot;times_bought&quot;</code>
+          <code class="ruby">      products = select(&#39;products.*&#39;, &#39;SUM(line_items.quantity) as line_items_sum&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="10">
+        <li class="never" data-hits="" data-linenumber="10">
           
           
-          <code class="ruby">      products = products.sort_by_qty(direction)</code>
+          <code class="ruby">      group(&#39;products.id&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="11">
+        <li class="never" data-hits="" data-linenumber="11">
           
           
-          <code class="ruby">    elsif category == &quot;highest_price&quot;</code>
+          <code class="ruby">      order(&quot;line_items_sum #{direction}&quot;)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="12">
           
           
-          <code class="ruby">      products = products.sort_by_highest_price(direction, user)</code>
+          <code class="ruby">    elsif category == &quot;highest_price&quot;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="13">
           
           
-          <code class="ruby">    elsif category == &quot;lowest_price&quot;</code>
+          <code class="ruby">      products = select(&#39;products.*&#39;, &#39;MAX(line_items.price_cents) as max_price&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="14">
+        <li class="never" data-hits="" data-linenumber="14">
           
           
-          <code class="ruby">      products = products.sort_by_lowest_price(direction, user)</code>
+          <code class="ruby">      group(&#39;products.id&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="15">
+        <li class="never" data-hits="" data-linenumber="15">
           
           
-          <code class="ruby">    elsif category == &quot;most_recently_purchased&quot;</code>
+          <code class="ruby">      order(&quot;max_price #{direction}&quot;)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="16">
           
           
-          <code class="ruby">      products = products.sort_by_last_purchase(direction, user)</code>
+          <code class="ruby">    elsif category == &quot;lowest_price&quot;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="17">
           
           
-          <code class="ruby">    elsif Product.column_names.include?(category)</code>
+          <code class="ruby">      products = select(&#39;products.*&#39;, &#39;MIN(line_items.price_cents) as min_price&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="18">
+        <li class="never" data-hits="" data-linenumber="18">
           
           
-          <code class="ruby">      products = products.order(category + &quot; &quot; + direction)</code>
+          <code class="ruby">      group(&#39;products.id&#39;).</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="19">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      order(&quot;min_price #{direction}&quot;)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="20">
           
           
-          <code class="ruby">    products</code>
+          <code class="ruby">    elsif category == &quot;most_recently_purchased&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="21">
+        <li class="missed" data-hits="0" data-linenumber="21">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      products = select(&#39;products.*&#39;, &#39;MAX(baskets.date) as max_date&#39;).</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="22">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      group(&#39;products.id&#39;).</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="23">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="23">
           
-          <code class="ruby">  def times_bought(user)</code>
+          
+          <code class="ruby">      order(&quot;max_date #{direction}&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="24">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="24">
           
-          <code class="ruby">    user.line_items.where(product: self).sum(:quantity)</code>
+          
+          <code class="ruby">    elsif Product.column_names.include?(category)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="25">
+        <li class="missed" data-hits="0" data-linenumber="25">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      products = select(&#39;products.*&#39;).order(category + &quot; &quot; + direction)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="26">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    else</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="27">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="27">
           
-          <code class="ruby">  def self.sort_by_highest_price(direction, user)</code>
+          
+          <code class="ruby">      products = select(&#39;products.*&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="28">
+        <li class="never" data-hits="" data-linenumber="28">
           
           
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
+          <code class="ruby">      group(&#39;products.id&#39;).</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="29">
+        <li class="never" data-hits="" data-linenumber="29">
           
           
-          <code class="ruby">      distinct.sort_by{|p| p.highest_price_by_user(user)}.reverse</code>
+          <code class="ruby">      order(&#39;products.name&#39;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="30">
           
           
-          <code class="ruby">    else</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="31">
           
           
-          <code class="ruby">      distinct.sort_by{|p| p.highest_price_by_user(user)}</code>
+          <code class="ruby">    products</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="32">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="33">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="34">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="35">
+        <li class="covered" data-hits="1" data-linenumber="34">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.sort_by_lowest_price(direction, user)</code>
+          <code class="ruby">  def times_bought(user)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="36">
+        <li class="covered" data-hits="2" data-linenumber="35">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
+          <code class="ruby">    user.line_items.where(product: self).sum(:quantity)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="37">
-          
-          
-          <code class="ruby">      distinct.sort_by{|p| p.lowest_price_by_user(user)}.reverse</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="38">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="39">
-          
-          
-          <code class="ruby">      distinct.sort_by{|p| p.lowest_price_by_user(user)}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="40">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="41">
+        <li class="never" data-hits="" data-linenumber="36">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="42">
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="43">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.sort_by_last_purchase(direction, user)</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="44">
-          
-          
-          <code class="ruby">    if direction == &quot;desc&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="45">
-          
-          
-          <code class="ruby">      distinct.sort_by{|p| p.most_recently_purchased(user)}.reverse</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="46">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="47">
-          
-          
-          <code class="ruby">      distinct.sort_by{|p| p.most_recently_purchased(user)}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="48">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="49">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="50">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="51">
+        <li class="covered" data-hits="1" data-linenumber="38">
           <span class="hits">1</span>
           
           <code class="ruby">  def highest_price</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="52">
+        <li class="covered" data-hits="1" data-linenumber="39">
           <span class="hits">1</span>
           
           <code class="ruby">    line_items.order(price_cents: :desc).first.price</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="53">
+        <li class="never" data-hits="" data-linenumber="40">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="never" data-hits="" data-linenumber="41">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="55">
+        <li class="covered" data-hits="1" data-linenumber="42">
           <span class="hits">1</span>
           
           <code class="ruby">  def highest_price_by_user(user)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="56">
+        <li class="missed" data-hits="0" data-linenumber="43">
           
           
           <code class="ruby">    line_items.where(basket: Basket.where(user: user)).order(:price_cents).last.price</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="57">
+        <li class="never" data-hits="" data-linenumber="44">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="58">
+        <li class="never" data-hits="" data-linenumber="45">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="59">
+        <li class="covered" data-hits="1" data-linenumber="46">
           <span class="hits">1</span>
           
           <code class="ruby">  def lowest_price</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="60">
+        <li class="covered" data-hits="1" data-linenumber="47">
           <span class="hits">1</span>
           
           <code class="ruby">    line_items.order(:price_cents).first.price</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="never" data-hits="" data-linenumber="48">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="62">
+        <li class="never" data-hits="" data-linenumber="49">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="63">
+        <li class="covered" data-hits="1" data-linenumber="50">
           <span class="hits">1</span>
           
           <code class="ruby">  def lowest_price_by_user(user)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="64">
+        <li class="missed" data-hits="0" data-linenumber="51">
           
           
           <code class="ruby">    line_items.where(basket: Basket.where(user: user)).order(:price_cents).first.price</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="65">
+        <li class="never" data-hits="" data-linenumber="52">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="66">
+        <li class="never" data-hits="" data-linenumber="53">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="67">
+        <li class="covered" data-hits="1" data-linenumber="54">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.most_expensive_product</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="68">
+        <li class="covered" data-hits="1" data-linenumber="55">
           <span class="hits">1</span>
           
           <code class="ruby">    LineItem.order(:price_cents).last.product</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="69">
+        <li class="never" data-hits="" data-linenumber="56">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="70">
+        <li class="never" data-hits="" data-linenumber="57">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="71">
+        <li class="covered" data-hits="1" data-linenumber="58">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.most_expensive_product_by_user(user)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="72">
+        <li class="covered" data-hits="2" data-linenumber="59">
           <span class="hits">2</span>
           
           <code class="ruby">    LineItem.where(basket: Basket.where(user: user)).order(price_cents: :desc).first.product</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="73">
+        <li class="never" data-hits="" data-linenumber="60">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="74">
+        <li class="never" data-hits="" data-linenumber="61">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="75">
+        <li class="covered" data-hits="1" data-linenumber="62">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.least_expensive_product</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="76">
+        <li class="covered" data-hits="1" data-linenumber="63">
           <span class="hits">1</span>
           
           <code class="ruby">    LineItem.order(:price_cents).first.product</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="64">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="65">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="66">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def self.least_expensive_product_by_user(user)</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="67">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="68">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="69">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="70">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def self.most_popular_product</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="71">
+          
+          
+          <code class="ruby">    joins(:line_items).group(&#39;products.id&#39;).order(&#39;SUM(quantity)&#39;).last</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="72">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="73">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="74">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  def self.stable_price</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="75">
+          
+          
+          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="76">
+          
+          
+          <code class="ruby">    x.each {|p| puts p.name}</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="77">
@@ -2073,13 +1929,13 @@
         <li class="covered" data-hits="1" data-linenumber="79">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.least_expensive_product_by_user(user)</code>
+          <code class="ruby">  def most_recently_purchased(user)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="80">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="80">
           
-          <code class="ruby">    LineItem.where(basket: Basket.where(user: user)).order(:price_cents).first.product</code>
+          
+          <code class="ruby">    baskets.where(user: user).order(:date).last.date</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="81">
@@ -2097,13 +1953,13 @@
         <li class="covered" data-hits="1" data-linenumber="83">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.sort_by_qty(direction)</code>
+          <code class="ruby">  def this_users_line_items(user)</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="84">
           
           
-          <code class="ruby">    order(&quot;line_items_sum #{direction}&quot;)</code>
+          <code class="ruby">    line_items.where(basket: Basket.where(user: user))</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="85">
@@ -2124,10 +1980,10 @@
           <code class="ruby">  def self.most_popular_product</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="88">
+        <li class="covered" data-hits="1" data-linenumber="88">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">    joins(:line_items).group(&#39;products.id&#39;).order(&#39;SUM(quantity)&#39;).last</code>
+          <code class="ruby">    filtered_products.joins(:line_items).group(&#39;products.id&#39;).order(&#39;SUM(quantity)&#39;).last</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="89">
@@ -2145,130 +2001,28 @@
         <li class="covered" data-hits="1" data-linenumber="91">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.stable_price</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="92">
-          
-          
-          <code class="ruby">    x = all.select {|p| p.line_items.collect {|l| l.price}.uniq.count &gt; 1}</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="93">
-          
-          
-          <code class="ruby">    x.each {|p| puts p.name}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="94">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="95">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="96">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def most_recently_purchased(user)</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="97">
-          
-          
-          <code class="ruby">    baskets.where(user: user).order(:date).last.date</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="98">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="100">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def this_users_line_items(user)</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="101">
-          
-          
-          <code class="ruby">    line_items.where(basket: Basket.where(user: user))</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="102">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="103">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="104">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.most_popular_product</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="105">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    filtered_products.joins(:line_items).group(&#39;products.id&#39;).order(&#39;SUM(quantity)&#39;).last</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="106">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="107">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="108">
-          <span class="hits">1</span>
-          
           <code class="ruby">  def self.filtered_products</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="109">
+        <li class="covered" data-hits="1" data-linenumber="92">
           <span class="hits">1</span>
           
           <code class="ruby">    Product.where.not(name: [&#39;$10 OFF COUPON&#39;, &#39;25% WINE DISCOUNT&#39;, &#39;BAG REFUND&#39;, &#39;BAG IT FORWARD&#39;, &#39;$5 off $30 offer&#39;, &#39;$5 OFF COUPON&#39;, &#39;BEER DEPOSIT 30C&#39;])</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="110">
+        <li class="never" data-hits="" data-linenumber="93">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="111">
+        <li class="never" data-hits="" data-linenumber="94">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="112">
+        <li class="never" data-hits="" data-linenumber="95">
           
           
           <code class="ruby">end</code>
@@ -4695,8 +4449,8 @@
     <h3>spec/factories/line_items.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>7</b> relevant lines. 
-      <span class="green"><b>7</b> lines covered</span> and
+      <b>10</b> relevant lines. 
+      <span class="green"><b>10</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -4716,55 +4470,73 @@
           <code class="ruby">  factory :line_item do</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="3">
-          <span class="hits">5</span>
+        <li class="covered" data-hits="6" data-linenumber="3">
+          <span class="hits">6</span>
           
           <code class="ruby">    price_cents { Faker::Number.between(1,10) }</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="4">
-          <span class="hits">5</span>
+        <li class="covered" data-hits="6" data-linenumber="4">
+          <span class="hits">6</span>
           
           <code class="ruby">    quantity { Faker::Number.between(1,10) }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="5">
+        <li class="covered" data-hits="6" data-linenumber="5">
+          <span class="hits">6</span>
+          
+          <code class="ruby">    total_cents { 100 }</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="6">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="6">
+        <li class="covered" data-hits="1" data-linenumber="7">
           <span class="hits">1</span>
           
           <code class="ruby">    after(:build) do |line_item|</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="7">
+        <li class="covered" data-hits="5" data-linenumber="8">
+          <span class="hits">5</span>
+          
+          <code class="ruby">      line_item.total_cents = line_item.quantity * line_item.price_cents</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="9">
+          <span class="hits">5</span>
+          
+          <code class="ruby">      line_item.save</code>
+        </li>
+      
+        <li class="covered" data-hits="5" data-linenumber="10">
           <span class="hits">5</span>
           
           <code class="ruby">      line_item.product = build(:product)</code>
         </li>
       
-        <li class="covered" data-hits="5" data-linenumber="8">
+        <li class="covered" data-hits="5" data-linenumber="11">
           <span class="hits">5</span>
           
           <code class="ruby">      line_item.basket = build(:basket)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="9">
+        <li class="never" data-hits="" data-linenumber="12">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="10">
+        <li class="never" data-hits="" data-linenumber="13">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="11">
+        <li class="never" data-hits="" data-linenumber="14">
           
           
           <code class="ruby">end</code>
@@ -4983,8 +4755,8 @@
     <h3>spec/models/line_item_spec.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>24</b> relevant lines. 
-      <span class="green"><b>24</b> lines covered</span> and
+      <b>26</b> relevant lines. 
+      <span class="green"><b>26</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -5049,184 +4821,202 @@
         <li class="covered" data-hits="1" data-linenumber="10">
           <span class="hits">1</span>
           
-          <code class="ruby">    line_item = build(:line_item, price_cents: nil)</code>
+          <code class="ruby">    line_item = build(:line_item)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="11">
           <span class="hits">1</span>
           
+          <code class="ruby">    line_item.price_cents = nil</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="12">
+          
+          
+          <code class="ruby">    # binding.pry</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="13">
+          <span class="hits">1</span>
+          
           <code class="ruby">    line_item.valid?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="12">
+        <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
           <code class="ruby">    expect(line_item.errors[:price_cents]).to include(&quot;can&#39;t be blank&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="13">
+        <li class="never" data-hits="" data-linenumber="15">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="14">
+        <li class="never" data-hits="" data-linenumber="16">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="15">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  it &quot;is invalid without a quantity&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="16">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    line_item = build(:line_item, quantity: nil)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="17">
           <span class="hits">1</span>
           
-          <code class="ruby">    line_item.valid?</code>
+          <code class="ruby">  it &quot;is invalid without a quantity&quot; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="18">
           <span class="hits">1</span>
           
-          <code class="ruby">    expect(line_item.errors[:quantity]).to include(&quot;can&#39;t be blank&quot;)</code>
+          <code class="ruby">    line_item = build(:line_item)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="19">
+        <li class="covered" data-hits="1" data-linenumber="19">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">    line_item.quantity = nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="20">
+        <li class="covered" data-hits="1" data-linenumber="20">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">    line_item.valid?</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="21">
           <span class="hits">1</span>
           
-          <code class="ruby">  it &quot;is invalid without a product&quot; do</code>
+          <code class="ruby">    expect(line_item.errors[:quantity]).to include(&quot;can&#39;t be blank&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="22">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="22">
           
-          <code class="ruby">    line_item = build(:line_item)</code>
+          
+          <code class="ruby">  end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="23">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="23">
           
-          <code class="ruby">    line_item.product = nil</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="24">
           <span class="hits">1</span>
           
-          <code class="ruby">    line_item.valid?</code>
+          <code class="ruby">  it &quot;is invalid without a product&quot; do</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="25">
           <span class="hits">1</span>
           
-          <code class="ruby">    expect(line_item.errors[:product]).to include(&quot;must exist&quot;)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="26">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="27">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="28">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  it &quot;is invalid without a basket&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="29">
-          <span class="hits">1</span>
-          
           <code class="ruby">    line_item = build(:line_item)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="30">
+        <li class="covered" data-hits="1" data-linenumber="26">
           <span class="hits">1</span>
           
-          <code class="ruby">    line_item.basket = nil</code>
+          <code class="ruby">    line_item.product = nil</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="31">
+        <li class="covered" data-hits="1" data-linenumber="27">
           <span class="hits">1</span>
           
           <code class="ruby">    line_item.valid?</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="32">
+        <li class="covered" data-hits="1" data-linenumber="28">
           <span class="hits">1</span>
           
-          <code class="ruby">    expect(line_item.errors[:basket]).to include(&quot;must exist&quot;)</code>
+          <code class="ruby">    expect(line_item.errors[:product]).to include(&quot;must exist&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
+        <li class="never" data-hits="" data-linenumber="29">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="34">
+        <li class="never" data-hits="" data-linenumber="30">
           
           
           <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="31">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  it &quot;is invalid without a basket&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="32">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    line_item = build(:line_item)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="33">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    line_item.basket = nil</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="34">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    line_item.valid?</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="35">
           <span class="hits">1</span>
           
-          <code class="ruby">  it &quot;matches model attribute without a &#39;_cents&#39; suffix by default&quot; do</code>
+          <code class="ruby">    expect(line_item.errors[:basket]).to include(&quot;must exist&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="36">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="36">
           
-          <code class="ruby">     is_expected.to monetize(:price)</code>
+          
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="37">
           
           
-          <code class="ruby">   end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="38">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="39">
+        <li class="covered" data-hits="1" data-linenumber="38">
+          <span class="hits">1</span>
           
+          <code class="ruby">  it &quot;matches model attribute without a &#39;_cents&#39; suffix by default&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="39">
+          <span class="hits">1</span>
           
-          <code class="ruby"></code>
+          <code class="ruby">     is_expected.to monetize(:price)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="40">
+          
+          
+          <code class="ruby">   end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="41">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="42">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="43">
           
           
           <code class="ruby">end</code>
@@ -5391,13 +5181,13 @@
         <li class="covered" data-hits="8" data-linenumber="24">
           <span class="hits">8</span>
           
-          <code class="ruby">      @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900)</code>
+          <code class="ruby">      @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900, total_cents: 900)</code>
         </li>
       
         <li class="covered" data-hits="8" data-linenumber="25">
           <span class="hits">8</span>
           
-          <code class="ruby">      @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500)</code>
+          <code class="ruby">      @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500, total_cents: 10000)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="26">
@@ -5415,7 +5205,7 @@
         <li class="covered" data-hits="8" data-linenumber="28">
           <span class="hits">8</span>
           
-          <code class="ruby">      @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300)</code>
+          <code class="ruby">      @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300, total_cents: 1500)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="29">
@@ -5433,13 +5223,13 @@
         <li class="covered" data-hits="8" data-linenumber="31">
           <span class="hits">8</span>
           
-          <code class="ruby">      @line_item_three = @product_one.line_items.create(basket_id: @basket_three.id, quantity: 1, price_cents: 600)</code>
+          <code class="ruby">      @line_item_three = @product_one.line_items.create(basket_id: @basket_three.id, quantity: 1, price_cents: 600, total_cents: 600)</code>
         </li>
       
         <li class="covered" data-hits="8" data-linenumber="32">
           <span class="hits">8</span>
           
-          <code class="ruby">      @line_item_four = @product_two.line_items.create(basket_id: @basket_three.id, quantity: 3, price_cents: 400)</code>
+          <code class="ruby">      @line_item_four = @product_two.line_items.create(basket_id: @basket_three.id, quantity: 3, price_cents: 400, total_cents: 1200)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="33">

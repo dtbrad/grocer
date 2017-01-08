@@ -46,15 +46,18 @@ class Basket < ApplicationRecord
         info[:price_cents] = rows[i].css('.basket-item-amt').text.to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:quantity] = 1 unless info[:quantity].nonzero?
+        info[:total_cents] = info[:quantity] * info[:price_cents]
 
       elsif unit_pricing && !has_weight_unit
         info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
+        info[:total_cents] = info[:quantity] * info[:price_cents]
 
       elsif unit_pricing && has_weight_unit
         info[:price_cents] = rows[i + 1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_f
+        info[:total_cents] = info[:weight] * info[:price_cents]
 
       end
       info
@@ -68,22 +71,29 @@ class Basket < ApplicationRecord
         product: product,
         price_cents: info[:price_cents],
         quantity: info[:quantity],
-        weight: info[:weight]
+        weight: info[:weight],
+        total_cents: info[:total_cents]
       )
     end
   end
 
-  def self.custom_sort(category, direction, user)
-    # binding.pry
-    if category == "items"
-      baskets = user.baskets.sort_by_quantity(direction, user)
+  def self.custom_sort(category, direction)
+    if category=="date"
+      baskets = select('baskets.*').
+      order("baskets.date #{direction}")
+    elsif category == "items"
+      baskets = select('baskets.*', 'SUM(line_items.quantity)').
+      joins(:line_items).
+      group('baskets.id')
+      .order("SUM(line_items.quantity) #{direction}")
     elsif category == "total"
-      baskets = user.baskets.sort_by_total(direction, user)
-    # elsif Basket.column_names.include?(category)
-    elsif category == "date"
-      baskets = user.baskets.order(category + " " + direction)
+      baskets = select('baskets.*', 'SUM(line_items.total_cents)').
+      joins(:line_items).
+      group('baskets.id')
+      .order("SUM(line_items.total_cents) #{direction}")
     else
-      baskets = user.baskets
+      baskets = select('baskets.*').
+      order('baskets.date desc')
     end
   end
 
@@ -94,34 +104,4 @@ class Basket < ApplicationRecord
   def quantity
     line_items.sum('quantity')
   end
-
-  def self.sort_by_total(direction, user)
-    if direction == "desc"
-      baskets = user.baskets.sort_by{|b| b.total}.reverse
-    else
-      baskets = user.baskets.sort_by{|b| b.total}
-    end
-  end
-
-  def self.sort_by_quantity(direction, user)
-    if direction == "desc"
-      baskets = user.baskets.sort_by{|b| b.quantity}.reverse
-    else
-      baskets = user.baskets.sort_by{|b| b.quantity}
-    end
-  end
-
-  def self.sort_by_date(direction, user)
-    if direction == "desc"
-      baskets = user.baskets.sort_by{|b| b.date}.reverse
-    else
-      baskets = user.baskets.sort_by{|b| b.date}
-    end
-  end
-
-
-
-  # def self.sort_by_basket_qty(direction, user)
-  #   if direction == "desc"
-  #     all.where(user: user).sort_by{|b| b.}
 end

@@ -2,7 +2,7 @@ class BasketsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def index
-    @baskets = Basket.custom_sort(sort_column, sort_direction, current_user).
+    @baskets = current_user.baskets.custom_sort(sort_column, sort_direction).
     paginate(page: params[:page], per_page: 15) unless !current_user unless !current_user
   end
 

@@ -3,6 +3,7 @@ class LineItem < ApplicationRecord
   belongs_to :product
   has_one :user, through: :basket
   monetize :price_cents
+  monetize :total_cents, as: "total"
   validates :price_cents, presence: true
   validates :quantity, presence: true
 
@@ -10,13 +11,8 @@ class LineItem < ApplicationRecord
     "#{weight} lb" unless weight == nil
   end
 
-  def total
-    weight == nil ? quantity * price : weight * price
-  end
-
   def self.total_spent
-    where(weight: nil).sum("quantity * price_cents") +
-    where("weight > 0").sum("weight * price_cents")
+    self.sum('total_cents')
   end
 
 end
