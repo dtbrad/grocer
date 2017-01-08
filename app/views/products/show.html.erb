@@ -9,15 +9,14 @@
     </div>
     <div class="panel-body">
 
-<table id="productTable" class="tablesorter table">
+<table class= "table">
   <thead>
   <tr class="fake-link">
-    <th>Date Purchased</th>
-    <th>Price</th>
-    <th>Qty Purchased</th>
-    <th>Weight</th>
-    <th>Total Price for that item</th>
-    <th>Price of All Items Bought that Day</th>
+    <th><%= sortable("date_purchased", "Date Purchased") %></th>
+    <th><%= sortable("price_cents", "Price") %></th>
+    <th><%= sortable("qty_purchased", "Qty Purchased") %></th>
+    <th><%= sortable("weight") %></th>
+    <th><%= sortable("total_cents", "Total Price") %></th>
   </tr>
 </thead>
 <tbody>
@@ -28,12 +27,15 @@
       <td> <%= line_item.quantity %> </td>
       <td> <%= line_item.formatted_weight %> </td>
       <td> <%= number_to_currency(line_item.total) %> </td>
-      <td> <%= number_to_currency(line_item.basket.total) %> </td>
     </tr>
   <% end %>
 </tbody>
 </table>
 </div>
+</div>
+
+<div class="text-center">
+  <%= will_paginate @line_items, renderer: BootstrapPagination::Rails %>
 </div>
 
 <%= form_for(@product, remote: true) do |f| %>

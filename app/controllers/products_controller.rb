@@ -9,7 +9,8 @@ class ProductsController < ApplicationController
   def show
     @user = current_user
     @product = Product.find(params[:id])
-    @line_items = @product.this_users_line_items(@user)
+    @line_items = @product.this_users_line_items(@user).custom_sort(sort_column, sort_direction).
+    paginate(page: params[:page], per_page: 10)
     if !@user.products.distinct.include?(@product)
       redirect_to products_path,  flash: { alert: "You can only view products you have purchased" }
     end

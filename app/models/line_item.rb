@@ -15,4 +15,19 @@ class LineItem < ApplicationRecord
     self.sum('total_cents')
   end
 
+  def self.custom_sort(category, direction)
+    if category == "date_purchased"
+      line_items = select('line_items.*').
+      joins(:basket).
+      order("baskets.date #{direction}")
+    elsif LineItem.column_names.include?(category)
+      line_items = select('line_items.*').
+      order(category + " " + direction)
+    else
+      line_items = select('line_items.*').
+      joins(:basket).
+      order("baskets.date desc")
+    end
+    line_items
+  end
 end
