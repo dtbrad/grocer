@@ -39,9 +39,11 @@
     <div class="text-center"><%= render 'auth' %></div>
     </br>
     <div class="container">
-      <% flash.each do |name, msg| -%>
-        <div class="alert alert-danger" data-dismiss="alert" id="flash"><%= content_tag :div, msg, class: name %></div>
-      <% end -%>
+      <% flash.each do |type, message| %>
+  <div data dismiss="alert alert-danger" id="flash" class="alert <%= bootstrap_class_for(type) %> fade in">
+    <%= message %>
+  </div>
+<% end %>
     <%= yield %>
     </div>
   </body>

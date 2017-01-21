@@ -1,16 +1,16 @@
 class SessionsController < ApplicationController
   def create
-    if params[:email] == 'sampleuser@mail.com'
-      user = User.find_by(email: 'sampleuser@mail.com')
-    else
-      user = User.from_omniauth(env['omniauth.auth'])
-    end
+    user = if params[:email] == 'sampleuser@mail.com'
+             User.find_by(email: 'sampleuser@mail.com')
+           else
+             User.from_omniauth(env['omniauth.auth'])
+           end
     session[:user_id] = user.id
-    redirect_to baskets_path
+    redirect_to baskets_path, flash: { notice: 'Now logged in' }
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path
+    redirect_to root_path, flash: { notice: 'Now logged out' }
   end
 end
