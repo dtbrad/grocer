@@ -38,7 +38,7 @@ class Basket < ApplicationRecord
   def self.get_data(rows, i)
     unless rows[i].css('span').text.include?('$')
 
-      info = { name: rows[i].css('.basket-item-desc').text.rstrip.lstrip }
+      info = { name: rows[i].css('.basket-item-desc').text.strip }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
 
@@ -54,7 +54,7 @@ class Basket < ApplicationRecord
         info[:total_cents] = info[:quantity] * info[:price_cents]
 
       elsif unit_pricing && has_weight_unit
-        info[:price_cents] = rows[i + 1].text[ /\$\s*(\d+\.\d+)/, 1 ].to_f * 100
+        info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_f
         info[:total_cents] = info[:weight] * info[:price_cents]
@@ -66,7 +66,8 @@ class Basket < ApplicationRecord
 
   def build_products_and_line_items(info)
     unless info.nil?
-      product = Product.find_or_create_by(name: info[:name].titleize, nickname: info[:name].titleize)
+      product = Product.find_or_create_by(name: info[:name].titleize,
+                                          nickname: info[:name].titleize)
       line_items.build(
         product: product,
         price_cents: info[:price_cents],
@@ -78,23 +79,35 @@ class Basket < ApplicationRecord
   end
 
   def self.custom_sort(category, direction)
-    if category=="date"
-      baskets = select('baskets.*').
-      order("baskets.date #{direction}")
-    elsif category == "items"
-      baskets = select('baskets.*', 'SUM(line_items.quantity)').
-      joins(:line_items).
-      group('baskets.id')
-      .order("SUM(line_items.quantity) #{direction}")
-    elsif category == "total"
-      baskets = select('baskets.*', 'SUM(line_items.total_cents)').
-      joins(:line_items).
-      group('baskets.id')
-      .order("SUM(line_items.total_cents) #{direction}")
+    case category
+    when 'date'
+      sort_date(direction)
+    when 'items'
+      sort_items(direction)
+    when 'total'
+      sort_total(direction)
     else
-      baskets = select('baskets.*').
-      order('baskets.date desc')
+      sort_date('desc')
     end
+  end
+
+  def self.sort_date(direction)
+    select('baskets.*')
+      .order("baskets.date #{direction}")
+  end
+
+  def self.sort_items(direction)
+    select('baskets.*', 'SUM(line_items.quantity)')
+      .joins(:line_items)
+      .group('baskets.id')
+      .order("SUM(line_items.quantity) #{direction}")
+  end
+
+  def self.sort_total(direction)
+    select('baskets.*', 'SUM(line_items.total_cents)')
+      .joins(:line_items)
+      .group('baskets.id')
+      .order("SUM(line_items.total_cents) #{direction}")
   end
 
   def total
