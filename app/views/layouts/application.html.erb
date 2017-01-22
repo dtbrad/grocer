@@ -39,11 +39,15 @@
     <div class="text-center"><%= render 'auth' %></div>
     </br>
     <div class="container">
-      <% flash.each do |type, message| %>
-  <div data dismiss="alert alert-danger" id="flash" class="alert <%= bootstrap_class_for(type) %> fade in">
-    <%= message %>
-  </div>
-<% end %>
+      <% unless flash.empty? %>
+	  <script type="text/javascript">
+	      <% flash.each do |f| %>
+	      <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+	     	 toastr['<%= type %>']('<%= f[1] %>');
+	      <% end %>
+	  </script>
+	 <% end %>
+	
     <%= yield %>
     </div>
   </body>

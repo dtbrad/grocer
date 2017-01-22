@@ -21,12 +21,12 @@ class BasketsController < ApplicationController
 
   def create
     Basket.create_basket(current_user, params[:date])
-    redirect_to baskets_path
+    redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
   end
 
   def remove
     current_user.baskets.destroy_all
-    redirect_to baskets_path
+    redirect_to baskets_path, flash: { alert: 'Purchase History Deleted' }
   end
 
   private
