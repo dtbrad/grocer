@@ -1,8 +1,9 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h5> You've purchased <%= @product.nickname %> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+        <h5> You've purchased <span id="nickname"><%= @product.nickname %></span <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
         <% if @product.highest_price == @product.lowest_price %>
-           Its price has remained stable at <%= number_to_currency(@product.highest_price) %> </h5>
+           Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
+        </h5>
           <% else %>
           In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
           <% end %>
@@ -38,13 +39,4 @@
   <%= will_paginate @line_items, renderer: BootstrapPagination::Rails %>
 </div>
 
-<%= form_for(@product, remote: true) do |f| %>
-<div class="well">
-  <form>
-    <div class="form-group">
-      <p><%= f.label "rename" %> <%=f.text_field :nickname, class: "form-control" %></p>
-    </div>
-    <%= f.submit :class => 'btn btn-primary' %>
-  </div>
-<% end %>
-  </form>
+<%= render 'products/form', product: @product  %>

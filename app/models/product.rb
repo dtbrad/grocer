@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   has_many :baskets, through: :line_items
   has_many :users, through: :baskets
   validates :name, presence: true
+  validates :nickname, presence: true
+  validates :nickname, uniqueness: true
 
   def self.custom_sort(category, direction)
     case category
