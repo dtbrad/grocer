@@ -1,0 +1,23 @@
+<table class="table table-hover">
+  <thead>
+    <tr class="fake-link">
+      <th><%= sortable("date") %></th>
+      <th><%= sortable("items", "# of Items") %></th>
+      <th><%= sortable("total") %></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% baskets.each do |basket| %>
+      <tr>
+        <td> <%= link_to format_date(basket.date), basket_path(basket) %> </td>
+        <td> <%= basket.quantity %> </td>
+        <td> <%= number_to_currency(basket.total) %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate baskets, remote: true %>
+</div>

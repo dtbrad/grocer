@@ -3,6 +3,7 @@ class Basket < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
   validates :date, presence: true
+  paginates_per 10
 
   def self.create_basket(user, date)
     emails = grab_emails(user, date)

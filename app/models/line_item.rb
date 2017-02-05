@@ -6,6 +6,7 @@ class LineItem < ApplicationRecord
   monetize :total_cents, as: "total"
   validates :price_cents, presence: true
   validates :quantity, presence: true
+  paginates_per 10
 
   def formatted_weight
     "#{weight} lb" unless weight == nil

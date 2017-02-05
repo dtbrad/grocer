@@ -21,9 +21,6 @@
 
 $(document).ready(function() {
 
-	
-
-
 	 toastr.options = {
 	                  "closeButton": false,
 	                  "debug": false,

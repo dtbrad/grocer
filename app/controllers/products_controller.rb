@@ -5,8 +5,11 @@ class ProductsController < ApplicationController
   def index
     if current_user
       @products = current_user.products.filtered_products
-                              .custom_sort(sort_column, sort_direction)
-                              .paginate(page: params[:page], per_page: 15)
+      .custom_sort(sort_column, sort_direction).page params[:page]
+      respond_to do |format|
+        format.js
+        format.html
+      end
     end
   end
 
@@ -15,17 +18,16 @@ class ProductsController < ApplicationController
       redirect_to products_path,
       flash: { alert: 'You can only view products you have purchased' }
     end
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def create; end
 
   def update
     @product.update(nickname: params[:product][:nickname])
-    # if @product.save
-    #   redirect_to product_path(@product), flash: { notice: 'Product name updated' }
-    # else
-    #   render :show
-    # end
   end
 
   private
@@ -35,7 +37,7 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @line_items = @product.this_users_line_items(@user)
                           .custom_sort(sort_column, sort_direction)
-                          .paginate(page: params[:page], per_page: 10)
+                          .page params[:page]
   end
 
   def sort_column

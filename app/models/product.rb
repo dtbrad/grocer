@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
+  paginates_per 10
 
   def self.custom_sort(category, direction)
     case category

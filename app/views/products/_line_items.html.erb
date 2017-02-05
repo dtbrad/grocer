@@ -1,0 +1,26 @@
+<table class= "table">
+  <thead>
+    <tr class="fake-link">
+      <th><%= sortable("date_purchased", "Date Purchased") %></th>
+      <th><%= sortable("price_cents", "Price") %></th>
+      <th><%= sortable("qty_purchased", "Qty Purchased") %></th>
+      <th><%= sortable("weight") %></th>
+      <th><%= sortable("total_cents", "Total Price") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% line_items.each do |line_item| %>
+      <tr>
+        <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
+        <td> <%= number_to_currency(line_item.price) %> </td>
+        <td> <%= line_item.quantity %> </td>
+        <td> <%= line_item.formatted_weight %> </td>
+        <td> <%= number_to_currency(line_item.total) %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate line_items %>
+</div>

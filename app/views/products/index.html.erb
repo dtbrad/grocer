@@ -1,39 +1,15 @@
 <% if current_user && !@products.empty? %>
 
   <div class="panel panel-default">
-      <div class="panel-heading">
-          <h5>You have purchased the following products</h5>
+    <div class="panel-heading">
+      <h5>You have purchased the following products</h5>
+    </div>
+    <div class="panel-body">
+      <div id="products_table" class="panel-body">
+        <%= render partial: 'products', locals: { products: @products } %>
       </div>
-      <div class="panel-body">
-
-
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th><%= sortable("nickname", "Name") %></th>
-        <th><%= sortable("times_bought", "Total Purchased") %></th>
-        <th><%= sortable("highest_price", "Highest Price") %></th>
-        <th><%= sortable("lowest_price", "Lowest Price") %></th>
-        <th><%= sortable("most_recently_purchased", "Most Recently Purchased") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td> <%= link_to product.nickname, product_path(product) %> </td>
-          <td> <%= product.times_bought(current_user) %> </td>
-          <td> <%= number_to_currency(product.highest_price_by_user(current_user)) %> </td>
-          <td> <%= number_to_currency(product.lowest_price_by_user(current_user)) %> </td>
-          <td> <%= format_date(product.most_recently_purchased(current_user)) %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-    </table>
+    </div>
   </div>
-</div>
-<div class="text-center">
-  <%= will_paginate @products, renderer: BootstrapPagination::Rails %>
-</div>
-  <% elsif current_user && @products.empty?%>
-    <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
-  <% end %>
+<% elsif current_user && @products.empty?%>
+  <p> You currently have no products. Load your purchase history to generate a list of your products.</p>
+<% end %>

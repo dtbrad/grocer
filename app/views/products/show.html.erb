@@ -1,42 +1,18 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h5> You've purchased <span id="nickname"><%= @product.nickname %></span <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
-        <% if @product.highest_price == @product.lowest_price %>
-           Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
-        </h5>
-          <% else %>
-          In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
-          <% end %>
+  <div class="panel-heading">
+    <h5> You've purchased <span id="nickname"><%= @product.nickname %></span <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+    <% if @product.highest_price == @product.lowest_price %>
+      Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
+      </h5>
+    <% else %>
+      In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
+    <% end %>
+  </div>
+  <div class="panel-body">
+    <div id="line_items_table" class="panel-body">
+      <%= render partial: 'line_items', locals: { line_items: @line_items } %>
     </div>
-    <div class="panel-body">
-
-<table class= "table">
-  <thead>
-  <tr class="fake-link">
-    <th><%= sortable("date_purchased", "Date Purchased") %></th>
-    <th><%= sortable("price_cents", "Price") %></th>
-    <th><%= sortable("qty_purchased", "Qty Purchased") %></th>
-    <th><%= sortable("weight") %></th>
-    <th><%= sortable("total_cents", "Total Price") %></th>
-  </tr>
-</thead>
-<tbody>
-  <% @line_items.each do |line_item| %>
-    <tr>
-      <td> <%= link_to format_date(line_item.basket.date), basket_path(line_item.basket) %> </td>
-      <td> <%= number_to_currency(line_item.price) %> </td>
-      <td> <%= line_item.quantity %> </td>
-      <td> <%= line_item.formatted_weight %> </td>
-      <td> <%= number_to_currency(line_item.total) %> </td>
-    </tr>
-  <% end %>
-</tbody>
-</table>
-</div>
-</div>
-
-<div class="text-center">
-  <%= will_paginate @line_items, renderer: BootstrapPagination::Rails %>
+  </div>
 </div>
 
 <%= render 'products/form', product: @product  %>
