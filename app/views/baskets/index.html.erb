@@ -1,33 +1,50 @@
 <% if current_user && !@baskets.empty? %>
 
-<div class="panel panel-default">
+  <%= line_chart current_user.baskets.group_by_month(:date, last: 12, current: false).sum('baskets.total_cents / 100'),
+    title: 'Monthly Spending For Last 12 Months',
+    colors: ['green'],
+    library: {
+      yAxis: {
+           labels: {
+               format: '${value}'
+           }
+       },
+          tooltip: {
+            pointFormat: 'Total Spent: <b>{point.y}</b>',
+            xDateFormat: '%B',
+            valuePrefix: '$'
+          }
+        }
+  %>
+
+  <div class="panel panel-default">
     <div class="panel-heading">
         <h5><%= current_user.name %>'s purchase history</h5>
     </div>
     <div class="panel-body">
-  <table class="table table-hover">
-    <thead>
-      <tr class="fake-link">
-        <th><%= sortable("date") %></th>
-        <th><%= sortable("items", "# of Items") %></th>
-        <th><%= sortable("total") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @baskets.each do |basket| %>
-        <tr>
-          <td> <%= link_to format_date(basket.date), basket_path(basket) %> </td>
-          <td> <%= basket.quantity %> </td>
-          <td> <%= number_to_currency(basket.total) %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-    </table>
+      <table class="table table-hover">
+        <thead>
+          <tr class="fake-link">
+            <th><%= sortable("date") %></th>
+            <th><%= sortable("items", "# of Items") %></th>
+            <th><%= sortable("total") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @baskets.each do |basket| %>
+            <tr>
+              <td> <%= link_to format_date(basket.date), basket_path(basket) %> </td>
+              <td> <%= basket.quantity %> </td>
+              <td> <%= number_to_currency(basket.total) %> </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-<div class="text-center">
-<%= will_paginate @baskets, renderer: BootstrapPagination::Rails %>
-</div>
+  <div class="text-center">
+  <%= will_paginate @baskets, renderer: BootstrapPagination::Rails %>
+  </div>
 
 <% elsif current_user && @baskets.empty?%>
   <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>

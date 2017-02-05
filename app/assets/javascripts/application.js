@@ -14,10 +14,14 @@
 //= require jquery_ujs
 //= require bootstrap-sass
 //= require toastr
+//= require highcharts
+//= require chartkick
 //= require turbolinks
 //= require_tree
 
 $(document).ready(function() {
+
+	
 
 
 	 toastr.options = {

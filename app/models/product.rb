@@ -27,6 +27,10 @@ class Product < ApplicationRecord
       .order("line_items_sum #{direction}")
   end
 
+  def self.most_popular_product
+    joins(:line_items).group('products.id').order('SUM(quantity)').last
+  end
+
   def self.sort_highest_price(direction)
     select('products.*', 'MAX(line_items.price_cents) as max_price')
       .group('products.id')

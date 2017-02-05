@@ -31,6 +31,9 @@ gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 gem 'toastr-rails'
+gem 'chartkick'
+gem 'highcharts-rails'
+gem 'groupdate'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

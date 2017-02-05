@@ -1,10 +1,9 @@
 $('#error_explanation').html("");
+
 <% if @product.valid? %>
-$("#nickname").html("<%= @product.nickname %>");
+  $("#nickname").html("<%= @product.nickname %>");
 <% else %>
-
-<% @product.errors.full_messages.each do |message| %>
-  $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
-<% end %>
-
+  <% @product.errors.full_messages.each do |message| %>
+    $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
+  <% end %>
 <% end %>

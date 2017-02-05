@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
   end
 
   def show
-    if !@user.products.distinct.include?(@product)
+    if !@user.products.include?(@product)
       redirect_to products_path,
       flash: { alert: 'You can only view products you have purchased' }
     end

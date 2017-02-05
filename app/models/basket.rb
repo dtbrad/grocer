@@ -15,6 +15,8 @@ class Basket < ApplicationRecord
         basket.build_products_and_line_items(info)
       end
       basket.save
+      basket.total_cents = basket.line_items.total_spent
+      basket.save
     end
   end
 
@@ -66,8 +68,7 @@ class Basket < ApplicationRecord
 
   def build_products_and_line_items(info)
     unless info.nil?
-      product = Product.find_or_create_by(name: info[:name].titleize,
-                                          nickname: info[:name].titleize)
+      product = Product.find_or_create_by(name: info[:name].titleize)
       line_items.build(
         product: product,
         price_cents: info[:price_cents],
