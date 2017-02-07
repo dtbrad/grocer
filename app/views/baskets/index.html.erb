@@ -1,38 +1,11 @@
 <% if current_user && !@baskets.empty? %>
-
-  <%= line_chart current_user.baskets.group_by_month(:date, last: 12, current: false).sum('baskets.total_cents / 100'),
-    title: 'Monthly Spending For Last 12 Months',
-    colors: ['green'],
-    library: {
-      yAxis: {
-           labels: {
-               format: '${value}'
-           }
-       },
-          tooltip: {
-            pointFormat: 'Total Spent: <b>{point.y}</b>',
-            xDateFormat: '%B',
-            valuePrefix: '$'
-          }
-        }
-  %>
-
-  <%= line_chart current_user.baskets.group_by_week(:date, last: 24, current: false).sum('baskets.total_cents / 100'),
-    title: 'Weekly Spending For Last 24 weeks',
-    colors: ['green'],
-    library: {
-      yAxis: {
-           labels: {
-               format: '${value}'
-           }
-       },
-          tooltip: {
-            pointFormat: 'Total Spent: <b>{point.y}</b>',
-            xDateFormat: '',
-            valuePrefix: '$'
-          }
-        }
-  %>
+<div class="text-center">
+  <%= link_to "weekly", weekly_spending_chart_path, remote: true, class: "btn btn-primary btn-xs"%>
+  <%= link_to "monthly", monthly_spending_chart_path, remote: true, class: "btn btn-primary btn-xs" %>
+</div>
+<div id="chart">
+<%= monthly_spending %>
+</div>
 
   <div class="panel panel-default">
     <div class="panel-heading">

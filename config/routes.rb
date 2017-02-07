@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'remove', to: 'baskets#remove', as: 'remove'
 
+  get 'monthly_spending_chart', to: 'charts#monthly_spending'
+  get 'weekly_spending_chart', to: 'charts#weekly_spending'
+  get 'most_spent_chart', to: 'charts#most_spent'
+  get 'most_bought_chart', to: 'charts#most_bought'
+
   resources :sessions, only: [:create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

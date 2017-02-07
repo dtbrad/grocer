@@ -1,5 +1,13 @@
 <% if current_user && !@products.empty? %>
 
+<div class="text-center">
+  <%= link_to "By Dollar", most_spent_chart_path, remote: true, class: "btn btn-primary btn-xs"%>
+  <%= link_to "By Quantity", most_bought_chart_path, remote: true, class: "btn btn-primary btn-xs" %>
+</div>
+<div id="chart">
+  <%= most_spent %>
+</div>
+
   <div class="panel panel-default">
     <div class="panel-heading">
       <h5>You have purchased the following products</h5>
