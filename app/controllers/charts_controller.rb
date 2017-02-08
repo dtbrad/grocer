@@ -15,4 +15,12 @@ class ChartsController < ApplicationController
     @products = Product.all
   end
 
+  def product_monthly_purchasing
+    @product = Product.find(params[:product_id])
+  end
+
+  def product_weekly_purchasing
+    @product = Product.find(params[:product_id])
+  end
+
 end

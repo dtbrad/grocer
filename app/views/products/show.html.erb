@@ -1,6 +1,14 @@
+<div class="text-center">
+  <%= link_to "weekly", product_weekly_purchasing_chart_path(product_id: @product.id), remote: true, class: "btn btn-primary btn-xs"%>
+  <%= link_to "monthly", product_monthly_purchasing_chart_path(product_id: @product.id), remote: true, class: "btn btn-primary btn-xs" %>
+</div>
+<div id="chart">
+<%= product_monthly_purchasing %>
+</div>
+
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h5> You've purchased <span id="nickname"><%= @product.nickname %></span <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+    <h5> You've purchased <span id="nickname"><%= @product.nickname %></span> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
     <% if @product.highest_price == @product.lowest_price %>
       Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
       </h5>
