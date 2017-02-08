@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'weekly_spending_chart', to: 'charts#weekly_spending'
   get 'most_spent_chart', to: 'charts#most_spent'
   get 'most_bought_chart', to: 'charts#most_bought'
+  get 'product_monthly_purchasing_chart', to: 'charts#product_monthly_purchasing'
+  get 'product_weekly_purchasing_chart', to: 'charts#product_weekly_purchasing'
 
   resources :sessions, only: [:create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
