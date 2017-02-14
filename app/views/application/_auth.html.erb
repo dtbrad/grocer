@@ -1,14 +1,7 @@
-<% if current_user %>
-  Signed in as <strong><%= current_user.name %></strong>!
-  <%= link_to "Sign out", signout_path, id: "sign_out" %>
-  <% if current_user.name != 'Sample User' && !current_user.baskets.empty?%>
-  | <%= link_to "Delete your entire purchase history", remove_path, data: { confirm: "Are you sure?"} %>
-  <% end %>
-<% else %>
-  <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %></br>
+<% if !current_user %>
+  <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in", class: "btn btn-success btn-block" %></br>
   <%= form_tag("/sessions", method: "post", id: 'fake') do %>
     <%= hidden_field_tag(:email, "sampleuser@mail.com",) %>
-
-    <%= link_to 'Or load sample purchase history data instead', "#", :onclick => "$('#fake').submit()" %>
+    <%= link_to 'Or load sample purchase history data instead', "#", class: "btn btn-primary btn-block", :onclick => "$('#fake').submit()" %>
   <% end %>
 <% end %>

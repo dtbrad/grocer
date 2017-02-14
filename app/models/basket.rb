@@ -72,6 +72,7 @@ class Basket < ApplicationRecord
       product = Product.find_or_create_by(name: info[:name].titleize,
                                           nickname: info[:name].titleize)
       line_items.build(
+        user: user,
         product: product,
         price_cents: info[:price_cents],
         quantity: info[:quantity],
