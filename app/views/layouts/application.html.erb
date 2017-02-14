@@ -9,46 +9,49 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-default" role="navigation">
-  		<div class="container-fluid">
-  			<div class="navbar-header">
-  				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-  					<span class="sr-only">Toggle navigation</span>
-  					<span class="icon-bar"></span>
-  					<span class="icon-bar"></span>
-  					<span class="icon-bar"></span>
-  				</button>
-  				<a class="navbar-brand" href="#">New Seasons Purchase Tracker</a>
-  			</div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  				<ul class="nav navbar-nav">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    				<span class="sr-only">Toggle navigation</span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			</button>
+    			<a class="navbar-brand" href="#">Grocer</a>
+    		</div>
+        <div class="collapse navbar-collapse" ng-class="{collapse: isCollapsed}" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
             <% if current_user %>
               <li><%= link_to "purchase history", baskets_path %></li>
               <li><%= link_to "products", products_path %></li>
+              <li><a>Signed in as: <%= current_user.name %></a></li>
+              <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
               <% if current_user.name != 'Sample User' %>
                 <li><%= link_to "import your purchase history", new_basket_path %></li>
+                <% if !current_user.baskets.empty?%>
+                  <li><%= link_to "Delete your entire purchase history", remove_path, data: { confirm: "Are you sure?"} %></li>
+                <% end %>
               <% end %>
             <% end %>
-  				</ul>
-  			</div>
-  			<!-- /.navbar-collapse -->
-  		</div>
-  		<!-- /.container-fluid -->
-  	</nav>
-    <div class="text-center"><%= render 'auth' %></div>
-    </br>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
     <div class="container">
       <% unless flash.empty? %>
-	  <script type="text/javascript">
-	      <% flash.each do |f| %>
-	      <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
-	     	 toastr['<%= type %>']('<%= f[1] %>');
-	      <% end %>
-	  </script>
-	 <% end %>
-	
-    <%= yield %>
+	      <script type="text/javascript">
+	         <% flash.each do |f| %>
+	           <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+	     	   toastr['<%= type %>']('<%= f[1] %>');
+	          <% end %>
+	     </script>
+	    <% end %>
+
+      <%= yield %>
+      <div class="text-center"><%= render 'auth' %></div>
     </div>
   </body>
 </html>
