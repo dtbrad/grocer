@@ -1,6 +1,6 @@
 module ChartsHelper
   def monthly_spending
-    line_chart current_user.baskets.group_by_month(:date, last: 12, current: false).sum('baskets.total_cents / 100'),
+    line_chart current_user.baskets.group_by_month(:date, last: 12).sum('baskets.total_cents / 100'),
       ytitle: "Total Spent",
       title: 'Monthly Spending For Last Year',
       colors: ['green'],
@@ -19,7 +19,7 @@ module ChartsHelper
   end
 
   def weekly_spending
-    line_chart current_user.baskets.group_by_week(:date, last: 56, current: false).sum('baskets.total_cents / 100'),
+    line_chart current_user.baskets.group_by_week(:date, last: 56).sum('baskets.total_cents / 100'),
       ytitle: "Total Spent",
       title: 'Weekly Spending For Last Year',
       colors: ['brown'],
@@ -73,7 +73,7 @@ module ChartsHelper
 
   def product_monthly_purchasing
     line_chart current_user.line_items.where(product: @product)
-    .group_by_month(:date, last: 12, current: false).sum('line_items.quantity'),
+    .group_by_month(:date, last: 12).sum('line_items.quantity'),
       ytitle: "Quantity",
       title: 'Monthly Purchasing for '+ @product.nickname,
       colors: ['green'],
@@ -87,7 +87,7 @@ module ChartsHelper
 
   def product_weekly_purchasing
     line_chart current_user.line_items.where(product: @product)
-    .group_by_week(:date, last: 56, current: false).sum('line_items.quantity'),
+    .group_by_week(:date, last: 56).sum('line_items.quantity'),
       ytitle: "Quantity",
       title: 'Weekly Purchasing for '+ @product.nickname,
       colors: ['green'],
