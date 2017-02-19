@@ -24,7 +24,7 @@ class BasketsController < ApplicationController
   end
 
   def create
-    Basket.create_basket(current_user, params[:date])
+    Scraper.process_emails(current_user, params[:date])
     redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
   end
 

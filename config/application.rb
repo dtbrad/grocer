@@ -19,6 +19,8 @@ Bundler.require(*Rails.groups)
 module NewSeasons
   class Application < Rails::Application
 
+    config.autoload_paths << Rails.root.join('lib')
+
     config.generators do |g|
       g.test_framework :rspec,
       fixtures: true,
