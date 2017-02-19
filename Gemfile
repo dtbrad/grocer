@@ -34,6 +34,7 @@ gem 'toastr-rails'
 gem 'chartkick'
 gem 'highcharts-rails'
 gem 'groupdate'
+gem 'sidekiq'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
