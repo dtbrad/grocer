@@ -54,7 +54,7 @@ class Scraper
         info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f. * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_f
-        info[:total_cents] = (info[:weight] * info[:price_cents]).ceil
+        info[:total_cents] = (info[:weight] * info[:price_cents]).round
 
       end
       info

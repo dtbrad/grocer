@@ -24,7 +24,8 @@ class BasketsController < ApplicationController
   end
 
   def create
-    Scraper.process_emails(current_user, params[:date])
+    BasketWorker.perform_async(current_user.id, params[:date])
+    # Scraper.process_emails(current_user, params[:date])
     redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
   end
 
