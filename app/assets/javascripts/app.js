@@ -4,11 +4,11 @@ angular.module('listmaker', ['templates', 'ui.router'])
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $stateProvider
   .state('home', {
-    url: "",
+    url: "/",
     templateUrl: "app/templates/home.html"
   })
   .state('home.newList', {
-    url: "/newlist",
+    url: "listmaker/new",
     controller: "ListController as ctrl",
     templateUrl: "app/templates/list.html",
     resolve: {
@@ -18,8 +18,12 @@ angular.module('listmaker', ['templates', 'ui.router'])
     }
   })
   .state('home.allLists', {
-    url: "/lists",
+    url: "listmaker/all",
     templateUrl: "app/templates/lists.html"
   })
-  $urlRouterProvider.otherwise("/lists")
+  $urlRouterProvider.otherwise("listmaker/all")
+  $locationProvider.html5Mode({
+  enabled:true,
+  requireBase: false
+});
 });
