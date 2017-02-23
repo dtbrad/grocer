@@ -1,4 +1,4 @@
-function ListController($state, product_summaries, dataService) {
+function ListController($state, $stateParams, product_summaries, dataService) {
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
   ctrl.search = ""
@@ -31,7 +31,7 @@ function ListController($state, product_summaries, dataService) {
     var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
     dataService.createList(list)
     .then(function(result){
-      $state.go('home.allLists');
+      $state.go('home.showList', {id: result.data.id});
     })
   }
 

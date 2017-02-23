@@ -1,8 +1,14 @@
 class ShoppingListsController < ApplicationController
 
   def index
-    @shopping_lists = current_user.shopping_lists
-    render json: @shopping_lists
+    if current_user
+      @shopping_lists = current_user.shopping_lists
+      render json: @shopping_lists
+    end
+  end
+
+  def show
+    render json: ShoppingList.find(params[:id])
   end
 
   def create

@@ -1,1 +1,16 @@
-<h1> lists(plural) file! </h1>
+<table class="table table-hover">
+  <thead>
+    <tr class="fake-link">
+      <th>List Date</th>
+      <th>List Name</th>
+      <th># of Items</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr class="fake-link" ng-repeat="list in ctrl.lists" ng-click="ctrl.seeList(list)">
+        <td> {{ list.created_at | date: 'short'}} </td>
+        <td> {{ list.name }} </td>
+        <td> {{ list.items.length}} </td>
+      </tr>
+  </tbody>
+</table>

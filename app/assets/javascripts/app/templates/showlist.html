@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5> Shopping List from: {{ ctrl.list.created_at | date: 'short'}}</h5>
+  </div>
+<div class="panel-body">
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th> Name </th>
+      <th> Unit Price </th>
+      <th> Quantity/Weight </th>
+      <th> Total Price </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr ng-repeat="item in ctrl.list.items">
+        <td> {{ item.name }} </td>
+        <td> {{ item.price | currency }} </td>
+        <td> {{ item.quantity }} </td>
+        <td> {{ item.price * item.quantity | currency}} </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td> Total </td>
+        <td> {{ ctrl.list.total | currency }} </td>
+      </tr>
+  </tbody>
+</table>
