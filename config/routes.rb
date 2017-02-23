@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get 'product_monthly_purchasing_chart', to: 'charts#product_monthly_purchasing'
   get 'product_weekly_purchasing_chart', to: 'charts#product_weekly_purchasing'
 
+  get 'listmaker', to: 'angular#angular'
+
   resources :sessions, only: [:create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

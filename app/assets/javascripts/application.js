@@ -16,7 +16,9 @@
 //= require toastr
 //= require highcharts
 //= require chartkick
-//= require turbolinks
+//= require angular
+//= require angular-rails-templates
+//= require angular-ui-router
 //= require_tree
 
 $(document).ready(function() {
