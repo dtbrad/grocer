@@ -12,6 +12,7 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
     item.quantity = 1;
     ctrl.list.push(item);
     ctrl.search = "";
+    ctrl.newItem = {};
   }
   }
 
@@ -29,12 +30,14 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   }
 
   ctrl.createList = function(){
-    ctrl.list.forEach(function(x){ x.quantity = parseFloat(x.quantity); x.price = parseFloat(x.price)})
-    var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
-    dataService.createList(list)
-    .then(function(result){
-      $state.go('home.showList', {id: result.data.id});
-    })
+    if(ctrl.listForm.$valid) {
+      ctrl.list.forEach(function(x){ x.quantity = parseFloat(x.quantity); x.price = parseFloat(x.price)})
+      var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
+      dataService.createList(list)
+      .then(function(result){
+        $state.go('home.showList', {id: result.data.id});
+      })
+    }
   }
 
 }
