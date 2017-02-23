@@ -7,11 +7,12 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   ctrl.newItem = {};
 
   ctrl.addToList = function(item){
+    if((ctrl.listForm.manualSearchName.$valid && ctrl.listForm.manualSearchPrice.$valid) || item.$$hashKey ) {
     delete item.$$hashKey
     item.quantity = 1;
     ctrl.list.push(item);
     ctrl.search = "";
-    ctrl.newItem = {};
+  }
   }
 
   ctrl.remove = function(item, arr){

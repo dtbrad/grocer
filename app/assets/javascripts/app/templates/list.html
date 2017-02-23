@@ -1,103 +1,136 @@
-<div class="row">
-  <div class="col-md-12 list-group">
-    <input  type="text"
-        class="form-control"
-        placeholder="enter a list title"
-        ng-model="ctrl.listTitle">
-  </div>
-</div>
+<form name="ctrl.listForm" novalidate>
 
-<div class="row">
-  <div class="col-md-12 list-group">
-    <input  type="text"
-        class="form-control"
-        placeholder="search here for items to add or manually enter in the table below..."
-        ng-model="ctrl.search">
-  </div>
-</div>
+  <div class="row">
+    <div class="col-md-12 list-group">
 
-<div ng-show="ctrl.search" class="row">
-  <div class="text-center">
-    <div class="list-group list-group-horizontal">
-      <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter:{ name: ctrl.search }" href="#" class="list-group-item">{{item.name}}</a>
+      <input  type="text"
+          name="listTitle"
+          class="form-control"
+          placeholder="enter a list title"
+          ng-model="ctrl.listTitle"
+          required>
+
     </div>
   </div>
-</div>
 
-
-<div class="row" ng-hide="ctrl.search">
-  <div class="col-md-5 list-group">
-    <input class="form-control" placeholder="name" ng-model="ctrl.newItem.name">
+  <div class="row">
+    <div class="col-md-12 list-group" style="color:red" ng-messages="ctrl.listForm.listTitle.$error" ng-if="ctrl.listForm.listTitle.$touched || ctrl.listForm.$submitted">
+      <div ng-message="required">List requires a title</div>
+    </div>
   </div>
 
-  <div class="col-md-4 list-group">
-    <input class="form-control" placeholder="price"ng-model="ctrl.newItem.price">
+  <div class="row">
+    <div class="col-md-12 list-group">
+      <input  type="text"
+          class="form-control"
+          placeholder="search here for items to add or manually enter in the table below..."
+          ng-model="ctrl.search">
+    </div>
   </div>
 
-  <div class="col-md-3">
-    <button ng-click="ctrl.addToList(ctrl.newItem)"class="btn btn-primary btn-block pull-right"> add </button>
-  </div>
-</div>
-
-<div class="row" ng-show="ctrl.list.length > 0">
-  <hr>
-  <div class="col-md-3">
-    <h5 class="heading">
-      Name
-    </h5>
-  </div>
-  <div class="col-md-3">
-    <h5 class="heading">
-      Unit Price
-    </h5>
-  </div>
-  <div class="col-md-2">
-    <h5 class="heading">
-      Quantity/Weight
-    </h5>
-  </div>
-  <div class="col-md-3">
-    <h5 class="heading">
-      Total Price
-    </h5>
-  </div>
-  <div class="col-md-1">
-    <h5 class="heading">
-
-    </h5>
-  </div>
-</div>
-
-<div class="row" ng-repeat="item in ctrl.list track by $index">
-
-  <div class="col-md-3 list-group">
-    <input class="form-control" ng-model="item.name">
+  <div ng-show="ctrl.search" class="row">
+    <div class="text-center">
+      <div class="list-group list-group-horizontal">
+        <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter:{ name: ctrl.search }" href="#" class="list-group-item">{{item.name}}</a>
+      </div>
+    </div>
   </div>
 
-  <div class="col-md-3 list-group">
-    <input class="form-control" ng-model="item.price">
+
+  <div class="row" ng-hide="ctrl.search">
+    <div class="col-md-5 list-group">
+      <input name="manualSearchName" ng-required="ctrl.newItem.price > 0" class="form-control" placeholder="name" ng-model="ctrl.newItem.name">
+    </div>
+
+    <div class="col-md-4 list-group">
+      <input name="manualSearchPrice" only-numbers ng-required="ctrl.newItem.name.length > 0" class="form-control" placeholder="price"ng-model="ctrl.newItem.price">
+    </div>
+
+    <div class="col-md-3">
+      <button ng-click="ctrl.addToList(ctrl.newItem)"class="btn btn-primary btn-block pull-right"> add </button>
+    </div>
   </div>
 
-  <div class="col-md-2">
-    <input class="form-control" ng-model="item.quantity">
+  <div style="color:red" class="row" ng-hide="ctrl.search">
+
+<div class="col-md-5 list-group">
+    <div  ng-messages="ctrl.listForm.manualSearchName.$error" ng-show="ctrl.listForm.manualSearchPrice.$touched">
+      <div ng-message="required"> name required</div>
+    </div>
   </div>
 
-  <div class="col-md-3">
-    <span class="uneditable-input form-control"> {{ item.price * item.quantity | currency }}</span>
+    <div class="col-md-4 list-group" ng-messages="ctrl.listForm.manualSearchPrice.$error">
+      <div ng-show="ctrl.listForm.manualSearchName.$touched">
+        <div ng-message="required">price required</div>
+      </div>
+      <div ng-show="ctrl.listForm.manualSearchPrice.$touched">
+        <div ng-message="onlyNumbers">must be a numeric value</div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="col-md-1">
-    <button ng-click="ctrl.remove(item, ctrl.list)"class="btn btn-danger btn-block pull-right"> remove </button>
+  <div class="row" ng-show="ctrl.list.length > 0">
+    <hr>
+    <div class="col-md-3">
+      <h5 class="heading">
+        Name
+      </h5>
+    </div>
+    <div class="col-md-3">
+      <h5 class="heading">
+        Unit Price
+      </h5>
+    </div>
+    <div class="col-md-2">
+      <h5 class="heading">
+        Quantity/Weight
+      </h5>
+    </div>
+    <div class="col-md-3">
+      <h5 class="heading">
+        Total Price
+      </h5>
+    </div>
+    <div class="col-md-1">
+      <h5 class="heading">
+
+      </h5>
+    </div>
   </div>
 
-</div>
+  <div class="row" ng-repeat="item in ctrl.list track by $index">
 
-<div class="row" ng-show="ctrl.listTotal()">
-  <div class="cold-md-12">
-    <h3 class="text-center">TOTAL: {{ ctrl.listTotal() | currency }}</h3>
+    <div class="col-md-3 list-group">
+      <input class="form-control" ng-model="item.name">
+    </div>
+
+    <div class="col-md-3 list-group">
+      <input class="form-control" ng-model="item.price">
+    </div>
+
+    <div class="col-md-2">
+      <input class="form-control" ng-model="item.quantity">
+    </div>
+
+    <div class="col-md-3">
+      <span class="uneditable-input form-control"> {{ item.price * item.quantity | currency }}</span>
+    </div>
+
+    <div class="col-md-1">
+      <button ng-click="ctrl.remove(item, ctrl.list)"class="btn btn-danger btn-block pull-right"> remove </button>
+    </div>
+
   </div>
-</div>
 
-<div class="row" ng-show="ctrl.listTotal()">
-  <button ng-click="ctrl.createList(ctrl.list)" class="col-md-12 btn btn-success btn-block">Save List</button>
-</div>
+  <div class="row" ng-show="ctrl.listTotal()">
+    <div class="cold-md-12">
+      <h3 class="text-center">TOTAL: {{ ctrl.listTotal() | currency }}</h3>
+    </div>
+  </div>
+
+  <div class="row" ng-show="ctrl.listTotal()">
+    <button ng-click="ctrl.createList(ctrl.list)" class="col-md-12 btn btn-success btn-block">Save List</button>
+  </div>
+
+</form>
