@@ -9,7 +9,13 @@ angular.module('listmaker', ['templates', 'ui.router'])
   })
   .state('home.newList', {
     url: "/newlist",
-    templateUrl: "app/templates/list.html"
+    controller: "ListController as ctrl",
+    templateUrl: "app/templates/list.html",
+    resolve: {
+      product_summaries: function (dataService) {
+        return dataService.getProductSummaries();
+      }
+    }
   })
   .state('home.allLists', {
     url: "/lists",

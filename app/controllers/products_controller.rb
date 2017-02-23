@@ -30,6 +30,10 @@ class ProductsController < ApplicationController
     @product.update(nickname: params[:product][:nickname])
   end
 
+  def product_summaries
+    render json: Product.filtered_products
+  end
+
   private
 
   def set_variables
