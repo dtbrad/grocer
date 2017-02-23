@@ -1,6 +1,6 @@
 class AngularController < ApplicationController
 
   def angular
-    binding.pry
+    render 'angular'
   end
 end
