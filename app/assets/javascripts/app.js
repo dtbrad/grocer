@@ -8,7 +8,7 @@ angular.module('listmaker', ['templates', 'ui.router'])
     templateUrl: "app/templates/home.html"
   })
   .state('home.newList', {
-    url: "listmaker/new",
+    url: "listmaker/lists/new",
     controller: "ListController as ctrl",
     templateUrl: "app/templates/list.html",
     resolve: {
@@ -17,12 +17,27 @@ angular.module('listmaker', ['templates', 'ui.router'])
       }
     }
   })
-  .state('home.allLists', {
-    url: "listmaker/all",
-    controller: 'ListsController as ctrl',
-    templateUrl: "app/templates/lists.html"
+  .state('home.showList', {
+    url: "listmaker/lists/:id",
+    controller: "ShowListController as ctrl",
+    templateUrl: "app/templates/showlist.html",
+    resolve: {
+      list: function($stateParams, dataService){
+        return dataService.getList($stateParams.id);
+      }
+    }
   })
-  $urlRouterProvider.otherwise("listmaker/all")
+  .state('home.allLists', {
+    url: "listmaker/lists",
+    controller: 'ListsController as ctrl',
+    templateUrl: "app/templates/lists.html",
+    resolve: {
+      lists: function (dataService) {
+        return dataService.getLists();
+      }
+    }
+  })
+  $urlRouterProvider.otherwise("listmaker/lists")
   $locationProvider.html5Mode({
   enabled:true,
   requireBase: false

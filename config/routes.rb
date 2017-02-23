@@ -22,10 +22,6 @@ Rails.application.routes.draw do
   get 'listmaker', to: 'angular#angular'
   get 'listmaker/*all', to: 'angular#angular'
 
-  # get 'listmaker/all', to: 'angular#angular'
-  #
-  # get 'listmaker/new', to: 'angular#angular'
-
   resources :sessions, only: [:create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
