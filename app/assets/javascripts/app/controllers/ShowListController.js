@@ -1,4 +1,5 @@
-function ShowListController(list) {
+
+ShowListController.$inject = ["list"];function ShowListController(list) {
   var ctrl = this;
   ctrl.list = list.data;
 }

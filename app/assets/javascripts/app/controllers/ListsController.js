@@ -1,4 +1,5 @@
-function ListsController($state, $stateParams, lists) {
+
+ListsController.$inject = ["$state", "$stateParams", "lists"];function ListsController($state, $stateParams, lists) {
   var ctrl = this
   ctrl.lists = lists.data
 

@@ -1,4 +1,5 @@
-function dataService($http) {
+
+dataService.$inject = ["$http"];function dataService($http) {
   var ctrl = this
 
   ctrl.getProductSummaries = function() {
