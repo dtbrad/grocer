@@ -1,4 +1,4 @@
-function ListController($state, product_summaries) {
+function ListController($state, product_summaries, dataService) {
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
   ctrl.search = ""
@@ -27,8 +27,12 @@ function ListController($state, product_summaries) {
   }
 
   ctrl.createList = function(){
-    console.log("list created")
-    $state.go('home.allLists');
+    ctrl.list.forEach(function(x){ x.quantity = parseFloat(x.quantity); x.price = parseFloat(x.price)})
+    var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
+    dataService.createList(list)
+    .then(function(result){
+      $state.go('home.allLists');
+    })
   }
 
 }
