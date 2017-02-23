@@ -4,6 +4,11 @@ function dataService($http) {
   ctrl.getProductSummaries = function() {
     return $http.get('/product_summaries')
   }
+
+  ctrl.createList = function(thing) {
+    return $http.post('/shopping_lists', { shopping_list: thing })
+  };
+
 }
 
 angular

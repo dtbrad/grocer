@@ -19,6 +19,7 @@ angular.module('listmaker', ['templates', 'ui.router'])
   })
   .state('home.allLists', {
     url: "listmaker/all",
+    controller: 'ListsController as ctrl',
     templateUrl: "app/templates/lists.html"
   })
   $urlRouterProvider.otherwise("listmaker/all")
