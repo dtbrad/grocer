@@ -64,6 +64,10 @@ class Product < ApplicationRecord
     line_items.order(price_cents: :desc).first.price
   end
 
+  def highest_price_cents
+    line_items.order(price_cents: :desc).first.price_cents
+  end
+
   def highest_price_by_user(user)
     line_items.where(basket: Basket.where(user: user))
               .order(:price_cents).last.price

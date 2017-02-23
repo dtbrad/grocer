@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get 'product_monthly_purchasing_chart', to: 'charts#product_monthly_purchasing'
   get 'product_weekly_purchasing_chart', to: 'charts#product_weekly_purchasing'
 
+  get 'product_summaries', to: 'products#product_summaries'
+
   get 'listmaker', to: 'angular#angular'
 
   resources :sessions, only: [:create, :destroy]
