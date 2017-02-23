@@ -1,15 +1,13 @@
-<form name="ctrl.listForm" novalidate>
+<form name="ctrl.listForm" ng-submit="ctrl.listForm.$valid && ctrl.createList" novalidate>
 
   <div class="row">
     <div class="col-md-12 list-group">
-
       <input  type="text"
           name="listTitle"
           class="form-control"
           placeholder="enter a list title"
           ng-model="ctrl.listTitle"
           required>
-
     </div>
   </div>
 
@@ -37,7 +35,7 @@
   </div>
 
 
-  <div class="row" ng-hide="ctrl.search">
+  <div class="row" ng-hide="(ctrl.search.length > 0 && (ctrl.product_summaries | filter:{ name: ctrl.search }).length > 0)">
     <div class="col-md-5 list-group">
       <input name="manualSearchName" ng-required="ctrl.newItem.price > 0" class="form-control" placeholder="name" ng-model="ctrl.newItem.name">
     </div>
@@ -53,18 +51,18 @@
 
   <div style="color:red" class="row" ng-hide="ctrl.search">
 
-<div class="col-md-5 list-group">
-    <div  ng-messages="ctrl.listForm.manualSearchName.$error" ng-show="ctrl.listForm.manualSearchPrice.$touched">
-      <div ng-message="required"> name required</div>
+    <div class="col-md-5 list-group">
+      <div  ng-messages="ctrl.listForm.manualSearchName.$error" ng-show="ctrl.listForm.manualSearchPrice.$touched">
+        <div ng-message="required"> Name required</div>
+      </div>
     </div>
-  </div>
 
     <div class="col-md-4 list-group" ng-messages="ctrl.listForm.manualSearchPrice.$error">
       <div ng-show="ctrl.listForm.manualSearchName.$touched">
-        <div ng-message="required">price required</div>
+        <div ng-message="required">Price required</div>
       </div>
       <div ng-show="ctrl.listForm.manualSearchPrice.$touched">
-        <div ng-message="onlyNumbers">must be a numeric value</div>
+        <div ng-message="onlyNumbers">Must be a numeric value</div>
       </div>
     </div>
 
@@ -99,28 +97,48 @@
     </div>
   </div>
 
-  <div class="row" ng-repeat="item in ctrl.list track by $index">
+  <div ng-repeat="item in ctrl.list track by $index">
+    <ng-form name="listItemForm">
 
-    <div class="col-md-3 list-group">
-      <input class="form-control" ng-model="item.name">
-    </div>
+      <div class="row">
+        <div class="col-md-3 list-group">
+          <input name="listItemName" class="form-control" ng-model="item.name" required>
+        </div>
+        <div class="col-md-3 list-group">
+          <input name="listItemPrice" class="form-control" ng-model="item.price" required only-numbers>
+        </div>
+        <div class="col-md-2">
+          <input name="listItemQuantity" class="form-control" ng-model="item.quantity" required only-numbers>
+        </div>
+        <div class="col-md-3">
+          <span class="uneditable-input form-control"> {{ item.price * item.quantity | currency }}</span>
+        </div>
+        <div class="col-md-1">
+          <button ng-click="ctrl.remove(item, ctrl.list)"class="btn btn-danger btn-block pull-right"> remove </button>
+        </div>
+      </div>
 
-    <div class="col-md-3 list-group">
-      <input class="form-control" ng-model="item.price">
-    </div>
+      <div class="row">
+        <div class="col-md-3 list-group" style="color:red">
+          <div ng-messages="listItemForm.listItemName.$error">
+            <div ng-message="required"> Name required </div>
+          </div>
+        </div>
+        <div class="col-md-3 list-group" style="color:red">
+          <div ng-messages="listItemForm.listItemPrice.$error">
+            <div ng-message="required"> Price required </div>
+            <div ng-message="onlyNumbers">Must be a numeric value</div>
+          </div>
+        </div>
+        <div class="col-md-2 list-group" style="color:red">
+          <div ng-messages="listItemForm.listItemQuantity.$error">
+            <div ng-message="required"> Quantity required </div>
+            <div ng-message="onlyNumbers">Must be a numeric value</div>
+          </div>
+        </div>
+      </div>
 
-    <div class="col-md-2">
-      <input class="form-control" ng-model="item.quantity">
-    </div>
-
-    <div class="col-md-3">
-      <span class="uneditable-input form-control"> {{ item.price * item.quantity | currency }}</span>
-    </div>
-
-    <div class="col-md-1">
-      <button ng-click="ctrl.remove(item, ctrl.list)"class="btn btn-danger btn-block pull-right"> remove </button>
-    </div>
-
+    </ng-form>
   </div>
 
   <div class="row" ng-show="ctrl.listTotal()">
@@ -129,7 +147,7 @@
     </div>
   </div>
 
-  <div class="row" ng-show="ctrl.listTotal()">
+  <div class="row">
     <button ng-click="ctrl.createList(ctrl.list)" class="col-md-12 btn btn-success btn-block">Save List</button>
   </div>
 
