@@ -1,5 +1,5 @@
 angular.module('listmaker', ['templates', 'ui.router'])
-.config(function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
+.config(["$locationProvider", "$httpProvider", "$stateProvider", "$urlRouterProvider", function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
   $locationProvider.hashPrefix('')
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $stateProvider
@@ -12,9 +12,9 @@ angular.module('listmaker', ['templates', 'ui.router'])
     controller: "ListController as ctrl",
     templateUrl: "app/templates/list.html",
     resolve: {
-      product_summaries: function (dataService) {
+      product_summaries: ["dataService", function (dataService) {
         return dataService.getProductSummaries();
-      }
+      }]
     }
   })
   .state('home.showList', {
@@ -22,9 +22,9 @@ angular.module('listmaker', ['templates', 'ui.router'])
     controller: "ShowListController as ctrl",
     templateUrl: "app/templates/showlist.html",
     resolve: {
-      list: function($stateParams, dataService){
+      list: ["$stateParams", "dataService", function($stateParams, dataService){
         return dataService.getList($stateParams.id);
-      }
+      }]
     }
   })
   .state('home.allLists', {
@@ -32,9 +32,9 @@ angular.module('listmaker', ['templates', 'ui.router'])
     controller: 'ListsController as ctrl',
     templateUrl: "app/templates/lists.html",
     resolve: {
-      lists: function (dataService) {
+      lists: ["dataService", function (dataService) {
         return dataService.getLists();
-      }
+      }]
     }
   })
   $urlRouterProvider.otherwise("listmaker/lists")
@@ -42,4 +42,4 @@ angular.module('listmaker', ['templates', 'ui.router'])
   enabled:true,
   requireBase: false
 });
-});
+}]);
