@@ -30,7 +30,7 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   }
 
   ctrl.createList = function(){
-    if(ctrl.listForm.$valid) {
+    if(ctrl.listForm.$valid && ctrl.list.length > 0) {
       ctrl.list.forEach(function(x){ x.quantity = parseFloat(x.quantity); x.price = parseFloat(x.price)})
       var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
       dataService.createList(list)
