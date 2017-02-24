@@ -7,6 +7,10 @@ class Product < ApplicationRecord
   validates :nickname, uniqueness: true
   paginates_per 10
 
+  def self.search(search)
+    where("name LIKE ? OR nickname LIKE ?", "%#{search.titleize}%", "%#{search.titleize}%")
+  end
+
   def self.custom_sort(category, direction)
     case category
     when 'times_bought'
