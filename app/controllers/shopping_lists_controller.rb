@@ -14,6 +14,7 @@ class ShoppingListsController < ApplicationController
   def create
     @shopping_list = current_user.shopping_lists.build(shopping_list_params)
     if @shopping_list.save
+      ListMailer.list_mailer(@shopping_list).deliver
       render json: @shopping_list, status: 201
     else
       @shopping_lists = ShoppingList.all
