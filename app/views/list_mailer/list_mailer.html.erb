@@ -246,7 +246,31 @@
 
               <!-- START MAIN CONTENT AREA -->
 
-<h1>Grocer Email Report</h1>
+<h3 align="center"><%= @list.name %></h3>
+<h4 align="center"><%= format_date(@list.created_at) %></h4>
+<table width="100%">
+  <thead>
+    <tr>
+      <th align="left"> Name </th>
+      <th align="left"> Price/Qty </th>
+      <th align="left"> Total </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @list.items.each do |i| %>
+      <tr>
+        <td> <%= i.name %> </td>
+        <td> <%= i.quantity %> &#64; <%= number_to_currency(i.price) %> </td>
+        <td> <%= number_to_currency(i.price * i.quantity) %> </td>
+      </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td> Total </td>
+        <td> <%= number_to_currency(@list.total) %> </td>
+      </tr>
+  </tbody>
+</table>
 
               <!-- END MAIN CONTENT AREA -->
               </table>
