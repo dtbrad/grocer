@@ -25,8 +25,11 @@ class BasketsController < ApplicationController
 
   def create
     BasketWorker.perform_async(current_user.id, params[:date])
-    # Scraper.process_emails(current_user, params[:date])
-    redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
+    if Scraper.process_emails(current_user, params[:date])
+      redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
+    else
+      redirect_to baskets_path, flash: { alert: 'You have no receipts in your inbox' }
+    end
   end
 
   def remove
