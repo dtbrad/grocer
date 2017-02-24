@@ -1,0 +1,7 @@
+<div class="form-inline">
+  <%= form_tag(products_path, method: "get", id: "search-form", remote: true) do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Products", autocomplete: 'off', class: "form-control" %>
+    <%= submit_tag "Search", name: nil, class: "btn btn-primary" %>
+    <%= link_to "clear", products_path, class: "btn btn-danger", remote: true %>
+  <% end %>
+</div>

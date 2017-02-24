@@ -4,15 +4,20 @@ class ProductsController < ApplicationController
 
   def index
     if current_user
-      @products = current_user.products.filtered_products
-      .custom_sort(sort_column, sort_direction).page params[:page]
+      if params[:search]
+        @products = current_user.products.filtered_products.search(params[:search])
+          .custom_sort(sort_column, sort_direction).page params[:page]
+      else
+        @products = current_user.products.filtered_products
+          .custom_sort(sort_column, sort_direction).page params[:page]
+      end
       respond_to do |format|
         format.js
         format.html
       end
     end
   end
-
+  
   def show
     if !@user.products.include?(@product)
       redirect_to products_path,
