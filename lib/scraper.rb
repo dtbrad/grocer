@@ -1,17 +1,20 @@
 class Scraper
   def self.process_emails(user, date)
     emails = grab_emails(user, date)
-    emails.each do |email|
-      next if Basket.find_by(user: user, date: email.date)
-      basket = user.baskets.build(date: DateTime.parse(email.date))
-      rows = get_the_right_rows(email)
-      rows.length.times do |i|
-        info = get_data(rows, i)
-        build_products_and_line_items(basket, info, user)
+    if emails.length > 0
+      emails.each do |email|
+        next if Basket.find_by(user: user, date: email.date)
+        basket = user.baskets.build(date: DateTime.parse(email.date))
+        rows = get_the_right_rows(email)
+        rows.length.times do |i|
+          info = get_data(rows, i)
+          build_products_and_line_items(basket, info, user)
+        end
+        basket.save
+        basket.total_cents = basket.line_items.total_spent
+        basket.save
       end
-      basket.save
-      basket.total_cents = basket.line_items.total_spent
-      basket.save
+    else
     end
   end
 
