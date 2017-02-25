@@ -14,8 +14,10 @@
  *= require_self
  *= require bootstrap-sass
  *= require toastr
+*= require bootstrap-datepicker
 
  */
+
 
  .fake-link {
     color: #337ab7;
