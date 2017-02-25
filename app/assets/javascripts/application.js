@@ -20,9 +20,15 @@
 //= require angular-rails-templates
 //= require angular-ui-router
 //= require angular-messages
+//= require bootstrap-datepicker
 //= require_tree
 
 $(document).ready(function() {
+
+	$('.datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    endDate: '-0d'
+});
 
 	 toastr.options = {
 	                  "closeButton": false,
