@@ -17,19 +17,7 @@
     </div>
   </div>
 
-<% elsif current_user && @baskets.empty?%>
-  <p> You currently have no purchase history loaded. You can do that <%= link_to "here", new_basket_path %></p>
+  <% elsif current_user && @baskets.empty?%>
+  <h5> You currently have no purchase history in the database. If you just imported your receipts, try refreshing the page.</h5>
 
-<% else %>
-<h4 class="text-center"> Welcome To Grocer! </h4>
-<div>
-    <div class="panel-heading">
-
-<p>
-   This app is designed for gmail users who shop at New Seasons Market and receive (and retain) email receipts from that store. It will search through your receipt emails and give you a comprehensive view of your past shopping history. Want to know how many times you purchased a particular product? If its price has changed over time? What you spend the most on? It's all there, in easy to search tables and helpful charts.
-
-   In its current state, this app only works for gmail users with New Seasons receipts in their inbox, but even if you don't fit in that category, you can still access my sample user account, which has tons of real product data from their North Portland store.
-</p>
-</div>
-</div>
 <% end %>

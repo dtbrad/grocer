@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :products
 
   root 'baskets#index'
+  get 'welcome', to: 'application#welcome'
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
