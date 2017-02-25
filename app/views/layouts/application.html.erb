@@ -19,7 +19,7 @@
     				<span class="icon-bar"></span>
     				<span class="icon-bar"></span>
     			</button>
-    			<a class="navbar-brand" href="#">Grocer</a>
+    			<%= link_to "Grocer", welcome_path, class: "navbar-brand" %>
     		</div>
         <div class="collapse navbar-collapse" ng-class="{collapse: isCollapsed}" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
@@ -52,7 +52,7 @@
 	    <% end %>
 
       <%= yield %>
-      <div class="text-center"><%= render 'auth' %></div>
+      <div class="align-center"><%= render 'auth' %></div>
     </div>
   </body>
 </html>
