@@ -39,6 +39,8 @@ gem 'angular-rails-templates'
 gem 'active_model_serializers'
 gem 'sprockets', '~> 3.7', '>= 3.7.1'
 gem 'premailer-rails'
+gem 'devise'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
