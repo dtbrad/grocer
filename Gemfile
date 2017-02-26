@@ -40,6 +40,7 @@ gem 'active_model_serializers'
 gem 'sprockets', '~> 3.7', '>= 3.7.1'
 gem 'premailer-rails'
 gem 'devise'
+gem 'devise-bootstrap-views'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
