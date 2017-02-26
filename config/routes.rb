@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   resources :shopping_lists
   resources :baskets
   resources :products
@@ -7,9 +7,6 @@ Rails.application.routes.draw do
   root 'baskets#index'
   get 'welcome', to: 'application#welcome'
 
-  get 'auth/:provider/callback', to: 'sessions#create'
-  get 'auth/failure', to: redirect('/')
-  get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'remove', to: 'baskets#remove', as: 'remove'
 
   get 'monthly_spending_chart', to: 'charts#monthly_spending'
@@ -23,7 +20,5 @@ Rails.application.routes.draw do
 
   get 'listmaker', to: 'angular#angular'
   get 'listmaker/*all', to: 'angular#angular'
-
-  resources :sessions, only: [:create, :destroy]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
