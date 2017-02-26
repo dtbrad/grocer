@@ -1,5 +1,6 @@
 class BasketsController < ApplicationController
   helper_method :sort_column, :sort_direction
+  before_action :authenticate_user!
 
   def index
     if current_user
@@ -23,14 +24,22 @@ class BasketsController < ApplicationController
     end
   end
 
+  # def attach_google
+  #
+  # end
   def create
-    if Scraper.grab_emails(current_user, params[:date]).length > 0
-      BasketWorker.perform_async(current_user.id, params[:date])
-    #  Scraper.process_emails(current_user, params[:date])
+    # binding.pry
+    if !current_user.oauth_token
+      redirect_to baskets_path, flash: { alert: 'You need to log in via oauth' }
+    else
+    # if Scraper.grab_emails(current_user, params[:date]).length > 0
+      # BasketWorker.perform_async(current_user.id, params[:date])
+     if Scraper.process_emails(current_user, params[:date])
       redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
     else
       redirect_to baskets_path, flash: { alert: 'You have no receipts in your inbox' }
     end
+  end
   end
 
   def remove

@@ -28,7 +28,7 @@
               <li><%= link_to "Products", products_path %></li>
               <li><%= link_to "Shopping lists", listmaker_path %></li>
               <li><a>Signed in as: <%= current_user.name %></a></li>
-              <li><%= link_to "Sign out", signout_path, id: "sign_out" %></li>
+              <li><%= link_to "Sign out", destroy_user_session_path, method: "delete"  %></li>
               <% if current_user.name != 'Sample User' %>
                 <li><%= link_to "Import your purchase history", new_basket_path %></li>
                 <% if !current_user.baskets.empty?%>
@@ -52,7 +52,7 @@
 	    <% end %>
 
       <%= yield %>
-      <div class="align-center"><%= render 'auth' %></div>
+    
     </div>
   </body>
 </html>
