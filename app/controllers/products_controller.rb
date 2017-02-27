@@ -4,7 +4,6 @@ class ProductsController < ApplicationController
   before_filter :auth_user
 
   def index
-    if current_user
       if params[:search]
         @products = current_user.products.filtered_products.search(params[:search])
           .custom_sort(sort_column, sort_direction).page params[:page]
@@ -12,11 +11,6 @@ class ProductsController < ApplicationController
         @products = current_user.products.filtered_products
           .custom_sort(sort_column, sort_direction).page params[:page]
       end
-      respond_to do |format|
-        format.js
-        format.html
-      end
-    end
   end
 
   def show
@@ -24,16 +18,14 @@ class ProductsController < ApplicationController
       redirect_to products_path,
       flash: { alert: 'You can only view products you have purchased' }
     end
-    respond_to do |format|
-      format.js
-      format.html
-    end
   end
 
   def create; end
 
   def update
-    @product.update(nickname: params[:product][:nickname])
+    if current_user.admin?
+      @product.update(nickname: params[:product][:nickname])
+    end
   end
 
   def product_summaries
