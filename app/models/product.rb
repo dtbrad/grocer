@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
+  validates :nickname, length: { maximum: 20 }
   paginates_per 10
 
   def self.search(search)
@@ -69,7 +70,7 @@ class Product < ApplicationRecord
   end
 
   def highest_price_cents
-    
+
     line_items.order(price_cents: :desc).first.price_cents
   end
 
