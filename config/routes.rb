@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       root :to => 'devise/registrations#new', as: :unauthenticated_root
     end
   end
-  resources :shopping_lists
+  resources :shopping_lists, only: [:index, :show, :create]
   resources :baskets
   resources :products
 

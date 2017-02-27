@@ -35,8 +35,12 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
       var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
       dataService.createList(list)
       .then(function(result){
-        $state.go('home.showList', {id: result.data.id});
-      })
+        $state.go('home.showList', {id: result.data.id})
+        if(result.data.user.email === "sampleuser@mail.com")
+        { alert('Your list has been save to the sample user account. If you do this with a live account it will also be emailed to you.' )}
+        else
+        { alert('Your list has been saved and emailed to ' + result.data.user.email) };
+      });
     }
   }
 

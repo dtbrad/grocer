@@ -37,7 +37,7 @@ angular.module('listmaker', ['templates', 'ui.router', 'ngMessages'])
       }]
     }
   })
-  $urlRouterProvider.otherwise("listmaker/lists")
+  $urlRouterProvider.otherwise("listmaker/lists/new")
   $locationProvider.html5Mode({
   enabled:true,
   requireBase: false
