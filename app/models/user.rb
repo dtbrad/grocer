@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  enum role: [:user, :admin]
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2]
@@ -7,6 +8,12 @@ class User < ApplicationRecord
   has_many :line_items, through: :baskets
   has_many :products,through: :line_items
   validates :name, presence: true
+
+  after_initialize :set_default_role, if: :new_record?
+
+  def set_default_role
+    self.role ||= :user
+  end
 
   def self.from_omniauth(auth)
     data = auth.info

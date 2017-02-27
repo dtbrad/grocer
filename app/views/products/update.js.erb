@@ -1,10 +1,18 @@
-$('#error_explanation').html("");
+if (("<%=escape_javascript(current_user.role)%>") === 'admin')
+{
+  $('#error_explanation').html("");
 
-<% if @product.valid? %>
-  $("#chart").html("<%= escape_javascript(product_monthly_purchasing ) %>");
-  $("#nickname").html("<%= escape_javascript(@product.nickname ) %> ");
-<% else %>
-  <% @product.errors.full_messages.each do |message| %>
-    $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
+  <% if @product.valid? %>
+    $("#chart").html("<%= escape_javascript(product_monthly_purchasing ) %>");
+    $("#nickname").html("<%= escape_javascript(@product.nickname ) %> ");
+  <% else %>
+    <% @product.errors.full_messages.each do |message| %>
+      $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
+    <% end %>
   <% end %>
-<% end %>
+
+}
+
+else {
+  alert("Your suggested nickname has been sent to the admin for approval")
+}
