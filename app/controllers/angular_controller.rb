@@ -1,11 +1,8 @@
 class AngularController < ApplicationController
+before_filter :auth_user
 
   def angular
-    if current_user
-      render 'angular'
-    else
-      redirect_to root_path
-    end
+    render 'angular'
   end
 
 end

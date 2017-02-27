@@ -1,6 +1,5 @@
 class BasketsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  # before_action :authenticate_user!
   before_filter :auth_user
 
   def index
