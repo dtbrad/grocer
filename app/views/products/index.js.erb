@@ -1,1 +1,3 @@
 $("#products_table").html("<%= escape_javascript(render partial: 'products', locals: { products: @products }  ) %>");
+
+$("#product_panel_heading").html("<%= escape_javascript(render partial: 'search') %>")
