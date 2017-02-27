@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :shopping_lists
   has_many :line_items, through: :baskets
   has_many :products,through: :line_items
+  has_many :nick_name_requests
   validates :name, presence: true
 
   after_initialize :set_default_role, if: :new_record?

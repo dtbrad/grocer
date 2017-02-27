@@ -25,6 +25,8 @@ class ProductsController < ApplicationController
   def update
     if current_user.admin?
       @product.update(nickname: params[:product][:nickname])
+    else
+      @product.nick_name_requests.create(user: current_user, suggestion: params[:product][:nickname])
     end
   end
 

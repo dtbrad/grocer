@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :baskets, through: :line_items
   has_many :users, through: :baskets
+  has_many :nick_name_requests
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
