@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_variables, only: [:show, :update]
+  before_filter :auth_user
 
   def index
     if current_user
@@ -17,7 +18,7 @@ class ProductsController < ApplicationController
       end
     end
   end
-  
+
   def show
     if !@user.products.include?(@product)
       redirect_to products_path,

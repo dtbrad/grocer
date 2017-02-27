@@ -24,18 +24,22 @@
         <div class="collapse navbar-collapse" ng-class="{collapse: isCollapsed}" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <% if current_user %>
-              <li><%= link_to "Purchase history", baskets_path %></li>
-              <li><%= link_to "Products", products_path %></li>
-              <li><%= link_to "Shopping lists", listmaker_path %></li>
               <li><a>Signed in as: <%= current_user.name %></a></li>
               <li><%= link_to "Sign out", destroy_user_session_path, method: "delete"  %></li>
-              <% if current_user.name != 'Sample User' %>
-                <li><%= link_to "Import your purchase history", new_basket_path %></li>
+              <% if current_user.baskets.length > 0 %>
+                <li><%= link_to "Purchase history", baskets_path %></li>
+                <li><%= link_to "Products", products_path %></li>
+              <% end %>
+              <li><%= link_to "Shopping lists", listmaker_path %></li>
+              <li><%= link_to "Import your purchase history", new_basket_path %></li>
                 <% if !current_user.baskets.empty?%>
                   <li><%= link_to "Delete your entire purchase history", remove_path, data: { confirm: "Are you sure?"} %></li>
-                <% end %>
               <% end %>
+              <% else %>
+                <li><%= link_to "Sign in", new_user_session_path %></li>
+                <li><%= link_to "Sign up", new_user_registration_path %></li>
             <% end %>
+
           </ul>
         </div>
       </div>
@@ -52,7 +56,7 @@
 	    <% end %>
 
       <%= yield %>
-    
+
     </div>
   </body>
 </html>

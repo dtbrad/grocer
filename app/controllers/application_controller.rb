@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :initialize_omniauth_state
 
-
   def welcome
     render '_welcome'
   end
@@ -16,5 +15,9 @@ class ApplicationController < ActionController::Base
 
   def initialize_omniauth_state
     session['omniauth.state'] = response.headers['X-CSRF-Token'] = form_authenticity_token
+  end
+
+  def auth_user
+    redirect_to new_user_registration_url unless user_signed_in?
   end
 end

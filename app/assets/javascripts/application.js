@@ -24,11 +24,20 @@
 //= require_tree
 
 $(document).ready(function() {
+	matchHeight();
+	$("#textfield_id").attr('readOnly', 'true')
+		$('.datepicker').datepicker({
+    	format: 'yyyy-mm-dd',
+    	endDate: '-0d'
+	});
 
-	$('.datepicker').datepicker({
-    format: 'yyyy-mm-dd',
-    endDate: '-0d'
-});
+	function matchHeight(){
+  var heights = $('.even').map(function() {
+    return $(this).height();
+    }).get(),
+    maxHeight = Math.max.apply(null, heights);
+   $('.even').height(maxHeight);
+}
 
 	 toastr.options = {
 	                  "closeButton": false,

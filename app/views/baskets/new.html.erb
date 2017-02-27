@@ -4,7 +4,7 @@
 
 <div class = "well">
   <%= form_tag("/baskets", method: "post", class: "form-inline") do %>
-    <%= text_field_tag(:date, "", required: true, class: "form-control datepicker") %>
+    <%= text_field_tag(:date, "", id: "textfield_id", style: "background-color: white", required: true, class: "form-control datepicker") %>
     <%= submit_tag("Submit", class: "btn btn-primary") %>
   <% end %>
 </div>

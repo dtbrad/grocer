@@ -1,6 +1,7 @@
 class BasketsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+  before_filter :auth_user
 
   def index
     if current_user
@@ -14,7 +15,9 @@ class BasketsController < ApplicationController
   end
 
   def new
-    redirect_to baskets_path unless current_user.id != 100
+    if !current_user.oauth_token
+      redirect_to baskets_path, flash: { alert: 'To import your emails, log out and then sign in again through gmail.' }
+    end
   end
 
   def show
@@ -24,20 +27,16 @@ class BasketsController < ApplicationController
     end
   end
 
-  # def attach_google
-  #
-  # end
   def create
-    # binding.pry
-    if !current_user.oauth_token
-      redirect_to baskets_path, flash: { alert: 'You need to log in via oauth' }
+    if !current_user.oauth_token || (Time.now.utc >= current_user.oauth_expires_at)
+      redirect_to new_user_session_path, flash: { alert: 'You must sign into this app through gmail.' }
     else
     # if Scraper.grab_emails(current_user, params[:date]).length > 0
       # BasketWorker.perform_async(current_user.id, params[:date])
      if Scraper.process_emails(current_user, params[:date])
-      redirect_to baskets_path, flash: { notice: 'Purchase History Loaded' }
+      redirect_to baskets_path, flash: { notice: 'Purchase History Loaded. Your numbers are now updating in the background.' }
     else
-      redirect_to baskets_path, flash: { alert: 'You have no receipts in your inbox' }
+      redirect_to baskets_path, flash: { alert: 'You have no receipts in your inbox for the date-range you provided' }
     end
   end
   end
