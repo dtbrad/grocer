@@ -8,19 +8,30 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h5> You've purchased <span id="nickname"><%= @product.nickname %></span> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
-    <% if @product.highest_price == @product.lowest_price %>
-      Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
-      </h5>
-    <% else %>
-      In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
-    <% end %>
+    <div class="row">
+      <h4 class="panel-title pull-left" style="padding-left: 15px;padding-top: 15px">
+        You've purchased <span id="nickname"><%= @product.nickname %></span> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+        <% if @product.highest_price == @product.lowest_price %>
+          Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
+        <% else %>
+          In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
+        <% end %>
+      </h4>
+      <div class="panel-title pull-right form-inline" style="padding-top: 7px; padding-right: 20px">
+        <%= render 'products/form', product: @product  %>
+      </div>
+    </row>
+    </div>
+    <div class="col-md-6 list-group">
+      <div class="form-group">
+
+      </div>
+    </div>
   </div>
+
   <div class="panel-body">
-    <div id="line_items_table" class="panel-body">
+    <div class="panel-body">
       <%= render partial: 'line_items', locals: { line_items: @line_items } %>
     </div>
   </div>
 </div>
-
-<%= render 'products/form', product: @product  %>
