@@ -33,10 +33,6 @@ class Product < ApplicationRecord
       .order("line_items_sum #{direction}")
   end
 
-  def self.most_popular_product
-    joins(:line_items).group('products.id').order('SUM(quantity)').last
-  end
-
   def self.sort_highest_price(direction)
     select('products.*', 'MAX(line_items.price_cents) as max_price')
       .group('products.id')
@@ -61,68 +57,6 @@ class Product < ApplicationRecord
       .order("nickname #{direction}")
   end
 
-  def times_bought(user)
-    user.line_items.where(product: self).sum(:quantity)
-  end
-
-  def highest_price
-    line_items.order(price_cents: :desc).first.price
-  end
-
-  def highest_price_cents
-
-    line_items.order(price_cents: :desc).first.price_cents
-  end
-
-  def highest_price_by_user(user)
-    line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).last.price
-  end
-
-  def lowest_price
-    line_items.order(:price_cents).first.price
-  end
-
-  def lowest_price_by_user(user)
-    line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).first.price
-  end
-
-  def self.most_expensive_product
-    LineItem.order(:price_cents).last.product
-  end
-
-  def self.most_expensive_product_by_user(user)
-    LineItem.where(basket: Basket.where(user: user))
-            .order(price_cents: :desc).first.product
-  end
-
-  def self.least_expensive_product
-    LineItem.order(:price_cents).first.product
-  end
-
-  def self.least_expensive_product_by_user(user)
-    LineItem.where(basket: Basket.where(user: user))
-            .order(:price_cents).first.product
-  end
-
-  def self.most_popular_product
-    joins(:line_items).group('products.id').order('SUM(quantity)').last
-  end
-
-  def self.stable_price
-    x = all.select { |p| p.line_items.collect { |l| l.price }.uniq.count > 1 }
-    x.each { |p| puts p.name }
-  end
-
-  def most_recently_purchased(user)
-    baskets.where(user: user).order(:date).last.date
-  end
-
-  def this_users_line_items(user)
-    line_items.where(basket: Basket.where(user: user))
-  end
-
   def self.filtered_products
     Product.where.not(name: ['Beer Bottle Dep', 'Beer Deposit 30 C',
                              'Beer Deposit 60 C', '$5 Off $30 Offer',
@@ -143,4 +77,67 @@ class Product < ApplicationRecord
     .order("sum(line_items.quantity) desc").limit(10)
     .pluck("products.nickname, sum(line_items.quantity)")
   end
+
+  def highest_price
+    line_items.order(price_cents: :desc).first.price
+  end
+
+  def highest_price_by_user(user)
+    line_items.where(basket: Basket.where(user: user))
+              .order(:price_cents).last.price
+  end
+
+  def highest_price_cents
+    line_items.order(price_cents: :desc).first.price_cents
+  end
+
+  def lowest_price
+    line_items.order(:price_cents).first.price
+  end
+
+  def lowest_price_by_user(user)
+    line_items.where(basket: Basket.where(user: user))
+              .order(:price_cents).first.price
+  end
+
+  def most_recently_purchased(user)
+    baskets.where(user: user).order(:date).last.date
+  end
+
+  def this_users_line_items(user)
+    line_items.where(basket: Basket.where(user: user))
+  end
+
+  def times_bought(user)
+    user.line_items.where(product: self).sum(:quantity)
+  end
 end
+
+#_____Unused methods____________________________________________________________
+
+# def self.most_expensive_product
+#   LineItem.order(:price_cents).last.product
+# end
+
+# def self.most_expensive_product_by_user(user)
+#   LineItem.where(basket: Basket.where(user: user))
+#           .order(price_cents: :desc).first.product
+# end
+
+# def self.least_expensive_product
+#   LineItem.order(:price_cents).first.product
+# end
+
+# def self.least_expensive_product_by_user(user)
+#   LineItem.where(basket: Basket.where(user: user))
+#           .order(:price_cents).first.product
+# end
+
+# def self.most_popular_product
+#   joins(:line_items).group('products.id').order('SUM(quantity)').last
+# end
+
+# def self.stable_price
+#   x = all.select { |p| p.line_items.collect { |l| l.price }.uniq.count > 1 }
+#   x.each { |p| puts p.name }
+# end
