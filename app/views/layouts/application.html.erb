@@ -34,6 +34,7 @@
             <li><a href="/listmaker/lists">See previous lists</a></li>
           </ul>
         </li>
+        <li><%= link_to "Import your purchase history", new_basket_path %></li>
               <% end %>
               <% if current_user && current_user.baskets.length > 0 %>
                 <li><%= link_to "Purchase history", baskets_path %></li>
