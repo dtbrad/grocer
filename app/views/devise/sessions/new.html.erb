@@ -1,4 +1,4 @@
-<h4 class="alert alert-success">You can manually sign in with any registered account email, but can import purchase information only if you log in through your gmail account (the top option).</h4>
+<h4 class="alert alert-success">You can sign in with your email and password here, but can import purchase information only if you log in through your gmail account (the top option).</h4>
 <div class="panel panel-default devise-bs">
   <div class="panel-heading">
     <h4>Sign in through Your Gmail Account</h4>
@@ -37,18 +37,14 @@
 
 <div class="panel panel-default devise-bs">
   <div class="panel-heading">
-    <h4>Or try out a sample account first</h4>
+    <h4>Or try out a sample account with a preloaded purchase history</h4>
   </div>
   <div class="panel-body">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
-      <div class="form-group">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: 'form-control', value: 'sampleuser@mail.com' %>
-      </div>
-      <div class="form-group">
-        <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: 'off', class: 'form-control', value: 'password' %>
-      </div>
+
+        <%= f.hidden_field :email, autofocus: true, class: 'form-control', value: 'sampleuser@mail.com'%>
+        <%= f.hidden_field :password, autocomplete: 'off', class: 'form-control', value: 'password'%>
+
       <%= f.submit  t('.sign_in', default: 'Sign in'), class: 'btn btn-warning btn-block' %>
     <% end %>
   </div>
