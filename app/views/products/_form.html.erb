@@ -1,13 +1,7 @@
   <div id="error_explanation"></div>
 
 
-<%= form_for(product, remote: true) do |f| %>
-  <div class="well">
-    <form>
-      <div class="form-group">
-        <p><%= f.label "rename" %> <%=f.text_field :nickname, class: "form-control" %></p>
-      </div>
-      <%= f.submit :class => 'btn btn-primary' %>
-  </div>
-    </form>
+<%= form_for(product, remote: true, class: "form-inline") do |f| %>
+  <%=f.text_field :nickname, class: "form-control" %>
+  <%= f.submit :class => 'btn btn-primary', value: 'rename' %>
 <% end %>
