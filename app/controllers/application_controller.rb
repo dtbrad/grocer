@@ -18,10 +18,6 @@ class ApplicationController < ActionController::Base
     session['omniauth.state'] = response.headers['X-CSRF-Token'] = form_authenticity_token
   end
 
-  def auth_user
-    redirect_to new_user_registration_url unless user_signed_in?
-  end
-
   def set_vary_header
     if request.xhr?
       response.headers["Vary"] = "accept"

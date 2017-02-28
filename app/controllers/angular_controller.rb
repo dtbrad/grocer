@@ -1,5 +1,5 @@
 class AngularController < ApplicationController
-before_filter :auth_user
+before_action :authenticate_user!
 
   def angular
     render 'angular'

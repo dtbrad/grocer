@@ -1,0 +1,8 @@
+var token = ("<%=escape_javascript(@expire)%>")
+
+if (token === 'true')
+
+{ window.location.href = "<%= new_basket_path() %>" }
+
+else
+{ Command: toastr["error"]("To import your emails, log out and then sign in again through gmail."); }

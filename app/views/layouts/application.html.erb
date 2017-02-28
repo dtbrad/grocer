@@ -34,7 +34,7 @@
             <li><a href="/listmaker/lists">See previous lists</a></li>
           </ul>
         </li>
-        <li><%= link_to "Import your purchase history", new_basket_path %></li>
+        <li><%= link_to "Import your purchase history", new_basket_path, remote: true %></li>
               <% end %>
               <% if current_user && current_user.baskets.length > 0 %>
                 <li><%= link_to "Purchase history", baskets_path %></li>
@@ -42,6 +42,9 @@
               <% end %>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <% if current_user && current_user.admin? %>
+                <li><%= link_to "Admin Page", nick_name_requests_path %></li>
+              <% end %>
               <% if current_user %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Signed in as: <%= current_user.name %><span class="caret"></span></a>
@@ -59,12 +62,12 @@
       </nav>
 
       <% unless flash.empty? %>
-	      <script type="text/javascript">
-	         <% flash.each do |f| %>
-	           <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
-	     	   toastr['<%= type %>']('<%= f[1] %>');
-	          <% end %>
-	     </script>
+      <script type="text/javascript">
+          <% flash.each do |f| %>
+              <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+              toastr['<%= type %>']('<%= f[1] %>', '', {"closeButton": true, "debug": false, "positionClass": "toast-top-center", "onclick": null, "showDuration": "300", "hideDuration": "1000", "timeOut": "8000", "extendedTimeOut": "1000", "showEasing": "swing", "hideEasing": "linear", "showMethod": "fadeIn", "hideMethod": "fadeOut" });
+          <% end %>
+      </script>
 	    <% end %>
 
       <%= yield %>

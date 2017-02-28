@@ -1,22 +1,16 @@
 class BasketsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_filter :auth_user
+  before_action :authenticate_user!
 
   def index
     if current_user
       @baskets = current_user.baskets.custom_sort(sort_column, sort_direction)
       .page params[:page]
-      respond_to do |format|
-        format.js
-        format.html
-      end
     end
   end
 
   def new
-    if !current_user.oauth_token
-      redirect_to baskets_path, flash: { alert: 'To import your emails, log out and then sign in again through gmail.' }
-    end
+    @expire = (!!(current_user.oauth_token && current_user.oauth_expires_at > Time.now)).to_s
   end
 
   def show
@@ -28,7 +22,7 @@ class BasketsController < ApplicationController
 
   def create
     if !current_user.oauth_token || (Time.now.utc >= current_user.oauth_expires_at)
-      redirect_to new_user_session_path, flash: { alert: 'You must sign into this app through gmail.' }
+      redirect_to new_user_session_path, flash: { alert: 'Looks like you will need to log out and then sign in again through gmail..' }
     else
     if Scraper.grab_emails(current_user, params[:date]).length > 0
       BasketWorker.perform_async(current_user.id, params[:date])

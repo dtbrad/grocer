@@ -40,11 +40,11 @@ $(document).ready(function() {
 }
 
 	 toastr.options = {
-	                  "closeButton": false,
+	                  "closeButton": true,
 	                  "debug": false,
-	                  "positionClass": "toast-top-right",
+	                  "positionClass": "toast-top-center",
 	                  "onclick": null,
-	                  "showDuration": "300",
+	                  "showDuration": "1000",
 	                  "hideDuration": "1000",
 	                  "timeOut": "5000",
 	                  "extendedTimeOut": "1000",

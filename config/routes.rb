@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :shopping_lists, only: [:index, :show, :create]
   resources :baskets
   resources :products
+  resources :nick_name_requests
 
   get 'welcome', to: 'application#welcome'
   get 'remove', to: 'baskets#remove', as: 'remove'
