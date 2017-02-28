@@ -1,0 +1,31 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>From User</th>
+      <th>Product Name</th>
+      <th>Current Nickname</th>
+      <th>Suggested Nickname</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="nick_name_table">
+    <% nick_name_requests.each do |n| %>
+      <td> <%= n.user.name %> </td>
+      <td> <%= n.product.name %> </td>
+      <td> <%= n.product.has_nickname? %> </td>
+      <td> <%= n.suggestion %> </td>
+        <%= form_for(n) do |f| %>
+      <td>
+        <%= f.select(:status, NickNameRequest.statuses.keys.map {|status| [status.titleize,status]}, {}, :class => "form-control") %>
+        <%= f.fields_for n.product do |p| %>
+          <%= p.hidden_field :nickname, value: n.suggestion %>
+        <% end %>
+      </td>
+      <td>
+        <%= f.submit 'Submit', :class => 'btn btn-primary' %>
+      </td>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

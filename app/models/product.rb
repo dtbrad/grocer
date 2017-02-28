@@ -79,6 +79,18 @@ class Product < ApplicationRecord
     .pluck("products.nickname, sum(line_items.quantity)")
   end
 
+  def self.process_nick_name_request(user, product, params)
+    if user.admin?
+      product.update(nickname: params[:product][:nickname])
+    else
+      product.nick_name_requests.create(user: user, suggestion: params[:product][:nickname])
+    end
+  end
+
+  def has_nickname?
+    nickname != name ? "#{nickname}" : "None"
+  end
+
   def highest_price
     line_items.order(price_cents: :desc).first.price
   end

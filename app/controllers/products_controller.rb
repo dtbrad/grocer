@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_variables, only: [:show, :update]
-  before_filter :auth_user
+  before_action :authenticate_user!
 
   def index
       if params[:search]
@@ -23,11 +23,7 @@ class ProductsController < ApplicationController
   def create; end
 
   def update
-    if current_user.admin?
-      @product.update(nickname: params[:product][:nickname])
-    else
-      @product.nick_name_requests.create(user: current_user, suggestion: params[:product][:nickname])
-    end
+    Product.process_nick_name_request(@user, @product, params)
   end
 
   def product_summaries

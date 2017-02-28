@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="text-center">Admin Panel</h4>
+  </div>
+  <% if @nick_name_requests.length > 0 %>
+    <%= render partial: 'nick_name_requests', locals: { nick_name_requests: @nick_name_requests } %>
+  <% else %>
+    <h4 class="text-center">No unreviewed nickname requests</h4>
+  <% end %>
+</div>
