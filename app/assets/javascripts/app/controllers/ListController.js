@@ -2,7 +2,6 @@
 ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataService"];function ListController($state, $stateParams, product_summaries, dataService) {
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
-  ctrl.search = ""
   ctrl.list = [];
   ctrl.newItem = {};
 

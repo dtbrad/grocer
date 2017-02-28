@@ -28,12 +28,12 @@
       <div ng-show="ctrl.search">
         <div class="text-center">
           <div class="list-group list-group-horizontal">
-            <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter:{ name: ctrl.search }" href="#" class="list-group-item">{{item.name}}</a>
+            <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter: ctrl.search" href="#" class="list-group-item">{{item.nickname}}</a>
           </div>
         </div>
       </div>
 
-      <div ng-hide="(ctrl.search.length > 0 && (ctrl.product_summaries | filter:{ name: ctrl.search }).length > 0)">
+      <div ng-hide="(ctrl.search.length > 0 && (ctrl.product_summaries | filter: ctrl.search).length > 0)">
         <div class="col-md-5 list-group">
           <input name="manualSearchName" ng-required="ctrl.newItem.price > 0" class="form-control" placeholder="name" ng-model="ctrl.newItem.name">
         </div>
