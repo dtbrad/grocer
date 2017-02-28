@@ -3,7 +3,9 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
   ctrl.list = [];
+  ctrl.search = "";
   ctrl.newItem = {};
+
 
   ctrl.addToList = function(item){
     if((ctrl.listForm.manualSearchName.$valid && ctrl.listForm.manualSearchPrice.$valid) || item.$$hashKey ) {
@@ -36,9 +38,9 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
       .then(function(result){
         $state.go('home.showList', {id: result.data.id})
         if(result.data.user.email === "sampleuser@mail.com")
-        { alert('Your list has been save to the sample user account. If you do this with a live account it will also be emailed to you.' )}
+        { Command: toastr["info"]('Your list has been saved to the sample user account. If you do this with a live account it will also be emailed to you.'); }
         else
-        { alert('Your list has been saved and emailed to ' + result.data.user.email) };
+        { Command: toastr["info"]('Your list has been saved and emailed to ' + result.data.user.email); }
       });
     }
   }
