@@ -87,38 +87,42 @@ class Product < ApplicationRecord
     end
   end
 
+  def has_line_items?
+    line_items.count > 0
+  end
+
   def has_nickname?
     nickname != name ? "#{nickname}" : "None"
   end
 
   def highest_price
-    line_items.order(price_cents: :desc).first.price
+      line_items.order(price_cents: :desc).first.price unless !has_line_items?
   end
 
   def highest_price_by_user(user)
     line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).last.price
+              .order(:price_cents).last.price unless !has_line_items?
   end
 
   def highest_price_cents
-    line_items.order(price_cents: :desc).first.price_cents
+    line_items.order(price_cents: :desc).first.price_cents unless !has_line_items?
   end
 
   def lowest_price
-    line_items.order(:price_cents).first.price
+    line_items.order(:price_cents).first.price unless !has_line_items?
   end
 
   def lowest_price_by_user(user)
     line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).first.price
+              .order(:price_cents).first.price unless !has_line_items?
   end
 
   def most_recently_purchased(user)
-    baskets.where(user: user).order(:date).last.date
+    baskets.where(user: user).order(:date).last.date unless !has_line_items?
   end
 
   def this_users_line_items(user)
-    line_items.where(basket: Basket.where(user: user))
+    line_items.where(basket: Basket.where(user: user)) unless !has_line_items?
   end
 
   def times_bought(user)

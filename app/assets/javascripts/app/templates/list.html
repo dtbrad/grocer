@@ -100,7 +100,7 @@
             <div class="list-group">
 
               <div class="col-md-3 list-item">
-                <input name="listItemName" class="form-control" ng-model="item.name" required>
+                <input name="listItemName" class="form-control" ng-model="item.nickname" required>
               </div>
               <div class="col-md-3 list-item">
                 <input name="listItemPrice" class="form-control" ng-model="item.price" required only-numbers>
@@ -148,7 +148,7 @@
     </div>
 
 
-      <button ng-click="ctrl.createList(ctrl.list)" class="col-md-12 btn btn-success btn-block">Save List</button>
+      <button ng-click="ctrl.createList(ctrl.list)" class="col-md-12 btn btn-success btn-block">Email list to yourself</button>
 
 
 </form>
