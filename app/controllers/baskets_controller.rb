@@ -24,8 +24,8 @@ class BasketsController < ApplicationController
     if !current_user.oauth_token || (Time.now.utc >= current_user.oauth_expires_at)
       redirect_to new_user_session_path, flash: { alert: 'Looks like you will need to log out and then sign in again through gmail..' }
     else
-    if Scraper.grab_emails(current_user, params[:date]).length > 0
-      BasketWorker.perform_async(current_user.id, params[:date])
+      if Scraper.grab_emails(current_user, params[:date]).length > 0
+        BasketWorker.perform_async(current_user.id, params[:date])
     #  if Scraper.process_emails(current_user, params[:date])
       redirect_to baskets_path, flash: { notice: 'Purchase History Loaded. Your numbers are now updating in the background.' }
     else
