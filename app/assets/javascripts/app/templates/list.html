@@ -7,19 +7,6 @@
 
       <div class="col-md-12 list-group">
         <input  type="text"
-            name="listTitle"
-            class="form-control"
-            placeholder="enter a list title"
-            ng-model="ctrl.listTitle"
-            required>
-      </div>
-
-      <div class="col-md-12 list-group" style="color:red" ng-messages="ctrl.listForm.listTitle.$error" ng-if="ctrl.listForm.listTitle.$touched || ctrl.listForm.$submitted">
-        <div ng-message="required">List requires a title</div>
-      </div>
-
-      <div class="col-md-12 list-group">
-        <input  type="text"
             class="form-control"
             placeholder="search here for items to add or manually enter in the table below..."
             ng-model="ctrl.search">
@@ -28,7 +15,7 @@
       <div ng-show="ctrl.search">
         <div class="text-center">
           <div class="list-group list-group-horizontal">
-            <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter: ctrl.search" href="#" class="list-group-item">{{item.nickname}}</a>
+            <a ng-click="ctrl.addToList(item)" ng-repeat="item in ctrl.product_summaries | filter:{ nickname: ctrl.search }" href="#" class="list-group-item">{{item.nickname}}</a>
           </div>
         </div>
       </div>
@@ -59,7 +46,7 @@
             <div ng-message="required">Price required</div>
           </div>
           <div ng-show="ctrl.listForm.manualSearchPrice.$touched">
-            <div ng-message="onlyNumbers">Must be a numeric value</div>
+            <div ng-message="onlyNumbers">Must be a positive numeric value</div>
           </div>
         </div>
       </div>
@@ -100,7 +87,7 @@
             <div class="list-group">
 
               <div class="col-md-3 list-item">
-                <input name="listItemName" class="form-control" ng-model="item.nickname" required>
+                <input name="listItemName" class="form-control" ng-model="item.name" required>
               </div>
               <div class="col-md-3 list-item">
                 <input name="listItemPrice" class="form-control" ng-model="item.price" required only-numbers>
@@ -126,13 +113,13 @@
               <div class="col-md-3" style="color:red">
                 <div ng-messages="listItemForm.listItemPrice.$error">
                   <div ng-message="required"> Price required </div>
-                  <div ng-message="onlyNumbers">Must be a numeric value</div>
+                  <div ng-message="onlyNumbers">Must be a positive numeric value</div>
                 </div>
               </div>
               <div class="col-md-2" style="color:red">
                 <div ng-messages="listItemForm.listItemQuantity.$error">
                   <div ng-message="required"> Quantity required </div>
-                  <div ng-message="onlyNumbers">Must be a numeric value</div>
+                  <div ng-message="onlyNumbers">Must be a positive numeric value</div>
                 </div>
               </div>
             </div>

@@ -3,18 +3,18 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
   ctrl.list = [];
-  ctrl.search = "";
   ctrl.newItem = {};
 
 
   ctrl.addToList = function(item){
     if((ctrl.listForm.manualSearchName.$valid && ctrl.listForm.manualSearchPrice.$valid) || item.$$hashKey ) {
-    delete item.$$hashKey
-    item.quantity = 1;
-    ctrl.list.push(item);
-    ctrl.search = "";
-    ctrl.newItem = {};
-  }
+      delete item.$$hashKey
+      item.quantity = 1;
+      item.name = item.nickname || item.name
+      ctrl.list.push(item);
+      ctrl.search = "";
+      ctrl.newItem = {};
+    }
   }
 
   ctrl.remove = function(item, arr){
@@ -33,7 +33,7 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
   ctrl.createList = function(){
     if(ctrl.listForm.$valid && ctrl.list.length > 0) {
       ctrl.list.forEach(function(x){ x.quantity = parseFloat(x.quantity); x.price = parseFloat(x.price)})
-      var list = {name: ctrl.listTitle, items_attributes: ctrl.list}
+      var list = {items_attributes: ctrl.list}
       dataService.createList(list)
       .then(function(result){
         $state.go('home.showList', {id: result.data.id})

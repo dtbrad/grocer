@@ -5,6 +5,6 @@ class ListMailer < ActionMailer::Base
   def list_mailer(list)
     @list = list
     @user = list.user
-    mail(to: @user.email, subject: @list.name)
+    mail(to: @user.email, subject: 'Your Shopping List')
   end
 end
