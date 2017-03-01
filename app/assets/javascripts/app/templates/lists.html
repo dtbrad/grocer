@@ -7,15 +7,16 @@
     <thead>
       <tr>
         <th>List Date</th>
-        <th>List Name</th>
         <th># of Items</th>
+        <th>Total Estimate</th>
       </tr>
     </thead>
     <tbody>
       <tr class="fake-link" ng-repeat="list in ctrl.lists" ng-click="ctrl.seeList(list)">
         <td> {{ list.created_at | date: 'short'}} </td>
-        <td> {{ list.name }} </td>
         <td> {{ list.items.length}} </td>
+        <td> {{ list.total | currency }} </td>
+
       </tr>
     </tbody>
   </table>

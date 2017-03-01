@@ -7,7 +7,7 @@ function onlyNumbers() {
           if (value === undefined) {
             return true
           }
-          return (/^[+-]?(\d*\.)?\d+$/).test(value);
+          return (/^[+]?\d+([.]\d+)?$/).test(value);
   			};
   		}
   	}

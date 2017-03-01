@@ -29,7 +29,7 @@ class ShoppingListsController < ApplicationController
 
   def shopping_list_params
     params.require(:shopping_list).permit(
-      :name, items_attributes: [:id, :name, :quantity, :price]
+       items_attributes: [:id, :name, :quantity, :price]
     )
   end
 
