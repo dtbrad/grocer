@@ -1,4 +1,4 @@
-angular.module('listmaker', ['templates', 'ui.router', 'ngMessages'])
+angular.module('listmaker', ['angular-loading-bar','templates', 'ui.router', 'ngMessages'])
 .config(["$locationProvider", "$httpProvider", "$stateProvider", "$urlRouterProvider", function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
   $locationProvider.hashPrefix('')
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');

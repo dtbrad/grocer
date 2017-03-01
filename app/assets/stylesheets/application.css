@@ -16,6 +16,7 @@
  *= require toastr
  *= require bootstrap-datepicker
  *= require devise_bootstrap_views
+ *= require angular-loading-bar
 
  */
 

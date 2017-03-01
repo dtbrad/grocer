@@ -11,6 +11,7 @@
   </thead>
   <tbody id="nick_name_table">
     <% nick_name_requests.each do |n| %>
+    <tr>
       <td> <%= n.user.name %> </td>
       <td> <%= n.product.name %> </td>
       <td> <%= n.product.has_nickname? %> </td>
@@ -25,6 +26,7 @@
       <td>
         <%= f.submit 'Submit', :class => 'btn btn-primary' %>
       </td>
+    </tr>
       <% end %>
     <% end %>
   </tbody>

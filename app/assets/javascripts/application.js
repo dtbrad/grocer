@@ -21,6 +21,7 @@
 //= require angular-ui-router
 //= require angular-messages
 //= require bootstrap-datepicker
+//= require angular-loading-bar
 //= require_tree
 
 $(document).ready(function() {
