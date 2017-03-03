@@ -11,7 +11,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.5'
 
-gem 'gmail', git: 'https://github.com/gmailgem/gmail.git', require: 'gmail'
+gem 'google-api-client', '~> 0.9', require: 'google/apis/gmail_v1'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'seed_dump', '~> 3.2', '>= 3.2.4'

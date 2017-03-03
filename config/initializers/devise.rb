@@ -18,7 +18,6 @@ Devise.setup do |config|
   #   scope: ['https://mail.google.com/', 'email']
   # }
   config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET'], {
-    scope: ['https://mail.google.com/', 'email']
   }
 
   # Configure the class responsible to send e-mails.
