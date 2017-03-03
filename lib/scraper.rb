@@ -1,11 +1,13 @@
+require 'google/apis/gmail_v1'
+
 class Scraper
-  def self.process_emails(user, date)
-    emails = grab_emails(user, date)
+
+  def self.process_emails(user, date, token)
+    emails = grab_emails(user, date, token)
     if emails.length > 0
       emails.each do |email|
-        next if Basket.find_by(user: user, date: email.date)
-        basket = user.baskets.build(date: DateTime.parse(email.date))
-        rows = get_the_right_rows(email)
+        basket = user.baskets.build(date: email[:date])
+        rows = get_the_right_rows(email[:body])
         rows.length.times do |i|
           info = get_data(rows, i)
           build_products_and_line_items(basket, info, user)
@@ -14,21 +16,43 @@ class Scraper
         basket.total_cents = basket.line_items.total_spent
         basket.save
       end
-    else
     end
   end
 
-  def self.grab_emails(user, date)
-    gmail = Gmail.connect(:xoauth2, user.email, user.oauth_token)
-    gmail.inbox.emails(
-      from: 'receipts@newseasonsmarket.com',
-      after: Date.parse(date)
-    )
+  def self.grab_emails(user, date, token)
+    client = Signet::OAuth2::Client.new(access_token: token)
+    client.expires_in = Time.now + 1_000_000
+    service = Google::Apis::GmailV1::GmailService.new
+    service.authorization = client
+    @emails = service.list_user_messages(
+          'me',
+          include_spam_trash: nil,
+          label_ids: nil,
+          max_results: 1000,
+          page_token: nil,
+          q: "from: receipts@newseasonsmarket.com after: #{date}",
+          fields:
+          nil,
+          quota_user: nil,
+          user_ip: nil,
+          options: nil)
+    email_array = []
+    if set = @emails.messages
+      set.each do |i|
+        email = service.get_user_message('me', i.id)
+        my_email = {
+          date: email.payload.headers.find {|h| h.name == "Date" }.value,
+          body: email.payload.body.data
+        }
+        email_array.push(my_email) unless user.baskets.find_by(user: user, date: my_email[:date])
+      end
+    end
+    email_array
   end
 
-  def self.get_the_right_rows(email)
-    body = Nokogiri::HTML(email.body.decoded)
-    body.xpath(
+  def self.get_the_right_rows(body)
+    noko_body = Nokogiri::HTML(body)
+    noko_body.xpath(
       '//tr[(td[(@class = "basket-item-qty") and normalize-space()]
       and td[(@class = "basket-item-desc") and normalize-space()]
       and td[(@class = "basket-item-amt") and normalize-space()]) or td[span]]'

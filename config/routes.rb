@@ -26,4 +26,8 @@ Rails.application.routes.draw do
 
   get 'listmaker', to: 'angular#angular'
   get 'listmaker/*all', to: 'angular#angular'
+
+  get 'import', to: 'google_api#go_to_google', as: 'import_path'
+  get 'auth/:provider/callback', to: 'google_api#callback'
+
 end
