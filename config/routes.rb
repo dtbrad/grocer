@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       root :to => 'baskets#index'
     end
     unauthenticated :user do
-      root :to => 'devise/registrations#new', as: :unauthenticated_root
+      root :to => 'application#welcome', as: :unauthenticated_root
     end
   end
   resources :shopping_lists, only: [:index, :show, :create]

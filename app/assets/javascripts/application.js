@@ -43,7 +43,7 @@ $(document).ready(function() {
 	 toastr.options = {
 	                  "closeButton": true,
 	                  "debug": false,
-	                  "positionClass": "toast-top-center",
+	                  "positionClass": "toast-top-full-width",
 	                  "onclick": null,
 	                  "showDuration": "1000",
 	                  "hideDuration": "1000",

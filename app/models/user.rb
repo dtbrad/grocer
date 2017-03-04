@@ -16,18 +16,9 @@ class User < ApplicationRecord
     self.role ||= :user
   end
 
-  def self.from_omniauth(auth)
-    data = auth.info
-    if user = User.where(email: data["email"]).first
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.email = auth.info.email
-      if auth.credentials.refresh_token
-        user.oauth_refresh_token = auth.credentials.refresh_token
-      end
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      user
-    end
+  def self.from_omniauth(access_token)
+    data = access_token.info
+    user = User.where(:email => data["email"]).first
+    user
   end
 end

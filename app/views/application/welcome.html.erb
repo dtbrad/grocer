@@ -1,0 +1,18 @@
+<div class="jumbotron" style="background-color: #646170; color: #f2f4f7">
+  <p class="lead">I designed this website as a one-stop shop for New Seasons Market customers to stay on top of their shopping habits (and budget).</p>
+  <hr class="my-4">
+  <p>
+    The only catch? It works best (ok, pretty much only) if you signed up for email receipts from the store and have them in your gmail. My app searches your gmail for New Seasons Market receipts and creates a rich database of product and purchase information. Want to know how many times you purchased a particular product? If its price has changed over time? What you spend the most on? It's all there, in easy to search tables and helpful charts. </p>
+  <p>
+    Even if you don't have gmail, or don't want to import your purchase history, you can still use this website. I've leveraged the existing product database into a "smart" shopping list maker that lets you easily and quickly build shopping lists with built-in price information. There are over 450 products in the database and it's growing every week. So come on in and check it out.
+  </p>
+</div>
+
+<row>
+  <div class="col-lg-6">
+    <%= link_to "Sign in", new_user_session_path, class: "btn btn-primary btn-lg btn-block" %>
+  </div>
+  <div class="col-lg-6">
+    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg btn-block"%>
+  </div>
+</row>

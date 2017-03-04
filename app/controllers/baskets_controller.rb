@@ -22,7 +22,7 @@ class BasketsController < ApplicationController
   def create
     BasketWorker.perform_async(current_user.id, params[:date], session[:access_token])
     # Scraper.process_emails(current_user, params[:date], session[:access_token])
-    redirect_to baskets_path, flash: { notice: 'Purchase History Loaded. Your numbers are now updating in the background.' }
+    redirect_to baskets_path, flash: { success: 'Your purchase history is now importing in the background. It could take a few minutes' }
   end
 
   def remove

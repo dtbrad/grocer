@@ -1,62 +1,59 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to "Grocer", welcome_path, class: "navbar-brand" %>
-    </div>
+<div class="container-fluid">
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+  </div>
+
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+    <ul class="nav navbar-nav">
+      <% if current_user %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shopping Lists <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Make a Shopping List", listmaker_path %></li>
+            <li><a href="/listmaker/lists">See previous lists</a></li>
+          </ul>
+        </li>
+        <% end %>
         <% if current_user %>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shopping Lists <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase History<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Make a Shopping List", listmaker_path %></li>
-              <li><a href="/listmaker/lists">See previous lists</a></li>
-            </ul>
-          </li>
-          <% end %>
-          <% if current_user %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase History<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to "Import your purchase history", import_path_url %></li>
-                <% if current_user.baskets.length > 0 %>
-                  <li><%= link_to "View purchase history", baskets_path %></li>
-                  <% if current_user != User.find_by(email: "sampleuser@mail.com") %>
-                    <li><%= link_to "Delete your entire purchase history", remove_path(current_user.baskets.all), data: { confirm: 'Are you certain you want to delete your history?' } %></li>
-                  <% end %>
+              <li><%= link_to "Import your purchase history", import_path_url %></li>
+              <% if current_user.baskets.length > 0 %>
+                <li><%= link_to "View purchase history", baskets_path %></li>
+                <% if current_user != User.find_by(email: "sampleuser@mail.com") %>
+                  <li><%= link_to "Delete your entire purchase history", remove_path(current_user.baskets.all), data: { confirm: 'Are you certain you want to delete your history?' } %></li>
                 <% end %>
-              </ul>
-            </li>
-          <% end %>
-          <% if current_user && current_user.baskets.length > 0 %>
-            <li><%= link_to "Products", products_path %></li>
-          <% end %>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <% if current_user && current_user.admin? %>
-          <li><%= link_to "Admin Page", nick_name_requests_path %></li>
-        <% end %>
-        <% if current_user %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Signed in as: <%= current_user.name %><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Sign out", destroy_user_session_path, method: "delete"  %></li>
+              <% end %>
             </ul>
           </li>
-        <% else %>
-          <li><%= link_to "Sign in", new_user_session_path %></li>
-          <li><%= link_to "Sign up", new_user_registration_path %></li>
         <% end %>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+        <% if current_user && current_user.baskets.length > 0 %>
+          <li><%= link_to "Products", products_path %></li>
+        <% end %>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <% if current_user && current_user.admin? %>
+        <li><%= link_to "Admin Page", nick_name_requests_path %></li>
+      <% end %>
+      <% if current_user %>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Signed in as: <%= current_user.name %><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Sign out", destroy_user_session_path, method: "delete"  %></li>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+
+  </div>
+
+</div>
