@@ -1,18 +1,5 @@
-<h4 class="alert alert-success">You can sign in with your email and password here, but can import purchase information only if you log in through your gmail account (the top option).</h4>
-<div class="panel panel-default devise-bs">
-  <div class="panel-heading">
-    <h4>Sign in through Your Gmail Account</h4>
-  </div>
-  <div class="panel-body">
-    <a href="/users/auth/google_oauth2" class="btn btn-success btn-block">Sign in with Google</a>
-  </div>
-</div>
-
-
-<div class="panel panel-default devise-bs">
-  <div class="panel-heading">
-    <h4>Or with an email and password</h4>
-  </div>
+<div class="col-md-6 col-md-offset-3 panel panel-default devise-bs">
+  <h4 class="text-center">Log In</h4>
   <div class="panel-body">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
       <div class="form-group">
@@ -32,21 +19,10 @@
       <% end %>
       <%= f.submit  t('.sign_in', default: 'Sign in'), class: 'btn btn-primary btn-block' %>
     <% end %>
+    <div style="padding-top: 15px">
+      <a href="/users/auth/google_oauth2" class="btn btn-warning btn-block">Sign in with Google</a>
+    </div>
   </div>
-</div>
-
-<div class="panel panel-default devise-bs">
-  <div class="panel-heading">
-    <h4>Or try out a sample account with a preloaded purchase history</h4>
-  </div>
-  <div class="panel-body">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
-
-        <%= f.hidden_field :email, autofocus: true, class: 'form-control', value: 'sampleuser@mail.com'%>
-        <%= f.hidden_field :password, autocomplete: 'off', class: 'form-control', value: 'password'%>
-
-      <%= f.submit  t('.sign_in', default: 'Sign in'), class: 'btn btn-warning btn-block' %>
-    <% end %>
-  </div>
-  </div>
+  <hr>
+  <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %></h5>
 </div>

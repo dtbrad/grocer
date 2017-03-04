@@ -42,3 +42,11 @@
 	border-top-right-radius:4px;
 	border-bottom-left-radius:0;
 }
+
+.navbar-custom {
+    background-color: white;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-color:white;
+}

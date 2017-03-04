@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Seasons Purchase Tracker</title>
+    <title>Grocer</title>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
   <body>
     <div class="container">
+    </br></br>
+      <div class="page-header">
+        <h1 class="text-center">GROCER <small> purchase tracking for New Seasons Market shoppers</small></h1>
+      </div>
       <%= render 'layouts/navbar' %>
       <%= render 'layouts/flash' %>
+      </br></br></br></br>
       <%= yield %>
-  </div>
+    </div>
   </body>
 </html>
