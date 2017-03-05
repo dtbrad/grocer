@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<nav class="navbar-default">
 
   <div class="navbar-header">
     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -9,7 +9,7 @@
     </button>
   </div>
 
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class="collapse navbar-collapse navbar-custom" id="bs-example-navbar-collapse-1">
 
     <ul class="nav navbar-nav">
       <% if current_user %>
@@ -17,23 +17,25 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shopping Lists <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to "Make a Shopping List", listmaker_path %></li>
-            <li><a href="/listmaker/lists">See previous lists</a></li>
+            <li><a href="/listmaker/lists">See Previous Lists</a></li>
           </ul>
         </li>
         <% end %>
-        <% if current_user %>
+        <% if current_user && current_user.email != "sampleuser@mail.com" %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Purchase History<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Import your purchase history", import_path_url %></li>
+              <li><%= link_to "Import Purchase history", import_path_url %></li>
               <% if current_user.baskets.length > 0 %>
-                <li><%= link_to "View purchase history", baskets_path %></li>
+                <li><%= link_to "View Purchase History", baskets_path %></li>
                 <% if current_user != User.find_by(email: "sampleuser@mail.com") %>
-                  <li><%= link_to "Delete your entire purchase history", remove_path(current_user.baskets.all), data: { confirm: 'Are you certain you want to delete your history?' } %></li>
+                  <li><%= link_to "Delete Purchase History", remove_path(current_user.baskets.all), data: { confirm: 'Are you certain you want to delete your history?' } %></li>
                 <% end %>
               <% end %>
             </ul>
           </li>
+          <% elsif current_user && current_user.email == "sampleuser@mail.com" %>
+          <li><%= link_to "View Purchase History", baskets_path %></li>
         <% end %>
         <% if current_user && current_user.baskets.length > 0 %>
           <li><%= link_to "Products", products_path %></li>
@@ -55,5 +57,4 @@
     </ul>
 
   </div>
-
-</div>
+</nav>
