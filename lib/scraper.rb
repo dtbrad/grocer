@@ -90,8 +90,7 @@ class Scraper
 
   def self.build_products_and_line_items(basket, info, user)
     unless info.nil?
-      product = Product.find_or_create_by(name: info[:name].titleize,
-                                          nickname: info[:name].titleize)
+      product = Product.find_or_create_by(name: info[:name].titleize)
       basket.line_items.build(
         user: user,
         product: product,
