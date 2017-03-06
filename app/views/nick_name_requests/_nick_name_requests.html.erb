@@ -5,8 +5,8 @@
       <th>Product Name</th>
       <th>Current Nickname</th>
       <th>Suggested Nickname</th>
-      <th>Status</th>
-      <th>Action</th>
+      <th>Approve</th>
+      <th>Reject</th>
     </tr>
   </thead>
   <tbody id="nick_name_table">
@@ -16,18 +16,23 @@
       <td> <%= n.product.name %> </td>
       <td> <%= n.product.has_nickname? %> </td>
       <td> <%= n.suggestion %> </td>
-        <%= form_for(n) do |f| %>
       <td>
-        <%= f.select(:status, NickNameRequest.statuses.keys.map {|status| [status.titleize,status]}, {}, :class => "form-control") %>
-        <%= f.fields_for n.product do |p| %>
-          <%= p.hidden_field :nickname, value: n.suggestion %>
+        <%= form_for(n) do |f| %>
+          <%= f.hidden_field :status, value: 'approved' %>
+          <%= f.fields_for n.product do |p| %>
+            <%= p.hidden_field :nickname, value: n.suggestion %>
+          <% end %>
+          <%= f.submit 'Approve', :class => 'btn btn-primary' %>
         <% end %>
       </td>
       <td>
-        <%= f.submit 'Submit', :class => 'btn btn-primary' %>
+        <%= form_for(n) do |f| %>
+          <%= f.hidden_field :status, value: 'rejected' %>
+          <%= f.submit 'Reject', :class => 'btn btn-danger' %>
+        <% end %>
       </td>
+
     </tr>
-      <% end %>
     <% end %>
   </tbody>
 </table>

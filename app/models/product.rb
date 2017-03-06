@@ -6,7 +6,7 @@ class Product < ApplicationRecord
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
-  validates :nickname, length: { maximum: 20 }
+  validates :nickname, length: { maximum: 30 }
   paginates_per 10
 
   def self.search(search)
