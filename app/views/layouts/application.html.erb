@@ -12,13 +12,11 @@
       <div class="page-header">
         <h1 class="text-center">GROCER <small> purchase tracking for New Seasons Market shoppers</small></h1>
       </div>
+      <%= render 'layouts/flash' %>
       <% unless controller_name == "registrations" ||
          controller_name == "sessions"  || action_name == "welcome" %>
       <%= render 'layouts/navbar' %>
       <% end %>
-
-      <%= render 'layouts/flash' %>
-      </br></br></br></br>
       <%= yield %>
     </div>
   </body>

@@ -40,6 +40,12 @@ $(document).ready(function() {
    $('.even').height(maxHeight);
 }
 
+$('.welcomebutton').click(function(){
+    $(this).text(function(i,old){
+      return old=='Read more »' ?  'Read less' : 'Read more »';
+    });
+});
+
 	 toastr.options = {
 	                  "closeButton": true,
 	                  "debug": false,
@@ -47,7 +53,7 @@ $(document).ready(function() {
 	                  "onclick": null,
 	                  "showDuration": "1000",
 	                  "hideDuration": "1000",
-	                  "timeOut": "5000",
+	                  "timeOut": "3000",
 	                  "extendedTimeOut": "1000",
 	                  "showEasing": "swing",
 	                  "hideEasing": "linear",
