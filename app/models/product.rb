@@ -8,6 +8,7 @@ class Product < ApplicationRecord
   validates :nickname, uniqueness: true
   validates :nickname, length: { maximum: 30 }
   paginates_per 10
+  after_initialize :set_nickname, if: :new_record?
 
   def self.search(search)
     where("name LIKE ? OR nickname LIKE ?", "%#{search.titleize}%", "%#{search.titleize}%")
@@ -119,6 +120,11 @@ class Product < ApplicationRecord
 
   def most_recently_purchased(user)
     baskets.where(user: user).order(:date).last.date unless !has_line_items?
+  end
+
+  def set_nickname
+    self.nickname = name
+    save
   end
 
   def this_users_line_items(user)
