@@ -7,7 +7,8 @@ class BasketWorker
 
     ActionCable.server.broadcast "notifications:#{user.id}", {html:
       "<div class='alert alert-warning alert-block text-center'>
-        Searching your gmail for receipts now (it might take a minute if there are many).
+         <i class='fa fa-circle-o-notch fa-spin'></i>
+         Searching your gmail for receipts now (it might take a minute if there are many).
       </div>"
     }
 

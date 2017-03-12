@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5> Your Shopping Lists</h5>
+  </div>
+<div class="panel-body">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>List Date</th>
+        <th># of Items</th>
+        <th>Total Estimate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="fake-link" ng-repeat="list in ctrl.lists" ng-click="ctrl.seeList(list)">
+        <td> {{ list.created_at | date: 'short'}} </td>
+        <td> {{ list.items.length}} </td>
+        <td> {{ list.total | currency }} </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
