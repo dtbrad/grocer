@@ -1,3 +1,4 @@
+<div id="notifications">
 <h4 class="text-center">Import Purchase History</h4>
 
 <div class="panel panel-default">
@@ -5,7 +6,7 @@
     <h5> Choose how far back you want to look. Depending on how many email receipts you choose to process, this could take a few minutes. </h5>
   </div>
   <div class="panel-body">
-    <%= form_tag("/baskets", method: "post") do %>
+    <%= form_tag("/baskets", method: "post", remote: true) do %>
     <div class="form-group">
       <%= text_field_tag(:date, "", id: "textfield_id", style: "background-color: white", required: true, class: "form-control datepicker blo") %>
     </div>
@@ -15,4 +16,5 @@
 
     <% end %>
   </div>
+</div>
 </div>
