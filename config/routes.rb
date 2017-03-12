@@ -30,4 +30,6 @@ Rails.application.routes.draw do
   get 'import', to: 'google_api#go_to_google', as: 'import_path'
   get 'auth/:provider/callback', to: 'google_api#callback'
 
+  mount ActionCable.server => '/cable'
+
 end
