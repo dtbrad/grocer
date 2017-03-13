@@ -11,7 +11,7 @@ class Product < ApplicationRecord
   after_initialize :set_nickname, if: :new_record?
 
   def self.search(search)
-    where("name LIKE ? OR nickname LIKE ?", "%#{search.titleize}%", "%#{search.titleize}%")
+    where("name iLIKE ? OR nickname iLIKE ?", "%#{search}%", "%#{search}%")
   end
 
   def self.custom_sort(category, direction)
