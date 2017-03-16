@@ -29,9 +29,7 @@
     </div>
   </div>
 
-  <div class="panel-body">
-    <div class="panel-body">
-      <%= render partial: 'line_items', locals: { line_items: @line_items } %>
-    </div>
+  <div class="panel-body" id="line_items_table">
+    <%= render partial: 'line_items', locals: { line_items: @line_items } %>
   </div>
 </div>
