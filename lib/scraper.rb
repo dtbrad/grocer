@@ -25,17 +25,11 @@ class Scraper
     service = Google::Apis::GmailV1::GmailService.new
     service.authorization = client
     @emails = service.list_user_messages(
-          'me',
-          include_spam_trash: nil,
-          label_ids: nil,
-          max_results: 1000,
-          page_token: nil,
-          q: "from: receipts@newseasonsmarket.com after: #{date}",
-          fields:
-          nil,
-          quota_user: nil,
-          user_ip: nil,
-          options: nil)
+      'me',
+      include_spam_trash: nil,
+      max_results: 1000,
+      q: "from: receipts@newseasonsmarket.com after: #{date}",
+    )
     email_array = []
     if set = @emails.messages
       set.each do |i|
@@ -53,18 +47,18 @@ class Scraper
   def self.get_the_right_rows(body)
     noko_body = Nokogiri::HTML(body)
     noko_body.xpath(
-      '//tr[(td[(@class = "basket-item-qty") and normalize-space()]
-      and td[(@class = "basket-item-desc") and normalize-space()]
-      and td[(@class = "basket-item-amt") and normalize-space()]) or td[span]]'
+      '//tr[td[contains(@class, "basket-item-desc modifier") or contains(@class, "basket-item-desc") ]
+       and td[contains(@class, "basket-item-qty modifier") or contains(@class, "basket-item-qty") ]
+       and td[contains(@class, "basket-item-amt modifier") or contains(@class, "basket-item-amt") ] or td[span]]'
     )
   end
 
   def self.get_data(rows, i)
-    unless rows[i].css('span').text.include?('$')
-
+    unless (rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount'))
       info = { name: rows[i].css('.basket-item-desc').text.strip }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
+      has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
 
       if !unit_pricing
         info[:price_cents] = rows[i].css('.basket-item-amt').text.to_f * 100
@@ -84,6 +78,14 @@ class Scraper
         info[:total_cents] = (info[:weight] * info[:price_cents]).round
 
       end
+
+      if has_discount
+        info[:disc] = rows[i + 1].text[/\d+[,.]\d+/].to_f * -100
+        info[:total_cents] += info[:disc]
+      else
+        info[:disc] = 0
+      end
+
       info
     end
   end

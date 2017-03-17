@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228200519) do
+ActiveRecord::Schema.define(version: 20170317215109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,11 +37,12 @@ ActiveRecord::Schema.define(version: 20170228200519) do
     t.integer  "basket_id"
     t.integer  "quantity"
     t.integer  "price_cents"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.decimal  "weight"
     t.integer  "total"
     t.integer  "total_cents"
+    t.integer  "discount_cents"
   end
 
   create_table "nick_name_requests", force: :cascade do |t|
