@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :baskets, through: :line_items
   has_many :users, through: :baskets
   has_many :nick_name_requests
+  monetize :real_unit_price_cents, :disable_validation => true
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
@@ -88,6 +89,15 @@ class Product < ApplicationRecord
     end
   end
 
+  def fix_price(new_price_cents)
+    line_items.each do |li|
+      li.price_cents = new_price_cents
+      li.weight = (li.total_cents.to_f / li.price_cents.to_f).round(2)
+      li.product.update(real_unit_price_cents: new_price_cents)
+      li.save
+    end
+  end
+
   def has_line_items?
     line_items.count > 0
   end
@@ -123,7 +133,7 @@ class Product < ApplicationRecord
   end
 
   def set_nickname
-    self.nickname = name
+    self.nickname = name unless nickname
     save
   end
 

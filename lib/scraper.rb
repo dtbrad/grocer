@@ -60,10 +60,9 @@ class Scraper
       has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
 
       if !unit_pricing
-        info[:price_cents] = rows[i].css('.basket-item-amt').text.to_f * 100
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:quantity] = 1 unless info[:quantity].nonzero?
-        info[:total_cents] = info[:quantity] * info[:price_cents]
+        info[:total_cents] = rows[i].css('.basket-item-amt').text.to_f * 100
 
       elsif unit_pricing && !has_weight_unit
         info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_f * 100
@@ -89,7 +88,7 @@ class Scraper
   def self.build_products_and_line_items(basket, info, user)
     unless info.nil?
       product = Product.find_or_create_by(name: info[:name].titleize)
-      basket.line_items.build(
+      li = basket.line_items.build(
         user: user,
         product: product,
         price_cents: info[:price_cents],
@@ -98,6 +97,12 @@ class Scraper
         total_cents: info[:total_cents],
         discount_cents: info[:disc]
       )
+      if li.product.real_unit_price_cents && !li.price_cents
+        li.price_cents = li.product.real_unit_price_cents
+        li.weight = (li.total_cents.to_f / li.price_cents.to_f).round(2)
+      elsif !li.product.real_unit_price_cents && !li.price_cents
+        li.price_cents = li.total_cents
+      end
     end
   end
 end

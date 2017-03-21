@@ -2,7 +2,7 @@ class LineItem < ApplicationRecord
   belongs_to :basket
   belongs_to :product
   has_one :user, through: :basket
-  monetize :price_cents
+  monetize :price_cents, :disable_validation => true
   monetize :total_cents, as: "total"
   monetize :discount_cents, as: "discount"
   validates :price_cents, presence: true
