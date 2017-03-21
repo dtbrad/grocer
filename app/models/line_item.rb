@@ -4,6 +4,7 @@ class LineItem < ApplicationRecord
   has_one :user, through: :basket
   monetize :price_cents
   monetize :total_cents, as: "total"
+  monetize :discount_cents, as: "discount"
   validates :price_cents, presence: true
   validates :quantity, presence: true
   paginates_per 10

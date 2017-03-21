@@ -1,41 +1,52 @@
 </br></br>
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h5>You bought the following items on <%= format_date(@basket.date) %></h5>
-    </div>
-    <div class="panel-body">
 
-<table id="basketTable" class="tablesorter table table-hover">
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Unit Price</th>
-      <th>Qty</th>
-      <th>Weight</th>
-      <th>Total Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @basket.line_items.each do |li| %>
-      <tr>
-        <td> <%= link_to li.product.nickname, product_path(li.product) %> </td>
-        <td> <%= number_to_currency(li.price) %> </td>
-        <td> <%= li.quantity %></td>
-        <td> <%= li.formatted_weight %> </td>
-        <td> <%= number_to_currency(li.total) %> </td>
-      </tr>
-    <% end %>
-    </tbody>
-    <tbody>
-    <tr>
-      <td><strong>Total:</strong></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td><strong><%= number_to_currency(@basket.total) %></strong></td>
-    </tr>
-  </tbody>
-</table>
-</div>
+  <div class="panel-heading">
+    <h5>You bought the following items on <%= format_date(@basket.date) %></h5>
+  </div>
+
+  <div class="panel-body">
+    <table id="basketTable" class="tablesorter table table-hover">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Unit Price</th>
+          <th>Qty</th>
+          <th>Weight</th>
+          <% if @basket.has_discount? %>
+            <th>Discount?</th>
+            <% end %>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @basket.line_items.each do |li| %>
+          <tr>
+            <td> <%= link_to li.product.nickname, product_path(li.product) %> </td>
+            <td> <%= number_to_currency(li.price) %> </td>
+            <td> <%= li.quantity %></td>
+            <td> <%= li.formatted_weight %> </td>
+            <% if @basket.has_discount? %>
+              <td> <%=  number_to_currency(li.discount) unless li.discount == 0 %></td>
+            <% end %>
+            <td> <%= number_to_currency(li.total) %> </td>
+          </tr>
+        <% end %>
+        </tbody>
+        <tbody>
+        <tr>
+          <td><strong>Total:</strong></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <% if @basket.has_discount? %>
+            <td></td>
+          <% end %>
+          <td><strong><%= number_to_currency(@basket.total) %></strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>

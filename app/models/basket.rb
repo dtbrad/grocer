@@ -37,6 +37,10 @@ class Basket < ApplicationRecord
       .order("SUM(line_items.total_cents) #{direction}")
   end
 
+  def has_discount?
+    line_items.find {|li| li.discount !=0 }
+  end
+
   def total
     Money.new(line_items.total_spent)
   end

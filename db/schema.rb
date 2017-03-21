@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 20170317215109) do
     t.integer  "basket_id"
     t.integer  "quantity"
     t.integer  "price_cents"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.decimal  "weight"
     t.integer  "total"
     t.integer  "total_cents"
-    t.integer  "discount_cents"
+    t.integer  "discount_cents", default: 0
   end
 
   create_table "nick_name_requests", force: :cascade do |t|

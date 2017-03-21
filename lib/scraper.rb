@@ -1,5 +1,4 @@
 require 'google/apis/gmail_v1'
-
 class Scraper
 
   def self.process_emails(user, date, token)
@@ -76,16 +75,13 @@ class Scraper
         info[:quantity] = rows[i].css('.basket-item-qty').text.to_i
         info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_f
         info[:total_cents] = (info[:weight] * info[:price_cents]).round
-
       end
-
       if has_discount
         info[:disc] = rows[i + 1].text[/\d+[,.]\d+/].to_f * -100
         info[:total_cents] += info[:disc]
       else
         info[:disc] = 0
       end
-
       info
     end
   end
@@ -99,7 +95,8 @@ class Scraper
         price_cents: info[:price_cents],
         quantity: info[:quantity],
         weight: info[:weight],
-        total_cents: info[:total_cents]
+        total_cents: info[:total_cents],
+        discount_cents: info[:disc]
       )
     end
   end
