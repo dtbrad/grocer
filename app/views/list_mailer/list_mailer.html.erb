@@ -74,6 +74,15 @@ Email on Acid - http://www.emailonacid.com/blog/details/C18/doctype_-_the_black_
 		/* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email, bring your styles inline.  Your link colors will be uniform across clients when brought inline.
 		Bring inline: Yes. */
 		a {color: orange;}
+
+		th, td {
+    	padding: 15px;
+    	text-align: left;
+
+		}
+		tr {
+			border-bottom: 1px solid #ddd;
+		}
 		/* Or to go the gold star route...
 		a:link { color: orange; }
 		a:visited { color: blue; }
@@ -165,14 +174,11 @@ Email on Acid - http://www.emailonacid.com/blog/details/C18/doctype_-_the_black_
 <body>
 	<!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
 	<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
-	<tr>
+	<tr style="border-bottom: none">
 		<td>
-
+		<h4 style="text-align: center"><%= format_date(@list.created_at) %></h4>
 		<!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
 		<table cellpadding="0" cellspacing="0" border="0" align="center">
-			<tr>
-				<%= format_date(@list.created_at) %>
-			</tr>
 			<tr>
 				<td width="200" valign="top">Name</td>
 				<td width="200" valign="top">Price/Qty</td>
@@ -187,7 +193,7 @@ Email on Acid - http://www.emailonacid.com/blog/details/C18/doctype_-_the_black_
 			<tr>
 
 			</tr>
-			<tr>
+			<tr style="font-weight: bold">
 				<% end %>
 				<td width="200" valign="top"></td>
 				<td width="200" valign="top">Total</td>
