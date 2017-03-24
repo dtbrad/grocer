@@ -86,23 +86,27 @@ class Scraper
   end
 
   def self.build_products_and_line_items(basket, info, user)
-    unless info.nil?
-      product = Product.find_or_create_by(name: info[:name].titleize)
-      li = basket.line_items.build(
-        user: user,
-        product: product,
-        price_cents: info[:price_cents],
-        quantity: info[:quantity],
-        weight: info[:weight],
-        total_cents: info[:total_cents],
-        discount_cents: info[:disc]
-      )
-      if li.product.real_unit_price_cents && !li.price_cents
-        li.price_cents = li.product.real_unit_price_cents
-        li.weight = (li.total_cents.to_f / li.price_cents.to_f).round(2)
-      elsif !li.product.real_unit_price_cents && !li.price_cents
-        li.price_cents = li.total_cents
+      unless info.nil?
+        product = Product.find_or_create_by(name: info[:name].titleize)
+        if info[:price_cents] != nil
+          price = info[:price_cents]
+          weight = info[:weight]
+        elsif info[:price_cents] == nil && product.real_unit_price_cents
+          price = product.real_unit_price_cents.to_f
+          weight = (info[:total_cents].to_f / price).round(2)
+        else
+          price = info[:total_cents]
+          weight = info[:weight]
+        end
+        basket.line_items.build(
+          user: user,
+          product: product,
+          price_cents: price,
+          quantity: info[:quantity],
+          weight: weight,
+          total_cents: info[:total_cents],
+          discount_cents: info[:disc]
+        )
       end
-    end
   end
 end
