@@ -22,11 +22,14 @@
       <%= f.submit t('.sign_up', default: 'Sign up'), class: 'btn btn-primary btn-block' %>
     <% end %>
     <div style="padding-top: 15px">
+      <a href="/users/auth/google_oauth2" class="btn btn-warning btn-block">Sign up with Google</a>
+    </div>
+    <div style="padding-top: 15px">
       <hr />
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
         <%= f.hidden_field :email, autofocus: true, class: 'form-control', value: 'sampleuser@mail.com'%>
         <%= f.hidden_field :password, autocomplete: 'off', class: 'form-control', value: 'password'%>
-        <%= f.submit value: 'Sign in as a sample user', class: 'btn btn-success btn-block' %>
+        <%= f.submit value: 'Log in as a sample user', class: 'btn btn-success btn-block' %>
       <% end %>
     </div>
     <hr>
