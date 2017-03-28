@@ -48,28 +48,27 @@ describe Product do
       expect(@product_one.lowest_price).to eq Money.new(300)
     end
 
-    it "knows the most popular product" do
-      expect(Product.most_popular_product).to eq @product_two
-    end
+    # it "knows the most popular product" do
+    #   expect(Product.most_popular_product).to eq @product_two
+    # end
 
-    it "knows the most expensive product" do
-      expect(Product.most_expensive_product).to eq @product_one
-    end
-
-    it "knows the most expensive product by user" do
-      expect(Product.most_expensive_product_by_user(@user)).to eq @product_one
-      expect(Product.most_expensive_product_by_user(@user_two)).to eq @product_one
-
-    end
-
-    it "knows the least expensive product" do
-      expect(Product.least_expensive_product).to eq @product_one
-    end
-
-    it "knows the least expensive product by user" do
-      expect(Product.least_expensive_product_by_user(@user)).to eq @product_one
-      expect(Product.least_expensive_product_by_user(@user_two)).to eq @product_two
-
-    end
+    # it "knows the most expensive product" do
+    #   expect(Product.most_expensive_product).to eq @product_one
+    # end
+    #
+    # it "knows the most expensive product by user" do
+    #   expect(Product.most_expensive_product_by_user(@user)).to eq @product_one
+    #   expect(Product.most_expensive_product_by_user(@user_two)).to eq @product_one
+    #
+    # end
+    #
+    # it "knows the least expensive product" do
+    #   expect(Product.least_expensive_product).to eq @product_one
+    # end
+    #
+    # it "knows the least expensive product by user" do
+    #   expect(Product.least_expensive_product_by_user(@user)).to eq @product_one
+    #   expect(Product.least_expensive_product_by_user(@user_two)).to eq @product_two
+    # end
   end
 end
