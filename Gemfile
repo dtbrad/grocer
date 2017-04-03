@@ -34,6 +34,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry'
   gem 'simplecov', '~> 0.12.0'
+  gem 'rails-erd', '~> 1.5'
 end
 
 group :test do

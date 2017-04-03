@@ -19,7 +19,7 @@
       <td> <%= format_date(u.created_at) %> </td>
       <td> <%= u.baskets.count %> </td>
       <td> <%= u.products.distinct.count %> </td>
-      <td> <%= u.products.distinct.select {|p| p.users.length == 1}.count%> </td>
+      <td> <%= u.exclusive_products%> </td>
     </tr>
     <% end %>
   </tbody>
