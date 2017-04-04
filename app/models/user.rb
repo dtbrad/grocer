@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :products,through: :line_items
   has_many :nick_name_requests
   validates :name, presence: true
+  validates :name, uniqueness: true
 
   after_initialize :set_default_role, if: :new_record?
 
@@ -20,12 +21,15 @@ class User < ApplicationRecord
     data = access_token.info
     user = User.where(:email => data["email"]).first
     unless user
-      user = User.create(
-        name: data["name"],
+      name = User.find_by(name: data["name"]) ? data["email"] : data["name"]
+      user = User.new(
+        name: name,
         email: data["email"],
         password: Devise.friendly_token[0,20],
         confirmed_at: Time.now
       )
+      user.save
+
     end
     user
   end
