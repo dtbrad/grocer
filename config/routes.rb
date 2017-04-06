@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       root :to => 'application#welcome', as: :unauthenticated_root
     end
   end
-  resources :shopping_lists, only: [:index, :show, :create]
+  resources :shopping_lists, only: [:show, :index, :create]
   resources :baskets
   resources :products
   resources :nick_name_requests

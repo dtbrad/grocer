@@ -1,5 +1,6 @@
 angular.module('listmaker', ['angular-loading-bar','templates', 'ui.router', 'ngMessages'])
-.config(["$locationProvider", "$httpProvider", "$stateProvider", "$urlRouterProvider", function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider){
+.config(["$locationProvider", "$httpProvider", "$stateProvider", "$urlRouterProvider", "$qProvider", function($locationProvider, $httpProvider, $stateProvider, $urlRouterProvider, $qProvider){
+  $qProvider.errorOnUnhandledRejections(false)
   $locationProvider.hashPrefix('')
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
   $stateProvider
@@ -17,29 +18,10 @@ angular.module('listmaker', ['angular-loading-bar','templates', 'ui.router', 'ng
       }]
     }
   })
-  .state('home.showList', {
-    url: "listmaker/lists/:id",
-    controller: "ShowListController as ctrl",
-    templateUrl: "app/templates/showlist.html",
-    resolve: {
-      list: ["$stateParams", "dataService", function($stateParams, dataService){
-        return dataService.getList($stateParams.id);
-      }]
-    }
-  })
-  .state('home.allLists', {
-    url: "listmaker/lists",
-    controller: 'ListsController as ctrl',
-    templateUrl: "app/templates/lists.html",
-    resolve: {
-      lists: ["dataService", function (dataService) {
-        return dataService.getLists();
-      }]
-    }
-  })
   $urlRouterProvider.otherwise("listmaker/lists/new")
   $locationProvider.html5Mode({
-  enabled:true,
-  requireBase: false
-});
+    enabled:true,
+    requireBase: false
+  });
+
 }]);

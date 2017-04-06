@@ -1,28 +1,24 @@
 class ShoppingListsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
 
-  def index
-    if current_user
-      @shopping_lists = current_user.shopping_lists
-      render json: @shopping_lists
+  def show
+    @shopping_list = ShoppingList.find(params[:id])
+    if current_user.id != @shopping_list.user.id
+      redirect_to shopping_lists_path, flash: { alert: 'You can only view your own lists' }
     end
   end
 
-  def show
-    render json: ShoppingList.find(params[:id])
+  def index
+    @shopping_lists = current_user.shopping_lists
   end
 
   def create
     @shopping_list = current_user.shopping_lists.build(shopping_list_params)
-    if @shopping_list.save
-      if current_user.email != "sampleuser@mail.com"
-        ListMailer.list_mailer(@shopping_list).deliver
-      end
-      render json: @shopping_list, status: 201
-    else
-      @shopping_lists = ShoppingList.all
-      render :index
+    if current_user.email != "sampleuser@mail.com"
+      @shopping_list.save
+      EmailWorker.perform_async(@shopping_list.id)
     end
+    render json: @shopping_list, status: 201
   end
 
   private

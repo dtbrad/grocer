@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5> Shopping List from: <%= format_date(@shopping_list.created_at) %></h5>
+  </div>
+<div class="panel-body">
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th> Name </th>
+      <th> Unit Price </th>
+      <th> Quantity/Weight </th>
+      <th> Total Price </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shopping_list.items.each do |i| %>
+      <tr>
+        <td> <%= i.name %> </td>
+        <td> <%= number_to_currency(i.price) %> </td>
+        <td> <%= i.quantity %> </td>
+        <td> <%= number_to_currency(i.price * i.quantity) %> </td>
+      </tr>
+      <% end %>
+      <tr>
+      <td></td>
+      <td></td>
+      <td> Total </td>
+      <td> <%= number_to_currency(@shopping_list.total) %> </td>
+      </tr>
+  </tbody>
+</table>

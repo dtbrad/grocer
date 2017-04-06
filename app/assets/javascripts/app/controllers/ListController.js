@@ -1,5 +1,5 @@
 
-ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataService"];function ListController($state, $stateParams, product_summaries, dataService) {
+ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataService", "$window", "$timeout"];function ListController($state, $stateParams, product_summaries, dataService, $window, $timeout) {
   var ctrl = this
   ctrl.product_summaries = product_summaries.data
   ctrl.list = [];
@@ -36,16 +36,20 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
       var list = {items_attributes: ctrl.list}
       dataService.createList(list)
       .then(function(result){
-        $state.go('home.showList', {id: result.data.id})
-        if(result.data.user.email === "sampleuser@mail.com")
-        { Command: toastr["info"]('Your list has been saved to the sample user account. If you do this with a live account it will also be emailed to you.'); }
-        else
-        { Command: toastr["info"]('Your list has been saved and emailed to ' + result.data.user.email); }
+        setTimeout(function() {
+        if(result.data.user.email === "sampleuser@mail.com"){
+          Command: toastr["info"]('If you do this with a live account, your list will be saved and emailed to you.');
+        }
+       else {
+         Command: toastr["info"]('Your list has been saved and emailed to ' + result.data.user.email);
+       }
+       $timeout(function(){window.location.href = '/shopping_lists'}, 3000);
       });
-    }
+    });
   }
 
 }
+};
 
 angular
 .module('listmaker')

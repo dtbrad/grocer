@@ -1,0 +1,31 @@
+<% if current_user && current_user.email != "sampleuser@mail.com" %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5 class="text-center"> Your Shopping Lists</h5>
+    </div>
+    <div class="panel-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>List Date</th>
+            <th># of Items</th>
+            <th>Total Estimate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @shopping_lists.each do |s| %>
+        <tr>
+          <td><%= link_to format_date(s.created_at), shopping_list_path(s) %></td>
+          <td><%= s.items.count %></td>
+          <td><%= number_to_currency(s.total) %></td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  <% else %>
+    <div class='alert alert-warning alert-block text-center'>
+       Register an account to save, view and email shopping lists to yourself.
+    </div>
+  <% end %>
