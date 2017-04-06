@@ -41,7 +41,7 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
           Command: toastr["info"]('If you do this with a live account, your list will be saved and emailed to you.');
         }
        else {
-         Command: toastr["info"]('Your list has been saved and emailed to ' + result.data.user.email);
+         Command: toastr["info"]('Your list is being saved and emailed to ' + result.data.user.email);
        }
        $timeout(function(){window.location.href = '/shopping_lists'}, 3000);
       });

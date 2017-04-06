@@ -10,16 +10,6 @@ dataService.$inject = ["$http"];function dataService($http) {
     return $http.post('/shopping_lists', { shopping_list: thing })
   };
 
-  ctrl.getLists = function(){
-    return $http.get('/shopping_lists')
-  }
-
-  ctrl.getList = function(id){
-    return $http.get('/shopping_lists/'+ id)
-  }
-
-
-
 }
 
 angular
