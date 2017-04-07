@@ -25,8 +25,8 @@ class BasketsController < ApplicationController
   end
 
   def remove
-    current_user.baskets.destroy_all
-    redirect_to baskets_path, flash: { alert: 'Purchase History Deleted' }
+    current_user.baskets.remove_user
+    redirect_to baskets_path, flash: { alert: 'Purchase history deleted from your account' }
   end
 
   private

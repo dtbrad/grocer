@@ -1,5 +1,5 @@
 class Basket < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :line_items
   has_many :products, through: :line_items
   validates :date, presence: true
@@ -35,6 +35,10 @@ class Basket < ApplicationRecord
       .joins(:line_items)
       .group('baskets.id')
       .order("SUM(line_items.total_cents) #{direction}")
+  end
+
+  def self.remove_user
+    all.each {|b| b.update(user_id: nil)}
   end
 
   def has_discount?
