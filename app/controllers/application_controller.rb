@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   def welcome
   end
 
+  def privacy
+  end
+
   private
 
   def configure_permitted_parameters

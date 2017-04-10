@@ -15,6 +15,8 @@
  *= require bootstrap-sass
  *= require toastr
  *= require bootstrap-datepicker
+ *= require bootstrap-modal-bs3patch
+ *= require bootstrap-modal
  *= require devise_bootstrap_views
  *= require angular-loading-bar
 
@@ -49,4 +51,23 @@
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
             background-color:white;
+}
+
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+#footer {
+    background: #ffab62;
+    width: 100%;
+    height: 100%;
 }

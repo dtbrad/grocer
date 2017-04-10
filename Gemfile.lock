@@ -52,6 +52,8 @@ GEM
     arel (7.1.4)
     ast (2.3.0)
     bcrypt (3.1.11)
+    bootstrap-modal-rails (2.2.5)
+      railties (>= 3.1)
     builder (3.2.3)
     byebug (9.0.6)
     capybara (2.12.1)
@@ -380,6 +382,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   angular-rails-templates
+  bootstrap-modal-rails
   byebug
   capybara (~> 2.10, >= 2.10.1)
   chartkick

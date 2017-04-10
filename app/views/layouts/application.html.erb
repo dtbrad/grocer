@@ -9,6 +9,8 @@
   </head>
   <body>
     <div class="container">
+      <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
     </br></br>
       <div class="page-header">
         <h1 class="text-center">GROCER <small> purchase tracking for New Seasons Market shoppers</small></h1>
@@ -19,9 +21,13 @@
       <%= render 'layouts/navbar' %>
       <% end %>
       <%= yield %>
-      <div class="navbar-fixed-bottom text-center panel-footer">
-        &copy; 2017 Developed by <a href="https://linkedin.com/in/daniel-brad ">Daniel Brad</a>
-      </footer>
-    </div>
-  </body>
-</html>
+    </br></br>
+
+    <div id="wrap" class="text-center">
+  <div id="main" class="container clear-top">
+    <p style="font-size:0.9em">
+            &copy; 2017 Developed by <a href="https://linkedin.com/in/daniel-brad ">Daniel Brad</a> |
+            <%= link_to 'Privacy Policy', privacy_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
+</p>
+  </div>
+</div>

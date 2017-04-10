@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :nick_name_requests
 
   get 'welcome', to: 'application#welcome'
+  get 'privacy', to: 'application#privacy'
   get 'remove', to: 'baskets#remove', as: 'remove'
 
   get 'monthly_spending_chart', to: 'charts#monthly_spending'

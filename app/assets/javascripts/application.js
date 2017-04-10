@@ -21,6 +21,8 @@
 //= require angular-ui-router
 //= require angular-messages
 //= require bootstrap-datepicker
+//= require bootstrap-modal
+//= require bootstrap-modalmanager
 //= require angular-loading-bar
 //= require_tree
 

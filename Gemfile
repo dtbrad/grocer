@@ -27,6 +27,7 @@ gem 'sprockets', '~> 3.7', '>= 3.7.1'
 gem 'premailer-rails'
 gem 'devise'
 gem 'devise-bootstrap-views'
+gem 'bootstrap-modal-rails'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
