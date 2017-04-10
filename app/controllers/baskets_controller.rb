@@ -1,11 +1,20 @@
 class BasketsController < ApplicationController
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :unit, :duration, :graph_change
   before_action :authenticate_user!
 
   def index
     if current_user
-      @baskets = current_user.baskets.custom_sort(sort_column, sort_direction)
-      .page params[:page]
+      respond_to do |format|
+        format.html {
+            @baskets = current_user.baskets.from_graph("months", 12).custom_sort(sort_column, sort_direction)
+            .page params[:page]
+        }
+        format.js {
+            @baskets = current_user.baskets.from_graph(unit, duration).custom_sort(sort_column, sort_direction)
+            .page params[:page]
+            @graph_change = params[:graph_change]
+        }
+      end
     end
   end
 
@@ -37,6 +46,14 @@ class BasketsController < ApplicationController
 
   def sort_direction
     %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+  end
+
+  def unit
+    params[:unit] ? params[:unit] : "months"
+  end
+
+  def duration
+    params[:duration] ? params[:duration] : 12
   end
 
 end

@@ -1,11 +1,4 @@
 class ChartsController < ApplicationController
-  def monthly_spending
-    @baskets = Basket.all
-  end
-
-  def weekly_spending
-    @baskets = Basket.all
-  end
 
   def most_spent
     @products = Product.all
@@ -22,5 +15,4 @@ class ChartsController < ApplicationController
   def product_weekly_purchasing
     @product = Product.find(params[:product_id])
   end
-
 end

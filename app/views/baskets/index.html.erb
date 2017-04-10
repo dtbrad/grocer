@@ -1,23 +1,18 @@
 <% if current_user && !@baskets.empty? %>
-<div class="text-center">
-  <%= link_to "weekly", weekly_spending_chart_path, remote: true, class: "btn btn-primary btn-xs"%>
-  <%= link_to "monthly", monthly_spending_chart_path, remote: true, class: "btn btn-primary btn-xs" %>
-</div>
-<div id="chart">
-<%= monthly_spending %>
-</div>
+  <div class="text-center" id="graph_control">
+    <%= render partial: 'graph_control' %>
+  </div>
+
+  <div id="chart">
+    <%= basket_spending('months', 12) %>
+  </div>
 
   <div class="panel panel-default">
-    <div class="panel-heading">
-      <h5><%= current_user.name %>'s purchase history</h5>
-    </div>
-
     <div id="baskets_table" class="panel-body">
       <%= render partial: 'baskets', locals: { baskets: @baskets } %>
     </div>
   </div>
 
-  <% elsif current_user && @baskets.empty?%>
+<% elsif current_user && @baskets.empty?%>
   <h4 class="text-center"> You currently have no purchase history in the database. If you just imported your receipts, try refreshing the page.</h4>
-
 <% end %>

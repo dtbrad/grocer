@@ -1,22 +1,23 @@
 module ChartsHelper
-  def monthly_spending
-    line_chart current_user.baskets.group_by_month(:date, last: 12).sum('baskets.total_cents / 100'),
-      ytitle: "Total Spent",
-      title: 'Monthly Spending For Last Year',
-      colors: ['green'],
-      library: {
-        yAxis: {
-             labels: {
-                 format: '${value}'
-             }
-         },
+    def basket_spending(unit, duration)
+      date_unit = unit == 'months' ? '%B' : 'Week of '+'%m/%d/%y'
+      line_chart current_user.baskets.group_baskets(duration, unit),
+        ytitle: "Total Spent",
+        title: 'Spending for last ' + duration.to_s + ' ' + unit,
+        colors: ['green'],
+        library: {
+            yAxis: {
+               labels: {
+                   format: '${value}'
+               }
+             },
             tooltip: {
               pointFormat: 'Total Spent: <b>{point.y}</b>',
-              xDateFormat: '%B',
+              xDateFormat: date_unit,
               valuePrefix: '$'
             }
-          }
-  end
+        }
+    end
 
   def weekly_spending
     line_chart current_user.baskets.group_by_week(:date, last: 56).sum('baskets.total_cents / 100'),

@@ -19,5 +19,5 @@
 </table>
 
 <div class="text-center">
-  <%= paginate baskets, remote: true %>
+  <%= paginate baskets, params: {graph_change: false}, remote: true %>
 </div>

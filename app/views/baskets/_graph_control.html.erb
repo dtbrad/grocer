@@ -1,0 +1,6 @@
+<%= form_tag(baskets_path, method: "get", id: "chart-form", remote: true, :autocomplete => "off") do %>
+  <%= select_tag "duration", options_for_select(2..60, 12) %>
+  <%= select_tag "unit", options_for_select([ "months", "weeks" ], "months") %>
+  <%= hidden_field_tag "graph_change", true %>
+  <%= submit_tag "update view", class: "btn btn-primary btn-xs" %>
+<% end %>

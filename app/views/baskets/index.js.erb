@@ -1,1 +1,9 @@
+var graph_change = <%= @graph_change %>;
+
+if(graph_change === true) {
+  $("#chart").html("<%= escape_javascript(basket_spending(unit, duration)) %>");
   $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
+}
+else {
+  $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
+  }

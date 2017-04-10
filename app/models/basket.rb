@@ -5,6 +5,22 @@ class Basket < ApplicationRecord
   validates :date, presence: true
   paginates_per 10
 
+  def self.from_graph(unit, duration)
+    if unit == "months"
+      Basket.where("date > ?", duration.to_i.months.ago)
+    else
+      Basket.where("date > ?", duration.to_i.weeks.ago)
+    end
+  end
+
+  def self.group_baskets(duration, unit)
+    if unit == "months"
+      group_by_month(:date, last: duration).sum('baskets.total_cents / 100')
+    else
+      group_by_week(:date, last: duration).sum('baskets.total_cents / 100')
+    end
+  end
+
   def self.custom_sort(category, direction)
     case category
     when 'date'
