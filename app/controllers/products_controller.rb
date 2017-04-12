@@ -27,7 +27,8 @@ class ProductsController < ApplicationController
   end
 
   def product_summaries
-    render json: Product.filtered_products
+    @products = Product.filtered_products.search(params[:search]);
+    render json: @products.limit(15).order(:nickname)
   end
 
   private

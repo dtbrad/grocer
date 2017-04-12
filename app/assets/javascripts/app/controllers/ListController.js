@@ -1,10 +1,22 @@
-
-ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataService", "$window", "$timeout"];function ListController($state, $stateParams, product_summaries, dataService, $window, $timeout) {
+ListController.$inject = ["dataService", "$window", "$timeout"];
+function ListController(dataService, $window, $timeout) {
   var ctrl = this
-  ctrl.product_summaries = product_summaries.data
   ctrl.list = [];
   ctrl.newItem = {};
+  ctrl.searchResultsArray = []
 
+  ctrl.populateArray = function (search) {
+    console.log(search);
+    if(search.length > 0) {
+      dataService.getProductSummaries(search)
+      .then(function(response){
+        ctrl.searchResultsArray = response.data;
+      });
+    }
+    else {
+      ctrl.searchResultsArray = [];
+    }
+  };
 
   ctrl.addToList = function(item){
     if((ctrl.listForm.manualSearchName.$valid && ctrl.listForm.manualSearchPrice.$valid) || item.$$hashKey ) {
@@ -12,14 +24,15 @@ ListController.$inject = ["$state", "$stateParams", "product_summaries", "dataSe
       item.quantity = 1;
       item.name = item.nickname || item.name
       ctrl.list.push(item);
-      ctrl.search = "";
       ctrl.newItem = {};
+      ctrl.result = "";
+      ctrl.searchResultsArray = [];
     }
-  }
+  };
 
   ctrl.remove = function(item, arr){
     arr.splice(arr.indexOf(item), 1)
-  }
+  };
 
   ctrl.listTotal = function(){
       var total = 0;
