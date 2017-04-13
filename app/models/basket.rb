@@ -15,13 +15,17 @@ class Basket < ApplicationRecord
 
   def self.group_baskets(duration, unit)
     if unit == "months"
-      group_by_month(:date, last: duration).sum('baskets.total_cents / 100')
+      group_by_month(:date, last: duration.to_i+1).sum('baskets.total_cents / 100')
     else
-      group_by_week(:date, last: duration).sum('baskets.total_cents / 100')
+      group_by_week(:date, last: duration.to_i+1).sum('baskets.total_cents / 100')
     end
   end
 
   def self.custom_sort(category, direction)
+    # binding.pry
+    # category = category == nil ? 'date' : category
+    # direction = direction == nil ? 'desc' : direction
+    # binding.pry
     case category
     when 'date'
       sort_date(direction)

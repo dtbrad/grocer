@@ -1,9 +1,9 @@
 <table class="table table-hover">
   <thead>
-    <tr class="fake-link">
-      <th><%= sortable("date") %></th>
-      <th><%= sortable("items", "# of Items") %></th>
-      <th><%= sortable("total") %></th>
+    <tr>
+      <th><%= sort_baskets_by("date", unit, duration, "Date") %></th>
+      <th><%= sort_baskets_by("items", unit, duration, "# of Items") %></th>
+      <th><%= sort_baskets_by("total", unit, duration, "Total") %></th>
     </tr>
   </thead>
   <tbody>
@@ -19,5 +19,5 @@
 </table>
 
 <div class="text-center">
-  <%= paginate baskets, params: {graph_change: false}, remote: true %>
+  <%= paginate baskets, params: {graph_change: 'no'}, remote: true %>
 </div>

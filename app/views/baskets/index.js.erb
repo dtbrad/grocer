@@ -1,9 +1,7 @@
-var graph_change = <%= @graph_change %>;
+var graph_change = '<%= params[:graph_change] %>'
 
-if(graph_change === true) {
+$("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
+
+if (graph_change === 'yes') {
   $("#chart").html("<%= escape_javascript(basket_spending(unit, duration)) %>");
-  $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
 }
-else {
-  $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
-  }
