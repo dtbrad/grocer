@@ -8,11 +8,20 @@
   </div>
 
   <div class="panel panel-default">
+    <div class="panel panel-heading">
+      <h5 class="text-center" id="stat">
+        <%= freq_formatter(@unpaginated_unsorted_baskets.average_time_between_trips) %>
+        <%= avg_formatter(number_to_currency(@unpaginated_unsorted_baskets.average_total)) %>
+      </h5>
+    </div>
     <div id="baskets_table" class="panel-body">
       <%= render partial: 'baskets', locals: { baskets: @baskets } %>
     </div>
   </div>
 
 <% elsif current_user && @baskets.empty?%>
-  <h4 class="text-center"> You currently have no purchase history in the database. If you just imported your receipts, try refreshing the page.</h4>
+  <h4 class="text-center">
+    You currently have no purchase history in the database.
+    If you just imported your receipts, try refreshing the page.
+  </h4>
 <% end %>

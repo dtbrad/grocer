@@ -6,6 +6,7 @@ class BasketsController < ApplicationController
     if current_user
       @baskets = current_user.baskets.from_graph(unit, duration).custom_sort(sort_column, sort_direction)
       .page params[:page]
+      @unpaginated_unsorted_baskets = current_user.baskets.from_graph(unit, duration)
       respond_to do |format|
         format.html
         format.js

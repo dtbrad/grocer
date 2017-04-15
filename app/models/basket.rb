@@ -6,26 +6,42 @@ class Basket < ApplicationRecord
   paginates_per 10
 
   def self.from_graph(unit, duration)
-    if unit == "months"
-      Basket.where("date > ?", duration.to_i.months.ago)
-    else
-      Basket.where("date > ?", duration.to_i.weeks.ago)
-    end
+    a = Basket.group_baskets(duration, unit).first.first
+    Basket.where("date > ?", a)
+  end
+
+  def self.average_total
+    average(:total_cents) / 100 if  average(:total_cents)
   end
 
   def self.group_baskets(duration, unit)
     if unit == "months"
-      group_by_month(:date, last: duration.to_i+1).sum('baskets.total_cents / 100')
+      group_by_month(:date, last: duration.to_i).sum('baskets.total_cents / 100')
     else
-      group_by_week(:date, last: duration.to_i+1).sum('baskets.total_cents / 100')
+      group_by_week(:date, last: duration.to_i).sum('baskets.total_cents / 100')
+    end
+  end
+
+  def self.average_time_between_trips
+    dates = select(:date).order(date: :asc).collect{|d| d.date}
+    if dates.length == 1
+      return 10000
+    elsif
+      dates.length == 0
+      return nil
+    else
+      last = (dates.length) -1
+      diff_arr = []
+      dates.each_with_index do |val, index|
+        if index < last
+          diff_arr.push((dates[index+1].to_date - dates[index].to_date).to_i)
+        end
+      end
+      return (diff_arr.inject(0){|sum,x| sum + x }.to_f / diff_arr.length).round.abs unless diff_arr.empty?
     end
   end
 
   def self.custom_sort(category, direction)
-    # binding.pry
-    # category = category == nil ? 'date' : category
-    # direction = direction == nil ? 'desc' : direction
-    # binding.pry
     case category
     when 'date'
       sort_date(direction)
@@ -44,14 +60,16 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_items(direction)
-    select('baskets.*', 'SUM(line_items.quantity)')
+    # binding.pry
+    a = select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
       .order("SUM(line_items.quantity) #{direction}")
+      # binding.pry
   end
 
   def self.sort_total(direction)
-    select('baskets.*', 'SUM(line_items.total_cents)')
+    select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
       .order("SUM(line_items.total_cents) #{direction}")
