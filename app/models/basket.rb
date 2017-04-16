@@ -6,8 +6,6 @@ class Basket < ApplicationRecord
   paginates_per 10
 
   def self.from_graph(start_date, end_date, unit)
-    start = Basket.group_baskets(start_date, end_date, unit).first.first
-    ending = Basket.group_baskets(start_date, end_date, unit).first.first
     Basket.where(date: start_date..end_date)
   end
 
@@ -18,8 +16,10 @@ class Basket < ApplicationRecord
   def self.group_baskets(start_date, end_date, unit)
     if unit == "months"
       group_by_month(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
-    else
+    elsif unit == "weeks"
       group_by_week(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
+    else
+      group_by_day(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
     end
   end
 

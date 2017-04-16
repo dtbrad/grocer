@@ -1,6 +1,13 @@
 module ChartsHelper
     def basket_spending(obj)
       date_unit = obj.unit == 'months' ? '%B' : 'Week of '+'%m/%d/%y'
+      if obj.unit == 'months'
+        date_unit = '%B'
+      elsif obj.unit == 'weeks'
+        date_unit = 'Week of '+'%m/%d/%y'
+      else
+        date_unit = '%b %d %Y'
+      end
       line_chart current_user.baskets.group_baskets(obj.start_date, obj.end_date, obj.unit),
         ytitle: "Total Spent",
         colors: ['green'],
