@@ -6,7 +6,7 @@ class BasketsController < ApplicationController
     if current_user
       respond_to do |format|
         format.html {
-          @graph_form = GraphForm.new({start_date: Time.now - 1.year, end_date: Time.now, unit: "months"})
+          @graph_form = GraphForm.new({start_date: Time.now - 6.months, end_date: Time.now, unit: "months"})
           @unpaginated_unsorted_baskets = current_user.baskets.from_graph(start_date, end_date, unit)
           @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
           .page params[:page]
@@ -69,7 +69,7 @@ class BasketsController < ApplicationController
   # end
 
   def start_date
-    params[:start_date] ? params[:start_date] : Time.zone.now - 1.year
+    params[:start_date] ? params[:start_date] : Time.zone.now - 6.months
   end
 
   def revised_start

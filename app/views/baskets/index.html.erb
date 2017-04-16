@@ -1,9 +1,6 @@
 <% if current_user && !@baskets.empty? %>
 
-  <h4 id="index-title" class="text-center">Spending for
-    <%= DateTime.parse(start_date.to_s).localtime.strftime("%b %d, %Y") %> to
-    <%= DateTime.parse(end_date.to_s).localtime.strftime("%b %d, %Y") %>
-  </h4>
+  <h4 id="index-title" class="text-center">Spending for the last 6 months</h4>
   <div id="chart">
     <%= basket_spending(@graph_form) %>
   </div>
