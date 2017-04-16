@@ -1,15 +1,26 @@
 class BasketsController < ApplicationController
-  helper_method :unit, :duration, :sort_column, :sort_direction
+  helper_method :unit, :start_date, :end_date, :revised_start, :revised_end, :sort_column, :sort_direction
   before_action :authenticate_user!
 
   def index
     if current_user
-      @baskets = current_user.baskets.from_graph(unit, duration).custom_sort(sort_column, sort_direction)
-      .page params[:page]
-      @unpaginated_unsorted_baskets = current_user.baskets.from_graph(unit, duration)
       respond_to do |format|
-        format.html
-        format.js
+        format.html {
+          @graph_form = GraphForm.new({start_date: Time.now - 1.year, end_date: Time.now, unit: "months"})
+          @unpaginated_unsorted_baskets = current_user.baskets.from_graph(start_date, end_date, unit)
+          @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
+          .page params[:page]
+        }
+        format.js {
+          if params[:graph_change] == "yes"
+            @graph_form = GraphForm.new(params[:graph_form])
+          else
+            @graph_form = GraphForm.new({start_date: revised_start, end_date: revised_end, unit: unit})
+          end
+          @unpaginated_unsorted_baskets = current_user.baskets.from_graph(@graph_form.start_date, @graph_form.end_date, @graph_form.unit)
+          @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
+          .page params[:page]
+        }
       end
     end
   end
@@ -36,6 +47,10 @@ class BasketsController < ApplicationController
 
   private
 
+  def graph_form_params
+    params.require(:graph_form).permit(:start_date, :end_date, :unit, :graph_change)
+  end
+
   def sort_column
     params[:sort]
   end
@@ -48,9 +63,25 @@ class BasketsController < ApplicationController
   def unit
     params[:unit] ? params[:unit] : "months"
   end
+  #
+  # def duration
+  #   params[:duration] ? params[:duration] : 12
+  # end
 
-  def duration
-    params[:duration] ? params[:duration] : 12
+  def start_date
+    params[:start_date] ? params[:start_date] : Time.zone.now - 1.year
+  end
+
+  def revised_start
+    params[:graph_form] ? params[:graph_form][:start_date] : start_date
+  end
+
+  def end_date
+    params[:end_date] ? params[:end_date] : Time.zone.now
+  end
+
+  def revised_end
+    params[:graph_form] ? params[:graph_form][:end_date] : end_date
   end
 
 end

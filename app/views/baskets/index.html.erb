@@ -1,11 +1,16 @@
 <% if current_user && !@baskets.empty? %>
+
+  <h4 id="index-title" class="text-center">Spending for
+    <%= DateTime.parse(start_date.to_s).localtime.strftime("%b %d, %Y") %> to
+    <%= DateTime.parse(end_date.to_s).localtime.strftime("%b %d, %Y") %>
+  </h4>
+  <div id="chart">
+    <%= basket_spending(@graph_form) %>
+  </div>
   <div class="text-center" id="graph_control">
     <%= render partial: 'graph_control' %>
   </div>
-
-  <div id="chart">
-    <%= basket_spending('months', 12) %>
-  </div>
+</br>
 
   <div class="panel panel-default">
     <div class="panel panel-heading">

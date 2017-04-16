@@ -4,6 +4,10 @@ module ApplicationHelper
     date.localtime.strftime("%A, %b %d %Y %l:%M %p")
   end
 
+  def form_date(date)
+    date.localtime.strftime("%Y-%m-%d")
+  end
+
   def sort_record_by(column, title=nil)
     title ||= column.titleize
     direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"

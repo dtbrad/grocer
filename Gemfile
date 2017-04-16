@@ -36,6 +36,7 @@ group :development, :test do
   gem 'pry'
   gem 'simplecov', '~> 0.12.0'
   gem 'rails-erd', '~> 1.5'
+  gem 'meta_request'
 end
 
 group :test do

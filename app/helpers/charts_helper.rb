@@ -1,11 +1,8 @@
 module ChartsHelper
-    def basket_spending(unit, duration)
-      date_unit = unit == 'months' ? '%B' : 'Week of '+'%m/%d/%y'
-      a = current_user.baskets.group_baskets(duration, unit)
-      # binding.pry
-      line_chart current_user.baskets.group_baskets(duration, unit),
+    def basket_spending(obj)
+      date_unit = obj.unit == 'months' ? '%B' : 'Week of '+'%m/%d/%y'
+      line_chart current_user.baskets.group_baskets(obj.start_date, obj.end_date, obj.unit),
         ytitle: "Total Spent",
-        title: 'Spending for last ' + duration.to_s + ' ' + unit,
         colors: ['green'],
         library: {
             yAxis: {

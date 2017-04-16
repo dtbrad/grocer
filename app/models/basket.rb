@@ -5,20 +5,21 @@ class Basket < ApplicationRecord
   validates :date, presence: true
   paginates_per 10
 
-  def self.from_graph(unit, duration)
-    a = Basket.group_baskets(duration, unit).first.first
-    Basket.where("date > ?", a)
+  def self.from_graph(start_date, end_date, unit)
+    start = Basket.group_baskets(start_date, end_date, unit).first.first
+    ending = Basket.group_baskets(start_date, end_date, unit).first.first
+    Basket.where(date: start_date..end_date)
   end
 
   def self.average_total
     average(:total_cents) / 100 if  average(:total_cents)
   end
 
-  def self.group_baskets(duration, unit)
+  def self.group_baskets(start_date, end_date, unit)
     if unit == "months"
-      group_by_month(:date, last: duration.to_i).sum('baskets.total_cents / 100')
+      group_by_month(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
     else
-      group_by_week(:date, last: duration.to_i).sum('baskets.total_cents / 100')
+      group_by_week(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
     end
   end
 

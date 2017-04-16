@@ -1,10 +1,13 @@
 var graph_change = '<%= params[:graph_change] %>'
 var av_freq = '<%= freq_formatter(@unpaginated_unsorted_baskets.average_time_between_trips)%>'
 var av_total = '<%= avg_formatter(number_to_currency(@unpaginated_unsorted_baskets.average_total)) %>'
-
-
+// debugger;
 $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");;
 if (graph_change === 'yes') {
-  $("#chart").html("<%= escape_javascript(basket_spending(unit, duration)) %>");
+  // debugger;
+  $("#index-title").html("Spending for <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
+  $("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");
   $("#stat").html(av_freq + av_total)
+  console.log("changed graph")
 }
+else { console.log("did not chang graph");}
