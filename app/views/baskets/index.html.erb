@@ -1,14 +1,31 @@
 <% if current_user && !@baskets.empty? %>
 
-  <h4 id="index-title" class="text-center">Spending for the last 6 months</h4>
+  </br></br>
   <div id="chart">
     <%= basket_spending(@graph_form) %>
   </div>
 
-  <div class="text-center" id="graph_control">
-    <%= render partial: 'graph_control' %>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="list-item">
+        <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last 6 months</h3>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="list-item text-right" style="padding-top: 13px">
+        <%= render partial: 'graph_control' %>
+      </div>
+    </div>
   </div>
-</br>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-6">
+      <div class="list-item text-right">
+        <label style="color: red" id="graph_error_explanation"></label>
+      </div>
+    </div>
+  </div>
 
   <div class="panel panel-default">
     <div class="panel panel-heading">
@@ -23,8 +40,8 @@
   </div>
 
 <% elsif current_user && @baskets.empty?%>
-  <h4 class="text-center">
-    You currently have no purchase history in the database.
-    If you just imported your receipts, try refreshing the page.
-  </h4>
+    <h4 class="text-center">
+      You currently have no purchase history in the database.
+      If you just imported your receipts, try refreshing the page.
+    </h4>
 <% end %>

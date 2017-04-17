@@ -12,9 +12,9 @@ module BasketsHelper
     elsif !num
       "You did not shop during the selected time period. "
     elsif num == 1
-      "While active during this period you shopped on average every day. "
+      "When active during this period you shopped on average every day. "
     else
-      "While active during this period you shopped on average every #{num} days. "
+      "When active during this period you shopped on average every #{num} days. "
     end
   end
 

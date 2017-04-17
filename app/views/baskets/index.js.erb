@@ -7,15 +7,14 @@ var av_total = '<%= avg_formatter(number_to_currency(@unpaginated_unsorted_baske
 if (graph_change === 'yes') {
 
   <% if @graph_form.valid? %>
-      $("#index-title").html("Spending for <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
+      $("#index-title").html("Spending: <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
       $("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");
       $("#stat").html(av_freq + av_total)
       $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
   <% else %>
 
-    <% @graph_form.errors.full_messages.each do |message| %>
-      $('#graph_error_explanation').append("<%= escape_javascript(message) %>");
-    <% end %>
+    $('#graph_error_explanation').append("<ul> <% @graph_form.errors.full_messages.each do |message| %> <p> <%= message %> </p> <% end %> </ul>")
+
   <% end %>
 }
 
