@@ -9,7 +9,6 @@ describe LineItem do
   it "is invalid without a price" do
     line_item = build(:line_item)
     line_item.price_cents = nil
-    # binding.pry
     line_item.valid?
     expect(line_item.errors[:price_cents]).to include("can't be blank")
   end

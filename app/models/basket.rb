@@ -61,12 +61,10 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_items(direction)
-    # binding.pry
     a = select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
       .order("SUM(line_items.quantity) #{direction}")
-      # binding.pry
   end
 
   def self.sort_total(direction)

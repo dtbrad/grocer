@@ -6,7 +6,7 @@ module ChartsHelper
       elsif obj.unit == 'weeks'
         date_unit = 'Week of '+'%m/%d/%y'
       else
-        date_unit = '%b %d %Y'
+        date_unit = '%a, %b %d %Y'
       end
       line_chart current_user.baskets.group_baskets(obj.start_date, obj.end_date, obj.unit),
         ytitle: "Total Spent",

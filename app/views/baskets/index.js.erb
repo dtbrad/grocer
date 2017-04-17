@@ -1,13 +1,26 @@
+$('#graph_error_explanation').html("");
 var graph_change = '<%= params[:graph_change] %>'
 var av_freq = '<%= freq_formatter(@unpaginated_unsorted_baskets.average_time_between_trips)%>'
 var av_total = '<%= avg_formatter(number_to_currency(@unpaginated_unsorted_baskets.average_total)) %>'
-// debugger;
-$("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");;
+
+
 if (graph_change === 'yes') {
-  // debugger;
-  $("#index-title").html("Spending for <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
-  $("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");
-  $("#stat").html(av_freq + av_total)
-  console.log("changed graph")
+
+  <% if @graph_form.valid? %>
+      $("#index-title").html("Spending for <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
+      $("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");
+      $("#stat").html(av_freq + av_total)
+      $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
+  <% else %>
+
+    <% @graph_form.errors.full_messages.each do |message| %>
+      $('#graph_error_explanation').append("<%= escape_javascript(message) %>");
+    <% end %>
+  <% end %>
 }
-else { console.log("did not chang graph");}
+
+else {
+
+  $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
+
+};
