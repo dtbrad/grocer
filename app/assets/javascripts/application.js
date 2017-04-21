@@ -63,4 +63,5 @@ $('.welcomebutton').click(function(){
 	                  "hideMethod": "fadeOut"
 	              }
 
+	$('[data-toggle="popover"]').popover();  
 	});

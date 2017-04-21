@@ -17,7 +17,7 @@
           In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
         <% end %>
       </h4>
-      <div class="panel-title pull-right form-inline" style="padding-top: 7px; padding-right: 20px">
+      <div data-toggle="popover" data-placement="top" tabindex="0" data-trigger="hover" data-content="New Seasons doesn't always provide the clearest product names in their receipts. You can suggest a better display name using this input." class="panel-title pull-right form-inline" style="padding-top: 7px; padding-right: 20px">
         <%= render 'products/form', product: @product  %>
       </div>
     </row>
