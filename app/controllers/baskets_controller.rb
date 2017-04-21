@@ -15,7 +15,7 @@ class BasketsController < ApplicationController
           if params[:graph_change] == "yes"
             @graph_form = GraphForm.new(params[:graph_form])
           else
-            @graph_form = GraphForm.new({start_date: revised_start, end_date: revised_end, unit: unit})
+            @graph_form = GraphForm.new({start_date: revised_start.to_s, end_date: revised_end.to_s, unit: unit})
           end
           @unpaginated_unsorted_baskets = current_user.baskets.from_graph(@graph_form.start_date, @graph_form.end_date, @graph_form.unit)
           @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
