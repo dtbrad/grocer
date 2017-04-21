@@ -31,30 +31,35 @@ class Product < ApplicationRecord
   end
 
   def self.sort_most_bought(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('products.*', 'SUM(line_items.quantity) as line_items_sum')
       .group('products.id')
       .order("line_items_sum #{direction}")
   end
 
   def self.sort_highest_price(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('products.*', 'MAX(line_items.price_cents) as max_price')
       .group('products.id')
       .order("max_price #{direction}")
   end
 
   def self.sort_lowest_price(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('products.*', 'MIN(line_items.price_cents) as min_price')
       .group('products.id')
       .order("min_price #{direction}")
   end
 
   def self.sort_recently_purchased(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('products.*', 'MAX(baskets.date) as max_date')
       .group('products.id')
       .order("max_date #{direction}")
   end
 
   def self.sort_nickname(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('products.*')
       .group('products.id')
       .order("nickname #{direction}")

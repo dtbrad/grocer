@@ -18,11 +18,13 @@ class LineItem < ApplicationRecord
   end
 
   def self.custom_sort(category, direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     if category == "date_purchased"
       line_items = select('line_items.*').
       joins(:basket).
       order("baskets.date #{direction}")
     elsif LineItem.column_names.include?(category)
+      category = sanitize_sql(category)
       line_items = select('line_items.*').
       order(category + " " + direction)
     else

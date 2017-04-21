@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   def welcome
   end
 
-  def privacy
+  def tos
   end
 
   private

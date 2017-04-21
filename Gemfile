@@ -29,6 +29,7 @@ gem 'devise'
 gem 'devise-bootstrap-views'
 gem 'bootstrap-modal-rails'
 
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'factory_girl_rails', '~> 4.7'
@@ -48,6 +49,7 @@ group :test do
 end
 
 group :development do
+  gem 'brakeman', :require => false
   gem 'rubocop'
   gem 'web-console'
   gem 'listen', '~> 3.0.5'

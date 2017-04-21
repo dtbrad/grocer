@@ -56,11 +56,13 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_date(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('baskets.*')
       .order("baskets.date #{direction}")
   end
 
   def self.sort_items(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     a = select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
@@ -68,6 +70,7 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_total(direction)
+    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
     select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
