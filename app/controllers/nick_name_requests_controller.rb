@@ -14,9 +14,12 @@ class NickNameRequestsController < ApplicationController
   end
 
   def update
-    @nick_name_request = NickNameRequest.find(params[:id])
-    NickNameRequest.process_request(@nick_name_request, params)
-    redirect_to nick_name_requests_path
+    if current_user.admin?
+      @nick_name_request = NickNameRequest.find(params[:id])
+      NickNameRequest.process_request(@nick_name_request, params)
+      redirect_to nick_name_requests_path
+    else
+    end
   end
 
 end

@@ -45,9 +45,9 @@ class User < ApplicationRecord
               HAVING COUNT(DISTINCT b1.user_id) = 1
               ) p1
               GROUP  BY user_id
-              HAVING user_id = #{self.id};
+              HAVING user_id = ?
             "
-    result = ActiveRecord::Base.connection.execute(query)
+    result = LineItem.execute_with_params(query, self.id)
     result.field_values("my_result").empty? ? 0 : result[0]["my_result"]
   end
 end
