@@ -63,5 +63,9 @@ $('.welcomebutton').click(function(){
 	                  "hideMethod": "fadeOut"
 	              }
 
-	$('[data-toggle="popover"]').popover();  
-	});
+
+
+	if (!("ontouchstart" in document.documentElement)) {
+		$('[data-toggle="popover"]').popover();
+	}
+});

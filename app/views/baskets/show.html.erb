@@ -22,8 +22,16 @@
       </thead>
       <tbody>
         <% @basket.line_items.each do |li| %>
+          <% if li.product.real_unit_price_cents != nil %>
+          <tr style="color: green"
+              data-toggle="popover"
+              data-placement="top"
+              data-trigger="hover"
+              data-content="Often, New Seasons provides no unit pricing or weight for items from the meat/deli/fish counters, so sometimes Grocer will insert a unit price based on past experience. This line item's weight is derived from that inserted price, so just be aware that the total price will match your receipt, but unit price and weight might be a little off.">
+          <% else %>
           <tr>
-            <td> <%= link_to li.product.nickname, product_path(li.product) %> </td>
+            <% end %>
+            <td> <a href='/products/<%=li.product.id%>' style= '<%= "color:green" if li.product.real_unit_price_cents != nil %>'><%= li.product.nickname %></td>
             <td> <%= number_to_currency(li.price) %> </td>
             <td> <%= li.quantity %></td>
             <td> <%= li.formatted_weight %> </td>
