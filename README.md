@@ -1,10 +1,12 @@
 # README
 
-Grocer is currently deployed at [https://new-seasons.herokuapp.com](https://new-seasons.herokuapp.com)
+Grocer is currently deployed at [https://www.my-grocer.com](https://www.my-grocer.com)
 
 I'll aim to keep this README updated as I progress. Grocer accesses a user's gmail inbox using Oauth2 and the google api library, searches for and parses email receipts from New Seasons Market using Nokogiri, then transforms that data into a SQL database of shopping receipts (baskets), line items, and products that a user can navigate, sort, and search. Detailed analytics are presented in charts at the top of the index and show pages. Grocer also includes a "smart" shopping list maker built with AngularJS(1) that leverages the product information in the database to allow users to quickly make lists with accurate pricing information baked in. Lists are automatically emailed to the user when saved.
 
 Receipts from New Seasons Market sometimes contain abbreviated or otherwise unclear product names, so on each product show page there is an input for a product "nickname". Nicknames submitted by regular users through that input are routed to a review queue accessible only by admin-level users, where they can be approved or rejected. Admin-level users can also directly edit nicknames on the product show pages without additional review. Once a nickname is submitted/approved, the product will appear only by its nickname, for both past shopping receipts as well as any that are scraped in the future.
+
+Additionally, New Seasons Market often fails to include unit pricing and weight amounts on items from their meat, fish and deli counters, giving the user only a total price for the. I added a feature, currently usable only from the console, that enables an admin to artificially add a unit price to a product and add that unit price to all past and future line_items for that product. The weight amount is derived by dividing the total price by the inserted unit price. Line items that have been modified this way are highlighted in the basket show views.
 
 To install and use locally:
 
