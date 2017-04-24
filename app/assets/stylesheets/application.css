@@ -57,10 +57,12 @@ html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   padding-top: 50px;
@@ -68,4 +70,8 @@ body {
   bottom: 0;
   width: 100%;
   height: 60px;
+}
+
+.welcomebutton {
+  color : #6fa1e2;
 }

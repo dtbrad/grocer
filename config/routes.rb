@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :products
   resources :nick_name_requests
 
+  get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
   get 'tos', to: 'application#tos'
   get 'sample_user_message', to: 'application#sample_user_message'
