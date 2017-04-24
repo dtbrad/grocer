@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   def tos
   end
 
+  def log_out_to_register
+    reset_session
+    redirect_to new_user_registration_path
+  end
+
   private
 
   def ensure_domain
