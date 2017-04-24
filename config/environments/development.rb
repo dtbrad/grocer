@@ -5,10 +5,10 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
 # SMTP settings for gmail
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.gmail.com",
+    :address              => "mail.hover.com",
     :port                 => 587,
-    :user_name            => ENV['gmail_username'],
-    :password             => ENV['gmail_password'],
+    :user_name            => ENV['hover_username'],
+    :password             => ENV['hover_password'],
     :authentication       => "plain",
     :enable_starttls_auto => true
   }
@@ -40,7 +40,7 @@ Rails.application.configure do
   end
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 

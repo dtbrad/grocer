@@ -1,5 +1,5 @@
 class ListMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: ENV['hover_username']
   add_template_helper(ApplicationHelper)
 
   def list_mailer(list)
