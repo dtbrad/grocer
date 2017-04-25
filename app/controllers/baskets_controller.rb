@@ -40,8 +40,8 @@ class BasketsController < ApplicationController
     # Scraper.process_emails(current_user, params[:date], session[:access_token])
   end
 
-  def remove
-    current_user.baskets.remove_user
+  def disassociate_user
+    current_user.baskets.disassociate_user
     redirect_to baskets_path, flash: { alert: 'Purchase history deleted from your account' }
   end
 

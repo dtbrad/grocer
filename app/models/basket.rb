@@ -77,7 +77,7 @@ class Basket < ApplicationRecord
       .order("SUM(line_items.total_cents) #{direction}")
   end
 
-  def self.remove_user
+  def self.disassociate_user
     all.each {|b| b.update(user_id: nil)}
   end
 

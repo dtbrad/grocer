@@ -9,16 +9,17 @@ Rails.application.routes.draw do
     end
   end
   resources :shopping_lists, only: [:show, :index, :create]
-  resources :baskets
-  resources :products
-  resources :nick_name_requests
+  resources :baskets, only: [:index, :new, :show, :create]
+  resources :products, only: [:index, :show, :create]
+  resources :nick_name_requests, only: [:index, :create, :update]
 
   get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
   get 'tos', to: 'application#tos'
   get 'sample_user_message', to: 'application#sample_user_message'
   get 'log_out_to_register', to: 'application#log_out_to_register'
-  get 'remove', to: 'baskets#remove', as: 'remove'
+
+  post 'disassociate_user', to: 'baskets#disassociate_user', as: 'disassociate_user'
   get 'most_spent_chart', to: 'charts#most_spent'
   get 'most_bought_chart', to: 'charts#most_bought'
   get 'product_monthly_purchasing_chart', to: 'charts#product_monthly_purchasing'
