@@ -6,10 +6,13 @@ class ApplicationController < ActionController::Base
   def about
   end
 
-  def welcome
+  def privacy
   end
 
   def tos
+  end
+
+  def welcome
   end
 
   def log_out_to_register

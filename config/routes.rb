@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
   get 'tos', to: 'application#tos'
+  get 'privacy', to: 'application#privacy'
   get 'sample_user_message', to: 'application#sample_user_message'
   get 'log_out_to_register', to: 'application#log_out_to_register'
 

@@ -75,3 +75,11 @@ body {
 .welcomebutton {
   color : #6fa1e2;
 }
+
+.fixed-ratio-resize { /* basic responsive img */
+	max-width: 100%;
+	height: auto;
+	width: auto\9; /* IE8 */
+  margin: auto;
+
+}

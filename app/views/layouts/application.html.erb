@@ -12,9 +12,11 @@
       <div id="modal-window" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
     </br></br>
-      <div class="page-header">
-        <h1 class="text-center" id="web-title">GROCER <small> purchase tracking for New Seasons Market shoppers</small></h1>
-      </div>
+
+        <center>
+          <%= image_tag "grocer_title.jpg", class:"fixed-ratio-resize" %>
+        </center>
+
       <%= render 'layouts/flash' %>
       <% unless controller_name == "registrations" ||
          controller_name == "sessions"  || action_name == "welcome" %>
@@ -28,7 +30,9 @@
 
     <div class="footer text-center">
       <p style="font-size:0.8em">
-        &copy; 2017 Developed by <a href="https://linkedin.com/in/daniel-brad ">Daniel Brad</a> | <a href="mailto:info@my-grocer.com">Contact</a> | <%= link_to 'Terms of Service', tos_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
+        &copy; 2017 Developed by <%= mail_to("danieltbrad@gmail.com", "Daniel Brad") %> |
+        <%= link_to 'Terms of Service', tos_path %> |
+        <%= link_to 'Privacy Policy', privacy_path %>
       </p>
     </div>
   </body>
