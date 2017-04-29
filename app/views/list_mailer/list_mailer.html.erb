@@ -187,7 +187,7 @@ Email on Acid - http://www.emailonacid.com/blog/details/C18/doctype_-_the_black_
 			<% @list.items.each do |i| %>
 			<tr>
 				<td width="200" valign="top"><%= i.name %></td>
-				<td width="200" valign="top"><%= i.quantity %> &#64; <%= number_to_currency(i.price) %></td>
+				<td width="200" valign="top"><%= i.nice_quant %> &#64; <%= number_to_currency(i.price) %></td>
 				<td width="200" valign="top"><%= number_to_currency(i.price * i.quantity) %></td>
 			</tr>
 			<tr>

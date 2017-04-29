@@ -1,5 +1,7 @@
+</br></br>
 <div class="col-md-6 col-md-offset-3 panel panel-default devise-bs">
   <%= bootstrap_devise_error_messages! %>
+</br>
   <h4 class="text-center">Sign Up</h4>
   <div class="panel-body">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form' }) do |f| %>
@@ -35,5 +37,5 @@
     <hr>
     <h5 class="text-center"> <%= link_to "Log in", new_user_session_path %> | <%= link_to "Home", root_path %></h5>
   </div>
-  </br></br>
+  </br>
 </div>

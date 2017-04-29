@@ -1,4 +1,6 @@
+</br></br></br>
 <div class="col-md-6 col-md-offset-3 panel panel-default devise-bs">
+</br>
   <h4 class="text-center">Log In</h4>
   <div class="panel-body">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
@@ -30,7 +32,8 @@
         <%= f.submit value: 'Log in as a sample user', class: 'btn btn-success btn-block' %>
       <% end %>
     </div>
-  </div>
   <hr>
   <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %></h5>
+</div>
+</br>
 </div>

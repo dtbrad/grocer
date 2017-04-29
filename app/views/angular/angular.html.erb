@@ -59,7 +59,7 @@
                   <div ng-message="onlyNumbers">Price must be a positive numeric value</div>
                 </div>
                 <div ng-show="ctrl.listForm.manualSearchPrice.$touched">
-                  <div ng-message="saneNumbers">Price must be below $200</div>
+                  <div ng-message="saneNumbers">Price must be between 0 and 200</div>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@
                       <input name="listItemPrice" class="form-control" ng-model="item.price" required only-numbers sane-numbers>
                     </div>
                     <div class="col-md-2 list-item">
-                      <input name="listItemQuantity" class="form-control" ng-model="item.quantity" required only-numbers sane-numbers>
+                      <input name="listItemQuantity" class="form-control" ng-model="item.quantity" required only-integers sane-numbers>
                     </div>
                     <div class="col-md-3 list-item">
                       <span class="uneditable-input form-control"> {{ item.price * item.quantity | currency }}</span>
@@ -127,14 +127,15 @@
                       <div ng-messages="listItemForm.listItemPrice.$error">
                         <div ng-message="required"> Price required </div>
                         <div ng-message="onlyNumbers">Price must be a positive numeric value</div>
-                        <div ng-message="saneNumbers">Price must be below $200</div>
+                        <div ng-message="saneNumbers">Price must be between 0 and 200</div>
                       </div>
                     </div>
                     <div class="col-md-2" style="color:red">
                       <div ng-messages="listItemForm.listItemQuantity.$error">
                         <div ng-message="required"> Quantity required </div>
                         <div ng-message="onlyNumbers">Quantity must be a positive numeric value</div>
-                        <div ng-message="saneNumbers">Quantity must be below 200</div>
+                        <div ng-message="saneNumbers">Quantity must be between 0 and 200</div>
+                        <div ng-message="onlyIntegers">Quantity must be in integers for this item</div>
                       </div>
                     </div>
                   </div>

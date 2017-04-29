@@ -7,7 +7,7 @@ function saneNumbers() {
           if (value === undefined) {
             return true
           }
-          return value < 200;
+          return (value > 0 && value < 200)
   			};
   		}
   	}
