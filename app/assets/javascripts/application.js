@@ -48,7 +48,15 @@ $('.welcomebutton').click(function(){
     });
 });
 
-	 toastr.options = {
+	$('#import_baskets_date_submit').click(function(r){
+		var date = $('#import_baskets_date_id').val()
+		if(date === "") {
+			r.preventDefault();
+			$(".new-basket-error").show();
+			setTimeout(function() { $(".new-basket-error").hide(); }, 5000);
+		}});
+
+	toastr.options = {
 	                  "closeButton": true,
 	                  "debug": false,
 	                  "positionClass": "toast-top-full-width",
