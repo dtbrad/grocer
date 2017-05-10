@@ -28,12 +28,13 @@
     </div>
   </br></br>
 
-    <div class="footer text-center">
-      <p style="font-size:0.8em">
-        &copy; 2017 Developed by <%= mail_to("danieltbrad@gmail.com", "Daniel Brad") %> |
-        <%= link_to 'Terms of Service', tos_path %> |
-        <%= link_to 'Privacy Policy', privacy_path %>
-      </p>
-    </div>
+  <div class="footer text-center">
+    <p style="font-size:0.8em">
+      &copy; 2017 Developed by <%= mail_to("danieltbrad@gmail.com", "Daniel Brad") %> |
+      <%=link_to "GitHub", "https://github.com/dtbrad/grocer",  target: :_blank %> |
+      <%= link_to 'Terms of Service', tos_path %> |
+      <%= link_to 'Privacy Policy', privacy_path %>
+    </p>
+  </div>
   </body>
 </html>

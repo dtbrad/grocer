@@ -1,7 +1,7 @@
 class BasketWorker
   include Sidekiq::Worker
 
-  def perform(id, date, token)
+  def perform(id, date, token, orig_email="")
     user = User.find(id)
     orig_count = user.baskets.count
 
@@ -12,7 +12,7 @@ class BasketWorker
       </div>"
     }
 
-    Scraper.process_emails(user, date, token)
+    Scraper.process_emails(user, date, token, orig_email)
 
     if user.baskets.count > orig_count
       ActionCable.server.broadcast "notifications:#{user.id}", {html:

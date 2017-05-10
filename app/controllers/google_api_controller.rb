@@ -7,7 +7,8 @@ class GoogleApiController < ApplicationController
       client_secret: ENV['GOOGLE_SECRET'],
       authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
       scope: Google::Apis::GmailV1::AUTH_GMAIL_READONLY,
-      redirect_uri: ENV['redirect_uri']
+      redirect_uri: ENV['redirect_uri'],
+      prompt: 'select_account consent'
     })
     redirect_to client.authorization_uri.to_s
   end
