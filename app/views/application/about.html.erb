@@ -1,3 +1,10 @@
+</br></br>
+
+<% if !current_user %>
+<div>
+  <%= render 'application/session_buttons' %>
+</div>
+<% end %>
 </br>
 
 <div class="jumbotron" style="background-color: #CED919; color: black">
@@ -36,9 +43,3 @@
   </p>
 
 </div>
-
-<% if !current_user %>
-<div>
-  <%= render 'application/session_buttons' %>
-</div>
-<% end %>
