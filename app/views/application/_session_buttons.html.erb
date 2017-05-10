@@ -1,0 +1,16 @@
+<div class="row">
+
+  <div class="col-lg-4 list-group" style="padding-left: 15px">
+  <%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg btn-block"%>
+  </div>
+  <div class="col-lg-4 list-group" style="padding-left: 15px">
+    <%= link_to "Log in", new_user_session_path, class: "btn btn-primary btn-lg btn-block" %>
+  </div>
+  <div class="col-lg-4 list-group" style="padding-left: 15px">
+    <form role="form" class="new_user " id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="hHwg9r8AfuKssVAxL9XABziZEF/UQf4F0U3kJhKZIQPVIEv5UgHBnzfXxJfd/NAsOiIJSBSH1JcFpC5KIoQJ2g==">
+      <input autofocus="autofocus" class="form-control" value="sampleuser@mail.com" type="hidden" name="user[email]" id="user_email">
+      <input autocomplete="off" class="form-control" value="password" type="hidden" name="user[password]" id="user_password">
+      <input type="submit" name="commit" value="See a demo!" class="btn btn-success btn-lg btn-block">
+    </form>
+  </div>
+  </div>

@@ -4,7 +4,7 @@ class NickNameRequestsController < ApplicationController
   def index
     if current_user.admin?
       @nick_name_requests = NickNameRequest.where(status: 'unreviewed')
-      @users = User.all
+      @users = User.order(created_at: :desc )
     else
       redirect_to root_path, flash: { alert: 'You do not have access to this page' }
     end
