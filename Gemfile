@@ -28,6 +28,7 @@ gem 'premailer-rails'
 gem 'devise'
 gem 'devise-bootstrap-views'
 gem 'bootstrap-modal-rails'
+gem 'newrelic_rpm'
 
 
 group :development, :test do
