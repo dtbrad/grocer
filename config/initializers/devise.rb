@@ -17,8 +17,7 @@ Devise.setup do |config|
   # config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET'], {
   #   scope: ['https://mail.google.com/', 'email']
   # }
-  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET'], {
-  }
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_SECRET'], { prompt: 'select_account consent' }
 
   # Configure the class responsible to send e-mails.
   config.mailer = 'CustomDeviseMailer'
