@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
   before_action :set_variables, only: [:show, :update]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :product_summaries
 
   def index
       if params[:search]
