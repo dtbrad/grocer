@@ -25,7 +25,7 @@ class Scraper
   def self.grab_email_ids(user, date, service, orig_email)
     account_email = service.get_user_profile('me').email_address
     if orig_email.empty?
-      q = "'Your New Seasons Market Email Receipt' from: receipts@newseasonsmarket.com after:#{date} to:#{account_email}"
+      q = "'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com} after:#{date} to:#{account_email}"
     else
       q = "'Your New Seasons Market Email Receipt' after:#{date} {to:#{orig_email} to:#{account_email}}"
     end
