@@ -18,7 +18,7 @@ class BasketWorker
       ActionCable.server.broadcast "notifications:#{user.id}", {html:
 
         "<div class='alert alert-success alert-block text-center'>
-          Search complete! Note that on June 7, 2016 New Seasons Market changed the format of their email receipts. I'm working on refactoring my application to process the new receipts, but until then Grocer will only import receipts from before that date.
+          Search complete!
         </div>
         <a href='/baskets' class='btn btn-default btn-block'>
           #{user.baskets.count - orig_count} new receipts imported. Click here to see your updated history.
@@ -27,7 +27,7 @@ class BasketWorker
       }
     else
       ActionCable.server.broadcast "notifications:#{user.id}", {html:
-        "<div class='alert alert-danger'>No (new) receipts found. Note that on June 7, 2016 New Seasons Market changed the format of their email receipts. I'm working on refactoring my application to process the new receipts, but until then Grocer will only import receipts from before that date</div>",
+        "<div class='alert alert-danger'>No (new) receipts found.</div>",
         text: "Search complete. No (new) receipts found"
       }
     end

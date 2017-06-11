@@ -10,14 +10,8 @@ class Scraper
     emails = get_full_emails(user, email_ids, service)
     if emails.length > 0
       emails.each do |email|
-            basket = user.baskets.build(date: email[:date])
-        rows = get_the_right_rows(email[:body])
-        rows.length.times do |i|
-          info = get_data(rows, i)
-          build_products_and_line_items(basket, info, user)
-        end
-        basket.total_cents = basket.line_items.total_spent
-        basket.save
+        basket = user.baskets.build(date: email[:date])
+        process_single_email(basket, email[:body], user)
       end
     end
   end
@@ -25,9 +19,9 @@ class Scraper
   def self.grab_email_ids(user, date, service, orig_email)
     account_email = service.get_user_profile('me').email_address
     if orig_email.empty?
-      q = "'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com} after:#{date} before: 2017-06-07 to:#{account_email}"
+      q = "subject:'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com} after:#{date} to:#{account_email}"
     else
-      q = "'Your New Seasons Market Email Receipt' after:#{date} before: 2017-06-07 {to:#{orig_email} to:#{account_email}}"
+      q = "subject:'Your New Seasons Market Email Receipt' after:#{date} {to:#{orig_email} to:#{account_email}}"
     end
     @emails = service.list_user_messages(
       'me',
@@ -64,15 +58,9 @@ class Scraper
   end
 
   def self.prepare_forwarded(user, email, email_array)
-    header = email.payload.headers.find {|h| h.name == "From" }.value
-
     if email.payload.headers.find {|h| h.name == "From" }.value.include?("gmail.com")
       email_date = ActiveSupport::TimeZone["America/Los_Angeles"].parse(email.payload.parts.last.body.data[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
-    elsif email.payload.headers.find {|h| h.name == "From" }.value.include?("google.com")
-      email_date = ActiveSupport::TimeZone["America/Los_Angeles"].parse(email.payload.headers.find {|h| h.name == "Received" }.value[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), [0-9]{1,2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2}/])
-    elsif email.payload.headers[6].value.include?("yahoo.com")
-      email_date = ActiveSupport::TimeZone["America/Los_Angeles"].parse(email.payload.parts.last.body.data[/(Sunday|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
-    else
+      body = email.payload.parts.last.body.data unless user.baskets.find_by(user: user, date: email_date)
     end
     if email_date
       body = email.payload.parts.last.body.data unless user.baskets.find_by(user: user, date: email_date)
@@ -80,7 +68,27 @@ class Scraper
         date: email_date,
         body: body
       }
+      my_email
     end
+  end
+
+  def self.process_single_email(basket, body, user)
+    if !Nokogiri::HTML(body).css(".savings-label").empty? # newer email format original or auto-forwarded
+      rows = Nokogiri::HTML(body).css(".basket-body tr")
+      parse_method = "parse_new_style"
+    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty? # newer email format manually forwarded
+      rows = get_the_right_rows_new_forwarded(body)
+      parse_method = "parse_new_style"
+    else # older email format (original or forwarded)
+      rows = get_the_right_rows(body)
+      parse_method = "parse_old_style"
+    end
+    rows.length.times do |i|
+      info = eval("#{parse_method}(rows, i)")
+      build_products_and_line_items(basket, info, user)
+    end
+    basket.total_cents = basket.line_items.total_spent
+    basket.save
   end
 
   def self.get_the_right_rows(body)
@@ -92,7 +100,16 @@ class Scraper
     )
   end
 
-  def self.get_data(rows, i)
+  def self.get_the_right_rows_new_forwarded(body)
+    noko_body = Nokogiri::HTML(body)
+    noko_body.xpath(
+      '//tr[td[contains(@class, "item-description")]
+       and td[contains(@class, "item-amount")]
+       and td[contains(@class, "item-qty")] or td[span]]'
+    )
+  end
+
+  def self.parse_old_style(rows, i)
     unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?("Transaction Date")
       info = { name: rows[i].css('td[class*="basket-item-desc"]').text.strip,
                total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i
@@ -110,9 +127,42 @@ class Scraper
         info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
 
       elsif unit_pricing && has_weight_unit
-        info[:price_cents] = rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100
-        info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
+        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
+        info[:quantity] = 1
         info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_d
+      end
+
+      if has_discount
+        info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
+        info[:total_cents] += info[:disc]
+      else
+        info[:disc] = 0
+      end
+      info
+    end
+  end
+
+  def self.parse_new_style(rows, i)
+    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?("Transaction Date")
+      info = { name: rows[i].css('td[class*="item-description"]').text.strip,
+               total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i
+             }
+      unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
+      has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
+      has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
+
+      if !unit_pricing
+        info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
+        info[:quantity] = 1 unless info[:quantity].nonzero?
+
+      elsif unit_pricing && !has_weight_unit
+        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
+        info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
+
+      elsif unit_pricing && has_weight_unit
+        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
+        info[:quantity] = 1
+        info[:weight] = rows[i + 1].css('span').text.strip.split("@")[0].to_d
       end
 
       if has_discount

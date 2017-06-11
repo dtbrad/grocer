@@ -31,7 +31,7 @@ $(document).ready(function() {
 	$('#textfield_id').attr('readOnly', 'true');
 	$('.datepicker').datepicker({
 		format: 'yyyy-mm-dd',
-		endDate: '2017-06-06'
+		endDate: '-0d'
 	});
 
 	function matchHeight() {
