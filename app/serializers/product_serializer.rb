@@ -2,7 +2,7 @@ class ProductSerializer < ActiveModel::Serializer
   attributes :name, :nickname, :price, :has_weight
 
   def price
-    (object.highest_price_cents.to_f) / 100 unless !object.has_line_items?
+    object.highest_price_cents.to_f / 100 if object.has_line_items?
   end
 
   def has_weight
@@ -12,5 +12,4 @@ class ProductSerializer < ActiveModel::Serializer
       true
     end
   end
-
 end

@@ -1,5 +1,4 @@
 class ChartsController < ApplicationController
-
   def most_spent
     @products = Product.all
   end
@@ -21,5 +20,4 @@ class ChartsController < ApplicationController
   def graph_form_params
     params.require(:graph_form).permit(:start_date, :end_date, :unit, :graph_change)
   end
-
 end

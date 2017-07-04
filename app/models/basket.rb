@@ -5,18 +5,18 @@ class Basket < ApplicationRecord
   validates :date, presence: true
   paginates_per 10
 
-  def self.from_graph(start_date, end_date, unit)
+  def self.from_graph(start_date, end_date, _unit)
     Basket.where(date: start_date..end_date)
   end
 
   def self.average_total
-    average(:total_cents) / 100 if  average(:total_cents)
+    average(:total_cents) / 100 if average(:total_cents)
   end
 
   def self.group_baskets(start_date, end_date, unit)
-    if unit == "months"
+    if unit == 'months'
       group_by_month(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
-    elsif unit == "weeks"
+    elsif unit == 'weeks'
       group_by_week(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
     else
       group_by_day(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
@@ -24,21 +24,20 @@ class Basket < ApplicationRecord
   end
 
   def self.average_time_between_trips
-    dates = select(:date).order(date: :asc).collect{|d| d.date}
+    dates = select(:date).order(date: :asc).collect(&:date)
     if dates.length == 1
-      return 10000
-    elsif
-      dates.length == 0
-      return nil
+      10_000
+    elsif dates.length.zero?
+      nil
     else
-      last = (dates.length) -1
+      last = dates.length - 1
       diff_arr = []
-      dates.each_with_index do |val, index|
+      dates.each_with_index do |_val, index|
         if index < last
-          diff_arr.push((dates[index+1].to_date - dates[index].to_date).to_i)
+          diff_arr.push((dates[index + 1].to_date - dates[index].to_date).to_i)
         end
       end
-      return (diff_arr.inject(0){|sum,x| sum + x }.to_f / diff_arr.length).round.abs unless diff_arr.empty?
+      return (diff_arr.inject(0) { |sum, x| sum + x }.to_f / diff_arr.length).round.abs unless diff_arr.empty?
     end
   end
 
@@ -63,7 +62,7 @@ class Basket < ApplicationRecord
 
   def self.sort_items(direction)
     direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    a = select('baskets.*')
+    select('baskets.*')
       .joins(:line_items)
       .group('baskets.id')
       .order("SUM(line_items.quantity) #{direction}")
@@ -78,11 +77,11 @@ class Basket < ApplicationRecord
   end
 
   def self.disassociate_user
-    all.each {|b| b.update(user_id: nil)}
+    all.each { |b| b.update(user_id: nil) }
   end
 
   def has_discount?
-    line_items.find {|li| li.discount !=0 }
+    line_items.find { |li| li.discount != 0 }
   end
 
   def total

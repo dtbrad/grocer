@@ -3,17 +3,13 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :ensure_domain
 
-  def about
-  end
+  def about; end
 
-  def privacy
-  end
+  def privacy; end
 
-  def tos
-  end
+  def tos; end
 
-  def welcome
-  end
+  def welcome; end
 
   def log_out_to_register
     reset_session
@@ -23,9 +19,8 @@ class ApplicationController < ActionController::Base
   private
 
   def ensure_domain
-    unless request.env['HTTP_HOST'] == ENV['WEB_URL'] || Rails.env.development?
-      redirect_to "https://#{ENV['WEB_URL']}", :status => 301
-    end
+    return if request.env['HTTP_HOST'] == ENV['WEB_URL'] || Rails.env.development?
+    redirect_to "https://#{ENV['WEB_URL']}", status: 301
   end
 
   def configure_permitted_parameters
@@ -37,12 +32,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_vary_header
-    if request.xhr?
-      response.headers["Vary"] = "accept"
-    end
+    return if request.xhr?
+    response.headers['Vary'] = 'accept'
   end
 
-  def after_sign_out_path_for(resource_or_scope)
+  def after_sign_out_path_for(_resource_or_scope)
     new_user_session_path
   end
 end

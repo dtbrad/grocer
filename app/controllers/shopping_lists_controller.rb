@@ -3,9 +3,8 @@ class ShoppingListsController < ApplicationController
 
   def show
     @shopping_list = ShoppingList.find(params[:id])
-    if current_user.id != @shopping_list.user.id
-      redirect_to shopping_lists_path, flash: { alert: 'You can only view your own lists' }
-    end
+    return unless current_user.id != @shopping_list.user.id
+    redirect_to shopping_lists_path, flash: { alert: 'You can only view your own lists' }
   end
 
   def index
@@ -14,7 +13,7 @@ class ShoppingListsController < ApplicationController
 
   def create
     @shopping_list = current_user.shopping_lists.build(shopping_list_params)
-    if current_user.email != "sampleuser@mail.com"
+    if current_user.email != 'sampleuser@mail.com'
       @shopping_list.save
       EmailWorker.perform_async(@shopping_list.id)
     end
@@ -25,8 +24,7 @@ class ShoppingListsController < ApplicationController
 
   def shopping_list_params
     params.require(:shopping_list).permit(
-       items_attributes: [:id, :name, :quantity, :price]
+      items_attributes: %i[id name quantity price]
     )
   end
-
 end

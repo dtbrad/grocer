@@ -3,7 +3,7 @@ class Product < ApplicationRecord
   has_many :baskets, through: :line_items
   has_many :users, through: :baskets
   has_many :nick_name_requests
-  monetize :real_unit_price_cents, :disable_validation => true
+  monetize :real_unit_price_cents, disable_validation: true
   validates :name, presence: true
   validates :nickname, presence: true
   validates :nickname, uniqueness: true
@@ -12,7 +12,7 @@ class Product < ApplicationRecord
   after_initialize :set_nickname, if: :new_record?
 
   def self.search(search)
-    where("name iLIKE ? OR nickname iLIKE ?", "%#{search}%", "%#{search}%")
+    where('name iLIKE ? OR nickname iLIKE ?', "%#{search}%", "%#{search}%")
   end
 
   def self.custom_sort(category, direction)
@@ -75,15 +75,15 @@ class Product < ApplicationRecord
 
   def self.most_money_spent
     group('products.id')
-    .order("sum(line_items.total_cents) desc").limit(10)
-    .pluck("products.nickname, sum(line_items.total_cents *.01)")
+      .order('sum(line_items.total_cents) desc').limit(10)
+      .pluck('products.nickname, sum(line_items.total_cents *.01)')
   end
 
   def self.most_purchased
     filtered_products
-    .group('products.id')
-    .order("sum(line_items.quantity) desc").limit(10)
-    .pluck("products.nickname, sum(line_items.quantity)")
+      .group('products.id')
+      .order('sum(line_items.quantity) desc').limit(10)
+      .pluck('products.nickname, sum(line_items.quantity)')
   end
 
   def self.process_nick_name_request(user, product, params)
@@ -112,29 +112,27 @@ class Product < ApplicationRecord
   end
 
   def highest_price
-      line_items.order(price_cents: :desc).first.price unless !has_line_items?
+    line_items.order(price_cents: :desc).first.price if has_line_items?
   end
 
   def highest_price_by_user(user)
-    line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).last.price unless !has_line_items?
+    line_items.where(basket: Basket.where(user: user)).order(:price_cents).last.price if has_line_items?
   end
 
   def highest_price_cents
-    line_items.order(price_cents: :desc).first.price_cents unless !has_line_items?
+    line_items.order(price_cents: :desc).first.price_cents if has_line_items?
   end
 
   def lowest_price
-    line_items.order(:price_cents).first.price unless !has_line_items?
+    line_items.order(:price_cents).first.price if has_line_items?
   end
 
   def lowest_price_by_user(user)
-    line_items.where(basket: Basket.where(user: user))
-              .order(:price_cents).first.price unless !has_line_items?
+    line_items.where(basket: Basket.where(user: user)).order(:price_cents).first.price if has_line_items?
   end
 
   def most_recently_purchased(user)
-    baskets.where(user: user).order(:date).last.date unless !has_line_items?
+    baskets.where(user: user).order(:date).last.date if has_line_items?
   end
 
   def set_nickname
@@ -143,7 +141,7 @@ class Product < ApplicationRecord
   end
 
   def this_users_line_items(user)
-    line_items.where(basket: Basket.where(user: user)) unless !has_line_items?
+    line_items.where(basket: Basket.where(user: user)) if has_line_items?
   end
 
   def times_bought(user)
@@ -151,7 +149,7 @@ class Product < ApplicationRecord
   end
 end
 
-#_____Unused methods____________________________________________________________
+# _____Unused methods____________________________________________________________
 
 # def self.most_expensive_product
 #   LineItem.order(:price_cents).last.product

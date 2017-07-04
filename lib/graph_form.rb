@@ -13,17 +13,15 @@ class GraphForm
   end
 
   def proper_dates
-    if end_date < start_date
-      errors.add(:start_date, "cannot be after the end date")
-    end
+    return unless end_date < start_date
+    errors.add(:start_date, 'cannot be after the end date')
   end
 
   def proper_unit
-    if (@end_date - @start_date < 604800 && @unit != 'days')
-      errors.add(:unit, "ranges under a week must be shown in days")
-    elsif (@end_date - @start_date < 2592000 && @unit === 'months')
-      errors.add(:unit, "ranges under a month must be shown in weeks or days")
+    if @end_date - @start_date < 604_800 && @unit != 'days'
+      errors.add(:unit, 'ranges under a week must be shown in days')
+    elsif @end_date - @start_date < 2_592_000 && @unit == 'months'
+      errors.add(:unit, 'ranges under a month must be shown in weeks or days')
     end
   end
-
 end

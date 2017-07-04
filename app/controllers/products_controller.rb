@@ -1,23 +1,21 @@
 class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_action :set_variables, only: [:show, :update]
+  before_action :set_variables, only: %i[show update]
   before_action :authenticate_user!, except: :product_summaries
 
   def index
+    @products =
       if params[:search]
-        @products = current_user.products.filtered_products.search(params[:search])
-          .custom_sort(sort_column, sort_direction).page params[:page]
+        current_user.products.filtered_products.search(params[:search])
+                    .custom_sort(sort_column, sort_direction).page params[:page]
       else
-        @products = current_user.products.filtered_products
-          .custom_sort(sort_column, sort_direction).page params[:page]
+        current_user.products.filtered_products.custom_sort(sort_column, sort_direction).page params[:page]
       end
   end
 
   def show
-    if !@user.products.include?(@product)
-      redirect_to products_path,
-      flash: { alert: 'You can only view products you have purchased' }
-    end
+    return if @user.products.include?(@product)
+    redirect_to products_path, flash: { alert: 'You can only view products you have purchased' }
   end
 
   def create; end
@@ -27,7 +25,7 @@ class ProductsController < ApplicationController
   end
 
   def product_summaries
-    @products = Product.filtered_products.search(params[:search]);
+    @products = Product.filtered_products.search(params[:search])
     render json: @products.limit(15).order(:nickname)
   end
 
@@ -46,6 +44,6 @@ class ProductsController < ApplicationController
   end
 
   def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

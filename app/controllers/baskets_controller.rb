@@ -3,36 +3,33 @@ class BasketsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    if current_user
-      respond_to do |format|
-        format.html {
-          @graph_form = GraphForm.new({start_date: Time.now - 6.months, end_date: Time.now, unit: "months"})
-          @unpaginated_unsorted_baskets = current_user.baskets.from_graph(start_date, end_date, unit)
-          @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
-          .page params[:page]
-        }
-        format.js {
-          if params[:graph_change] == "yes"
-            @graph_form = GraphForm.new(params[:graph_form])
+    return unless current_user
+    respond_to do |format|
+      format.html do
+        @graph_form = GraphForm.new(start_date: Time.now - 6.months, end_date: Time.now, unit: 'months')
+        @unpaginated_unsorted_baskets = current_user.baskets.from_graph(start_date, end_date, unit)
+        @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction).page params[:page]
+      end
+      format.js do
+        @graph_form =
+          if params[:graph_change] == 'yes'
+            GraphForm.new(params[:graph_form])
           else
-            @graph_form = GraphForm.new({start_date: revised_start.to_s, end_date: revised_end.to_s, unit: unit})
+            GraphForm.new(start_date: revised_start.to_s, end_date: revised_end.to_s, unit: unit)
           end
-          @unpaginated_unsorted_baskets = current_user.baskets.from_graph(@graph_form.start_date, @graph_form.end_date, @graph_form.unit)
-          @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction)
-          .page params[:page]
-        }
+        @unpaginated_unsorted_baskets = current_user.baskets.from_graph(@graph_form.start_date, @graph_form.end_date,
+                                                                        @graph_form.unit)
+        @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction).page params[:page]
       end
     end
   end
 
-  def new
-  end
+  def new; end
 
   def show
     @basket = Basket.find(params[:id])
-    if @basket.user != current_user
-      redirect_to baskets_path, flash: { alert: 'You can only view your own baskets' }
-    end
+    return if @basket.user == current_user
+    redirect_to baskets_path, flash: { alert: 'You can only view your own baskets' }
   end
 
   def create
@@ -56,17 +53,12 @@ class BasketsController < ApplicationController
   end
 
   def sort_direction
-    %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
-
 
   def unit
-    params[:unit] ? params[:unit] : "months"
+    params[:unit] ? params[:unit] : 'months'
   end
-  #
-  # def duration
-  #   params[:duration] ? params[:duration] : 12
-  # end
 
   def start_date
     params[:start_date] ? params[:start_date] : Time.zone.now - 6.months
@@ -83,5 +75,4 @@ class BasketsController < ApplicationController
   def revised_end
     params[:graph_form] ? params[:graph_form][:end_date] : end_date
   end
-
 end
