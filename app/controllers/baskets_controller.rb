@@ -7,7 +7,7 @@ class BasketsController < ApplicationController
     respond_to do |format|
       format.html do
         @graph_config = GraphConfig.new
-        @baskets = current_user.baskets.page params[:page]
+        @baskets = current_user.baskets.from_graph(@graph_config).page params[:page]
       end
       format.js do
         set_up_state
