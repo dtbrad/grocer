@@ -145,11 +145,11 @@ class Scraper
   def self.parse_new_style(rows, i)
     unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?("Transaction Date")
       info = { name: rows[i].css('td[class*="item-description"]').text.strip,
-               total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i
-             }
+               total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
       has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
+      credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value == 'basket-discount-item'
 
       if !unit_pricing
         info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
@@ -162,8 +162,11 @@ class Scraper
       elsif unit_pricing && has_weight_unit
         info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
         info[:quantity] = 1
-        info[:weight] = rows[i + 1].css('span').text.strip.split("@")[0].to_d
+        info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
+
       end
+
+      info[:total_cents] = -info[:total_cents] if credit_promotion
 
       if has_discount
         info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
