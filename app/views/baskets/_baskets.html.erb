@@ -1,9 +1,9 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th><%= sort_baskets_by("date", start_date, end_date, unit, "Date") %></th>
-      <th><%= sort_baskets_by("items", start_date, end_date, unit, "# of Items") %></th>
-      <th><%= sort_baskets_by("total", start_date, end_date, unit, "Total") %></th>
+      <th><%= sort_baskets_by("date", @graph_config, "Date") %></th>
+      <th><%= sort_baskets_by("items", @graph_config, "# of Items") %></th>
+      <th><%= sort_baskets_by("total", @graph_config, "Total") %></th>
     </tr>
   </thead>
   <tbody>
@@ -17,7 +17,3 @@
     <% end %>
   </tbody>
 </table>
-
-<div class="text-center">
-  <%= paginate baskets, params: {graph_change: 'no'}, remote: true %>
-</div>

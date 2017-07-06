@@ -2,7 +2,7 @@
 
   </br></br>
   <div id="chart">
-    <%= basket_spending(@graph_form) %>
+    <%= basket_spending(@graph_config) %>
   </div>
 
   <div class="row">
@@ -28,14 +28,11 @@
   </div>
 
   <div class="panel panel-default">
-    <div class="panel panel-heading">
-      <h5 class="text-center" id="stat">
-        <%= freq_formatter(@unpaginated_unsorted_baskets.average_time_between_trips) %>
-        <%= avg_formatter(number_to_currency(@unpaginated_unsorted_baskets.average_total)) %>
-      </h5>
-    </div>
     <div id="baskets_table" class="panel-body">
       <%= render partial: 'baskets', locals: { baskets: @baskets } %>
+    </div>
+    <div class="text-center" id="paginator">
+      <%= paginate @baskets, params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit}, remote: true %>
     </div>
   </div>
 

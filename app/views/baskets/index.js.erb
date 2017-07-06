@@ -1,25 +1,16 @@
-$('#graph_error_explanation').html("");
-var graph_change = '<%= params[:graph_change] %>'
-var av_freq = '<%= freq_formatter(@unpaginated_unsorted_baskets.average_time_between_trips)%>'
-var av_total = '<%= avg_formatter(number_to_currency(@unpaginated_unsorted_baskets.average_total)) %>'
+$('#graph_error_explanation').html("")
+var graph_change = '<%= params[:graph_change].to_s %>'
+var graph_valid = '<%= @graph_config.valid?.to_s %>'
 
-
-if (graph_change === 'yes') {
-
-  <% if @graph_form.valid? %>
-      $("#index-title").html("Spending: <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
-      $("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");
-      $("#stat").html(av_freq + av_total)
-      $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
-  <% else %>
-
-    $('#graph_error_explanation').append("<ul> <% @graph_form.errors.full_messages.each do |message| %> <p> <%= message %> </p> <% end %> </ul>")
-
-  <% end %>
+if (graph_change === 'yes' && graph_valid == 'true' ) {
+  $("#index-title").html("Spending: <%= DateTime.parse(@graph_config.start_date).localtime.strftime("%b %d, %Y") %> to <%= DateTime.parse(@graph_config.end_date).localtime.strftime("%b %d, %Y") %>")
+  $("#chart").html("<%= escape_javascript(basket_spending(@graph_config)) %>")
+  $('#baskets_table').html("<%= escape_javascript render partial: 'baskets', locals: { baskets: @baskets } %>");
 }
-
+else if (graph_change === 'yes' && graph_valid == 'false') {
+  $('#graph_error_explanation').append("<ul> <% @graph_config.errors.full_messages.each do |message| %> <p> <%= message %> </p> <% end %> </ul>")
+}
 else {
-
-  $("#baskets_table").html("<%= escape_javascript(render partial: 'baskets', locals: { baskets: @baskets }  ) %>");
-
+  $('#baskets_table').html("<%= escape_javascript render partial: 'baskets', locals: { baskets: @baskets } %>");
+  $('#paginator').html('<%= escape_javascript(paginate(@baskets, :remote => true).to_s) %>');
 };

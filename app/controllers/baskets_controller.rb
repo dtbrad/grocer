@@ -6,20 +6,11 @@ class BasketsController < ApplicationController
     return unless current_user
     respond_to do |format|
       format.html do
-        @graph_form = GraphForm.new(start_date: Time.now - 6.months, end_date: Time.now, unit: 'months')
-        @unpaginated_unsorted_baskets = current_user.baskets.from_graph(start_date, end_date, unit)
-        @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction).page params[:page]
+        @graph_config = GraphConfig.new
+        @baskets = current_user.baskets.page params[:page]
       end
       format.js do
-        @graph_form =
-          if params[:graph_change] == 'yes'
-            GraphForm.new(params[:graph_form])
-          else
-            GraphForm.new(start_date: revised_start.to_s, end_date: revised_end.to_s, unit: unit)
-          end
-        @unpaginated_unsorted_baskets = current_user.baskets.from_graph(@graph_form.start_date, @graph_form.end_date,
-                                                                        @graph_form.unit)
-        @baskets = @unpaginated_unsorted_baskets.custom_sort(sort_column, sort_direction).page params[:page]
+        set_up_state
       end
     end
   end
@@ -44,8 +35,27 @@ class BasketsController < ApplicationController
 
   private
 
-  def graph_form_params
-    params.require(:graph_form).permit(:start_date, :end_date, :unit, :graph_change)
+  def graph_config_params
+    params.require(:graph_config).permit(:start_date, :end_date, :unit, :graph_change)
+  end
+
+  def set_up_state
+    set_graph
+    set_table
+  end
+
+  def set_graph
+    @graph_config =
+      if params[:graph_config]
+        GraphConfig.new(graph_config_params)
+      else
+        GraphConfig.new(start_date: params[:start], end_date: params[:end], unit: params[:unit])
+      end
+  end
+
+  def set_table
+    @baskets = current_user.baskets.from_graph(@graph_config).custom_sort(sort_column, sort_direction)
+                           .page params[:page]
   end
 
   def sort_column
@@ -54,25 +64,5 @@ class BasketsController < ApplicationController
 
   def sort_direction
     %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
-  end
-
-  def unit
-    params[:unit] ? params[:unit] : 'months'
-  end
-
-  def start_date
-    params[:start_date] ? params[:start_date] : Time.zone.now - 6.months
-  end
-
-  def revised_start
-    params[:graph_form] ? params[:graph_form][:start_date] : start_date
-  end
-
-  def end_date
-    params[:end_date] ? params[:end_date] : Time.zone.now
-  end
-
-  def revised_end
-    params[:graph_form] ? params[:graph_form][:end_date] : end_date
   end
 end

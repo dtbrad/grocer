@@ -14,7 +14,7 @@
           <th>Unit Price</th>
           <th>Qty</th>
           <th>Weight</th>
-          <% if @basket.has_discount? %>
+          <% if @basket.discount? %>
             <th>Discount?</th>
             <% end %>
           <th>Total Price</th>
@@ -35,7 +35,7 @@
             <td> <%= number_to_currency(li.price) %> </td>
             <td> <%= li.quantity %></td>
             <td> <%= li.formatted_weight %> </td>
-            <% if @basket.has_discount? %>
+            <% if @basket.discount? %>
               <td> <%=  number_to_currency(li.discount) unless li.discount == 0 %></td>
             <% end %>
             <td> <%= number_to_currency(li.total) %> </td>
@@ -48,7 +48,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <% if @basket.has_discount? %>
+          <% if @basket.discount? %>
             <td></td>
           <% end %>
           <td><strong><%= number_to_currency(@basket.total) %></strong></td>
