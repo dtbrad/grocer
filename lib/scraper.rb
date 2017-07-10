@@ -149,7 +149,7 @@ class Scraper
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
       has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
-      credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value == 'basket-discount-item'
+      credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value.include?('basket-discount-item')
 
       if !unit_pricing
         info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
