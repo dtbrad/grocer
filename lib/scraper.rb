@@ -87,7 +87,7 @@ class Scraper
       info = eval("#{parse_method}(rows, i)")
       build_products_and_line_items(basket, info, user)
     end
-    basket.total_cents = basket.line_items.total_spent
+    basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
     basket.save
   end
 
@@ -200,7 +200,6 @@ class Scraper
         total_cents: info[:total_cents],
         discount_cents: info[:disc]
       )
-      basket.save
     end
   end
 end

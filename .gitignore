@@ -9,7 +9,7 @@ seeds2.rb
 junk.js.erb
 google_api_controller_2.rb
 *.dump
-coverage/
+coverage
 
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
 #

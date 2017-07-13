@@ -31,6 +31,10 @@ class User < ApplicationRecord
     user
   end
 
+  def disassociate_baskets
+    baskets.each { |b| b.update(user: nil) }
+  end
+
   def exclusive_products
     query = "
               SELECT user_id, COUNT(*) AS my_result

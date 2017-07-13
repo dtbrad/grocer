@@ -3,16 +3,13 @@ class Basket < ApplicationRecord
   has_many :line_items
   has_many :products, through: :line_items
   validates :date, presence: true
+  monetize :total_cents, as: 'total', disable_validation: true
   paginates_per 10
 
   def self.from_graph(graph_config)
     start_date = graph_config.start_date.class == Time ? graph_config.start_date : DateTime.parse(graph_config.start_date)
     end_date = graph_config.end_date.class == Time ? graph_config.end_date : DateTime.parse(graph_config.end_date)
     Basket.where(date: start_date..end_date)
-  end
-
-  def self.average_total
-    average(:total_cents) / 100 if average(:total_cents)
   end
 
   def self.group_baskets(start_date, end_date, unit)
@@ -26,6 +23,7 @@ class Basket < ApplicationRecord
   end
 
   def self.custom_sort(category, direction)
+    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
     case category
     when 'date'
       sort_date(direction)
@@ -39,37 +37,22 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_date(direction)
-    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    select('baskets.*')
-      .order("baskets.date #{direction}")
+    order = ["baskets.date", direction].join(" ")
+    order(order)
   end
 
   def self.sort_items(direction)
-    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    select('baskets.*')
-      .joins(:line_items)
-      .group('baskets.id')
-      .order("SUM(line_items.quantity) #{direction}")
+    order = ["SUM(line_items.quantity)", direction].join(" ")
+    joins(:line_items).group('baskets.id').order(order)
   end
 
   def self.sort_total(direction)
-    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    select('baskets.*')
-      .joins(:line_items)
-      .group('baskets.id')
-      .order("SUM(line_items.total_cents) #{direction}")
-  end
-
-  def self.disassociate_user
-    all.each { |b| b.update(user_id: nil) }
+    order = ["SUM(line_items.total_cents)", direction].join(" ")
+    joins(:line_items).group('baskets.id').order(order)
   end
 
   def discount?
     line_items.find { |li| li.discount != 0 }
-  end
-
-  def total
-    Money.new(line_items.total_spent)
   end
 
   def quantity
@@ -78,6 +61,9 @@ class Basket < ApplicationRecord
 end
 
 # _____Unused methods____________________________________________________________
+# def self.average_total
+#   average(:total_cents) / 100 if average(:total_cents)
+# end
 # def self.average_time_between_trips
 #   dates = select(:date).order(date: :asc).collect(&:date)
 #   if dates.length == 1

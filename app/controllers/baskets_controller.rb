@@ -29,7 +29,7 @@ class BasketsController < ApplicationController
   end
 
   def disassociate_user
-    current_user.baskets.disassociate_user
+    current_user.disassociate_baskets
     redirect_to baskets_path, flash: { alert: 'Purchase history deleted from your account' }
   end
 
