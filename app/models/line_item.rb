@@ -7,6 +7,7 @@ class LineItem < ApplicationRecord
   monetize :discount_cents, as: 'discount'
   validates :price_cents, presence: true
   validates :quantity, presence: true
+  validates_presence_of :product, :basket
   paginates_per 10
 
   def formatted_weight
