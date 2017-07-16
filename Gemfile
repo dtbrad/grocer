@@ -37,7 +37,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.7'
   gem 'byebug', platform: :mri
   gem 'pry'
-  gem 'simplecov', '~> 0.12.0'
+  gem 'simplecov'
   gem 'rails-erd', '~> 1.5'
   gem 'meta_request'
 end

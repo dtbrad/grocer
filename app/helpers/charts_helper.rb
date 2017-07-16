@@ -1,7 +1,7 @@
 module ChartsHelper
   def basket_spending(obj)
     date_unit = proper_date_unit(obj.unit)
-    line_chart current_user.baskets.group_baskets(obj.start_date, obj.end_date, obj.unit),
+    line_chart current_user.baskets.group_baskets(obj),
       ytitle: 'Total Spent',
       colors: ['green'],
       library: {

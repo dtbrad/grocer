@@ -1,5 +1,5 @@
 class BasketsController < ApplicationController
-  helper_method :unit, :start_date, :end_date, :revised_start, :revised_end, :sort_column, :sort_direction
+  helper_method :unit, :start_date, :end_date, :sort_column, :sort_direction
   before_action :authenticate_user!
 
   def index

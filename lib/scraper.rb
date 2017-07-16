@@ -1,6 +1,5 @@
 require 'google/apis/gmail_v1'
 class Scraper
-
   def self.process_emails(user, date, token, orig_email)
     client = Signet::OAuth2::Client.new(access_token: token)
     client.expires_in = Time.now + 1_000_000
@@ -8,7 +7,7 @@ class Scraper
     service.authorization = client
     email_ids = grab_email_ids(user, date, service, orig_email)
     emails = get_full_emails(user, email_ids, service)
-    if emails.length > 0
+    unless emails.empty?
       emails.each do |email|
         basket = user.baskets.build(date: email[:date])
         process_single_email(basket, email[:body], user)
@@ -16,7 +15,7 @@ class Scraper
     end
   end
 
-  def self.grab_email_ids(user, date, service, orig_email)
+  def self.grab_email_ids(_user, date, service, orig_email)
     account_email = service.get_user_profile('me').email_address
     if orig_email.empty?
       q = "subject:'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com} after:#{date} to:#{account_email}"
@@ -36,20 +35,20 @@ class Scraper
     if set = email_ids.messages
       set.each do |i|
         email = service.get_user_message('me', i.id)
-        subject = email.payload.headers.find {|h| h.name == "Subject" }.value
-        if subject == "Your New Seasons Market Email Receipt"
-          mes = prepare_original(user, email, email_array)
-        else
-          mes = prepare_forwarded(user, email, email_array)
-        end
-        email_array.push(mes) unless (!mes || user.baskets.find_by(user: user, date: mes[:date])|| email_array.any?{|email| email[:date] == mes[:date]})
+        subject = email.payload.headers.find { |h| h.name == 'Subject' }.value
+        mes = if subject == 'Your New Seasons Market Email Receipt'
+                prepare_original(user, email, email_array)
+              else
+                prepare_forwarded(user, email, email_array)
+              end
+        email_array.push(mes) unless !mes || user.baskets.find_by(user: user, date: mes[:date]) || email_array.any? { |email| email[:date] == mes[:date] }
       end
     end
     email_array
   end
 
-  def self.prepare_original(user, email, email_array)
-    email_date = ActiveSupport::TimeZone["America/Los_Angeles"].parse(email.payload.headers.find {|h| h.name == "Date" }.value).change(:sec => 0)
+  def self.prepare_original(user, email, _email_array)
+    email_date = ActiveSupport::TimeZone['America/Los_Angeles'].parse(email.payload.headers.find { |h| h.name == 'Date' }.value).change(sec: 0)
     body = email.payload.body.data unless user.baskets.find_by(user: user, date: email_date)
     my_email = {
       date: email_date,
@@ -57,9 +56,9 @@ class Scraper
     }
   end
 
-  def self.prepare_forwarded(user, email, email_array)
-    if email.payload.headers.find {|h| h.name == "From" }.value.include?("gmail.com")
-      email_date = ActiveSupport::TimeZone["America/Los_Angeles"].parse(email.payload.parts.last.body.data[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
+  def self.prepare_forwarded(user, email, _email_array)
+    if email.payload.headers.find { |h| h.name == 'From' }.value.include?('gmail.com')
+      email_date = ActiveSupport::TimeZone['America/Los_Angeles'].parse(email.payload.parts.last.body.data[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
       body = email.payload.parts.last.body.data unless user.baskets.find_by(user: user, date: email_date)
     end
     if email_date
@@ -73,15 +72,15 @@ class Scraper
   end
 
   def self.process_single_email(basket, body, user)
-    if !Nokogiri::HTML(body).css(".savings-label").empty? # newer email format original or auto-forwarded
-      rows = Nokogiri::HTML(body).css(".basket-body tr")
-      parse_method = "parse_new_style"
+    if !Nokogiri::HTML(body).css('.savings-label').empty? # newer email format original or auto-forwarded
+      rows = Nokogiri::HTML(body).css('.basket-body tr')
+      parse_method = 'parse_new_style'
     elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty? # newer email format manually forwarded
       rows = get_the_right_rows_new_forwarded(body)
-      parse_method = "parse_new_style"
+      parse_method = 'parse_new_style'
     else # older email format (original or forwarded)
       rows = get_the_right_rows(body)
-      parse_method = "parse_old_style"
+      parse_method = 'parse_old_style'
     end
     rows.length.times do |i|
       info = eval("#{parse_method}(rows, i)")
@@ -110,10 +109,9 @@ class Scraper
   end
 
   def self.parse_old_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?("Transaction Date")
+    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date')
       info = { name: rows[i].css('td[class*="basket-item-desc"]').text.strip,
-               total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i
-             }
+               total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
       has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
@@ -143,7 +141,7 @@ class Scraper
   end
 
   def self.parse_new_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?("Transaction Date")
+    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date')
       info = { name: rows[i].css('td[class*="item-description"]').text.strip,
                total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
@@ -181,10 +179,10 @@ class Scraper
   def self.build_products_and_line_items(basket, info, user)
     unless info.nil?
       product = Product.find_or_create_by(name: info[:name].titleize)
-      if info[:price_cents] != nil
+      if !info[:price_cents].nil?
         price = info[:price_cents]
         weight = info[:weight]
-      elsif info[:price_cents] == nil && product.real_unit_price_cents
+      elsif info[:price_cents].nil? && product.real_unit_price_cents
         price = product.real_unit_price_cents.to_d
         weight = (info[:total_cents].to_d / price).round(2)
       else

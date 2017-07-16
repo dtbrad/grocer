@@ -12,13 +12,13 @@ class Basket < ApplicationRecord
     Basket.where(date: start_date..end_date)
   end
 
-  def self.group_baskets(start_date, end_date, unit)
-    if unit == 'months'
-      group_by_month(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
-    elsif unit == 'weeks'
-      group_by_week(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
+  def self.group_baskets(obj)
+    if obj.unit == 'months'
+      group_by_month(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
+    elsif obj.unit == 'weeks'
+      group_by_week(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
     else
-      group_by_day(:date, range: start_date..end_date).sum('baskets.total_cents / 100')
+      group_by_day(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
     end
   end
 
@@ -47,8 +47,8 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_total(direction)
-    order = ["SUM(line_items.total_cents)", direction].join(" ")
-    joins(:line_items).group('baskets.id').order(order)
+    order = ["baskets.total_cents", direction].join(" ")
+    order(order)
   end
 
   def discount?
