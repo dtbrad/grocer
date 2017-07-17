@@ -24,13 +24,9 @@ class Basket < ApplicationRecord
 
   def self.custom_sort(category, direction)
     direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    case category
-    when 'date'
-      sort_date(direction)
-    when 'items'
-      sort_items(direction)
-    when 'total'
-      sort_total(direction)
+    categories = %w[sort_date sort_items sort_total]
+    if categories.include?(category)
+      send(category, direction)
     else
       sort_date('desc')
     end

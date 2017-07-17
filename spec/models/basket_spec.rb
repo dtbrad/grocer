@@ -81,24 +81,24 @@ describe Basket do
 
     context 'Custom Sorting' do
       it 'can sort by date' do
-        expect(@baskets1.custom_sort('date', 'asc').first).to eq(@basket1)
-        expect(@baskets1.custom_sort('date', 'asc').last).to eq(@basket6)
-        expect(@baskets1.custom_sort('date', 'desc').first).to eq(@basket6)
-        expect(@baskets1.custom_sort('date', 'desc').last).to eq(@basket1)
+        expect(@baskets1.custom_sort('sort_date', 'asc').first).to eq(@basket1)
+        expect(@baskets1.custom_sort('sort_date', 'asc').last).to eq(@basket6)
+        expect(@baskets1.custom_sort('sort_date', 'desc').first).to eq(@basket6)
+        expect(@baskets1.custom_sort('sort_date', 'desc').last).to eq(@basket1)
       end
 
       it 'can sort by total' do
-        expect(@baskets1.custom_sort('total', 'asc').first).to eq(@basket5)
-        expect(@baskets1.custom_sort('total', 'asc').last).to eq(@basket3)
-        expect(@baskets1.custom_sort('total', 'desc').first).to eq(@basket3)
-        expect(@baskets1.custom_sort('total', 'desc').last).to eq(@basket5)
+        expect(@baskets1.custom_sort('sort_total', 'asc').first).to eq(@basket5)
+        expect(@baskets1.custom_sort('sort_total', 'asc').last).to eq(@basket3)
+        expect(@baskets1.custom_sort('sort_total', 'desc').first).to eq(@basket3)
+        expect(@baskets1.custom_sort('sort_total', 'desc').last).to eq(@basket5)
       end
 
       it 'can sort by number of items' do
-        expect(@baskets1.custom_sort('items', 'asc').first).to eq(@basket5)
-        expect(@baskets1.custom_sort('items', 'asc').last).to eq(@basket3)
-        expect(@baskets1.custom_sort('items', 'desc').first).to eq(@basket3)
-        expect(@baskets1.custom_sort('items', 'desc').last).to eq(@basket5)
+        expect(@baskets1.custom_sort('sort_items', 'asc').first).to eq(@basket5)
+        expect(@baskets1.custom_sort('sort_items', 'asc').last).to eq(@basket3)
+        expect(@baskets1.custom_sort('sort_items', 'desc').first).to eq(@basket3)
+        expect(@baskets1.custom_sort('sort_items', 'desc').last).to eq(@basket5)
       end
 
       it 'defaults to sorting by descending date' do
