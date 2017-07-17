@@ -7,8 +7,8 @@ class Basket < ApplicationRecord
   paginates_per 10
 
   def self.from_graph(graph_config)
-    start_date = graph_config.start_date.class == Time ? graph_config.start_date : DateTime.parse(graph_config.start_date)
-    end_date = graph_config.end_date.class == Time ? graph_config.end_date : DateTime.parse(graph_config.end_date)
+    start_date = graph_config.start_date.class == DateTime ? graph_config.start_date : DateTime.parse(graph_config.start_date)
+    end_date = graph_config.end_date.class == DateTime ? graph_config.end_date : DateTime.parse(graph_config.end_date)
     Basket.where(date: start_date..end_date)
   end
 

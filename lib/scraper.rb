@@ -48,7 +48,7 @@ class Scraper
   end
 
   def self.prepare_original(user, email, _email_array)
-    email_date = ActiveSupport::TimeZone['America/Los_Angeles'].parse(email.payload.headers.find { |h| h.name == 'Date' }.value).change(sec: 0)
+    email_date = DateTime.parse(email.payload.headers.find { |h| h.name == 'Date' }.value).change(sec: 0)
     body = email.payload.body.data unless user.baskets.find_by(user: user, date: email_date)
     my_email = {
       date: email_date,
@@ -58,7 +58,7 @@ class Scraper
 
   def self.prepare_forwarded(user, email, _email_array)
     if email.payload.headers.find { |h| h.name == 'From' }.value.include?('gmail.com')
-      email_date = ActiveSupport::TimeZone['America/Los_Angeles'].parse(email.payload.parts.last.body.data[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
+      email_date = DateTime.parse(email.payload.parts.last.body.data[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/])
       body = email.payload.parts.last.body.data unless user.baskets.find_by(user: user, date: email_date)
     end
     if email_date
