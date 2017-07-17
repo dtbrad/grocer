@@ -13,13 +13,7 @@ class Basket < ApplicationRecord
   end
 
   def self.group_baskets(obj)
-    if obj.unit == 'months'
-      group_by_month(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
-    elsif obj.unit == 'weeks'
-      group_by_week(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
-    else
-      group_by_day(:date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
-    end
+    group_by_period(obj.unit.to_s, :date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
   end
 
   def self.custom_sort(category, direction)

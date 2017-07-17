@@ -13,7 +13,7 @@ module ChartsHelper
   end
 
   def proper_date_unit(unit)
-    if unit == 'months'
+    if unit == 'month'
       '%B'
     elsif unit == 'weeks'
       'Week of ' + '%m/%d/%y'

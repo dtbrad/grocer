@@ -9,7 +9,7 @@ class GraphConfig
   def initialize(params = {})
     @start_date = params.fetch(:start_date, (Time.now - 6.months))
     @end_date = params.fetch(:end_date, Time.now)
-    @unit = params.fetch(:unit, 'months')
+    @unit = params.fetch(:unit, 'month')
   end
 
   def proper_dates
@@ -22,9 +22,9 @@ class GraphConfig
   def proper_unit
     start_date = Time.parse(@start_date)
     end_date = Time.parse(@end_date)
-    if end_date - start_date < 604_800 && @unit != 'days'
+    if end_date - start_date < 604_800 && @unit != 'day'
       errors.add(:unit, 'ranges under a week must be shown in days')
-    elsif end_date - start_date < 2_592_000 && @unit == 'months'
+    elsif end_date - start_date < 2_592_000 && @unit == 'month'
       errors.add(:unit, 'ranges under a month must be shown in weeks or days')
     end
   end

@@ -39,11 +39,11 @@ describe Basket do
       @basket7 =  create(:basket, :two_items_twenty_total, date: Time.parse('2017-05-14 08:59:54 -0800'))
 
       @graph_config1 = GraphConfig.new(start_date: '2017-01-14 08:59:54 -0800', end_date: '2017-04-14 08:59:54 -0800',
-                                       unit: 'months')
+                                       unit: 'month')
       @graph_config2 = GraphConfig.new(start_date: '2017-01-14 08:59:54 -0800', end_date: '2017-02-14 08:59:54 -0800',
-                                       unit: 'weeks')
+                                       unit: 'week')
       @graph_config3 = GraphConfig.new(start_date: '2017-01-14 08:59:54 -0800', end_date: '2017-01-20 08:59:54 -0800',
-                                       unit: 'days')
+                                       unit: 'day')
       @baskets1 = Basket.from_graph(@graph_config1)
       @baskets2 = Basket.from_graph(@graph_config2)
       @baskets3 = Basket.from_graph(@graph_config3)

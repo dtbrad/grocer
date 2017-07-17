@@ -3,7 +3,7 @@
   <%= form_for @graph_config, :url => baskets_path, method: 'GET', remote: true do |f| %>
     <%= f.text_field :start_date, :value => form_date(@graph_config.start_date), class: "datepicker form-control mb-2 mr-sm-2 mb-sm-0", required: true %>
     <%= f.text_field :end_date, :value => form_date(@graph_config.end_date), class: "datepicker form-control mb-2 mr-sm-2 mb-sm-0", required: true %>
-    <%= f.select :unit, options_for_select([ "months", "weeks", "days" ], {include_blank: true} ), {}, {:class => "form-control mb-2 mr-sm-2 mb-sm-0" } %>
+    <%= f.select :unit, options_for_select([ "month", "week", "day" ], {include_blank: true} ), {}, {:class => "form-control mb-2 mr-sm-2 mb-sm-0" } %>
     <%= hidden_field_tag :graph_change, "yes" %>
     <%= f.submit "update view", class: "btn btn-primary btn-md" %>
   <% end %>
