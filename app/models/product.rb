@@ -16,53 +16,38 @@ class Product < ApplicationRecord
   end
 
   def self.custom_sort(category, direction)
-    case category
-    when 'times_bought'
-      sort_most_bought(direction)
-    when 'highest_price'
-      sort_highest_price(direction)
-    when 'lowest_price'
-      sort_lowest_price(direction)
-    when 'most_recently_purchased'
-      sort_recently_purchased(direction)
+    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
+    categories = %w[sort_times_bought sort_highest_price sort_highest_price sort_recently_purchased]
+    if categories.include?(category)
+      send(category, direction)
     else
       sort_nickname(direction)
     end
   end
 
-  def self.sort_most_bought(direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    select('products.*', 'SUM(line_items.quantity) as line_items_sum')
-      .group('products.id')
-      .order("line_items_sum #{direction}")
+  def self.sort_times_bought(direction)
+    order = ["line_items_sum", direction].join(" ")
+    select('products.*', 'SUM(line_items.quantity) as line_items_sum').group('products.id').order(order)
   end
 
   def self.sort_highest_price(direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    select('products.*', 'MAX(line_items.price_cents) as max_price')
-      .group('products.id')
-      .order("max_price #{direction}")
+    order = ["MAX(line_items.price_cents)", direction].join(" ")
+    select('products.*', 'MAX(line_items.price_cents)').group('products.id').order(order)
   end
 
   def self.sort_lowest_price(direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    select('products.*', 'MIN(line_items.price_cents) as min_price')
-      .group('products.id')
-      .order("min_price #{direction}")
+    order = ["MIN(line_items.price_cents)", direction].join(" ")
+    select('products.*', 'MIN(line_items.price_cents) as min_price').group('products.id').order(order)
   end
 
   def self.sort_recently_purchased(direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    select('products.*', 'MAX(baskets.date) as max_date')
-      .group('products.id')
-      .order("max_date #{direction}")
+    order = ["MAX(baskets.date)", direction].join(" ")
+    select('products.*', 'MAX(baskets.date) as max_date').group('products.id').order(order)
   end
 
   def self.sort_nickname(direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    select('products.*')
-      .group('products.id')
-      .order("nickname #{direction}")
+    order = ["nickname", direction].join(" ")
+    group('products.id').order(order)
   end
 
   def self.filtered_products
