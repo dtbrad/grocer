@@ -1,9 +1,28 @@
-<div class="text-center">
-  <%= link_to "weekly", product_weekly_purchasing_chart_path(product_id: @product.id), remote: true, class: "btn btn-primary btn-xs"%>
-  <%= link_to "monthly", product_monthly_purchasing_chart_path(product_id: @product.id), remote: true, class: "btn btn-primary btn-xs" %>
-</div>
+</br></br>
 <div id="chart">
-<%= product_monthly_purchasing %>
+  <%= product_spending(@graph_config) %>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="list-item">
+      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last 6 months</h3>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="list-item text-right" style="padding-top: 13px">
+      <%= render partial: 'shared_partials/graph_control', locals: {path: product_path(@product)} %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-6">
+    <div class="list-item text-right">
+      <label style="color: red" id="graph_error_explanation"></label>
+    </div>
+  </div>
 </div>
 
 <div class="panel panel-default">

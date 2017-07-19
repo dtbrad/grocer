@@ -14,8 +14,16 @@ class ProductsController < ApplicationController
   end
 
   def show
-    return if @user.products.include?(@product)
-    redirect_to products_path, flash: { alert: 'You can only view products you have purchased' }
+    set_graph
+    respond_to do |format|
+      format.html do
+        @graph_config = GraphConfig.new
+        @line_items = current_user.line_items.where(product: @product).from_graph(@graph_config).page params[:page]
+      end
+      format.js do
+        set_up_state
+      end
+    end
   end
 
   def create; end
@@ -34,18 +42,21 @@ class ProductsController < ApplicationController
   def set_variables
     @user = current_user
     @product = Product.find(params[:id])
-    @graph_config = GraphConfig.new
-    @line_items = @product.this_users_line_items(@user)
-                          .from_graph(@graph_config)
-                          .custom_sort(sort_column, sort_direction)
+  end
+
+  def graph_config_params
+    params.require(:graph_config).permit(:start_date, :end_date, :unit, :graph_change)
+  end
+
+  def set_up_state
+    # set_graph is inside ApplicationController
+    set_graph
+    set_table
+  end
+
+  def set_table
+    @line_items = @product.this_users_line_items(current_user)
+                          .from_graph(@graph_config).custom_sort(sort_column, sort_direction)
                           .page params[:page]
-  end
-
-  def sort_column
-    params[:sort]
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

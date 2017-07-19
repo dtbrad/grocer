@@ -1,9 +1,7 @@
 class BasketsController < ApplicationController
-  helper_method :unit, :start_date, :end_date, :sort_column, :sort_direction
   before_action :authenticate_user!
 
   def index
-    return unless current_user
     respond_to do |format|
       format.html do
         @graph_config = GraphConfig.new
@@ -40,29 +38,14 @@ class BasketsController < ApplicationController
   end
 
   def set_up_state
+    # set_graph is inside ApplicationController
     set_graph
     set_table
   end
 
-  def set_graph
-    @graph_config =
-      if params[:graph_config]
-        GraphConfig.new(graph_config_params)
-      else
-        GraphConfig.new(start_date: params[:start], end_date: params[:end], unit: params[:unit])
-      end
-  end
-
   def set_table
+    # sort_column and sort_direction are in ApplicationController
     @baskets = current_user.baskets.from_graph(@graph_config).custom_sort(sort_column, sort_direction)
                            .page params[:page]
-  end
-
-  def sort_column
-    params[:sort]
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

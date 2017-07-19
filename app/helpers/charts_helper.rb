@@ -12,9 +12,9 @@ module ChartsHelper
       }
   end
 
-  def product_spending(collection, obj)
+  def product_spending(obj)
     date_unit = proper_date_unit(obj.unit)
-    line_chart collection.group_line_items(obj),
+    line_chart current_user.line_items.where(product: @product).group_line_items(obj),
       ytitle: 'Qty Purchased',
       colors: ['green'],
       library: {

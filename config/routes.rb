@@ -10,9 +10,7 @@ Rails.application.routes.draw do
   end
   resources :shopping_lists, only: [:show, :index, :create]
   resources :baskets, only: [:index, :new, :show, :create]
-  resources :products, only: [:index, :show, :create, :update] do
-    resources :line_items, only: [:index]
-  end
+  resources :products, only: [:index, :show, :create, :update]
   resources :nick_name_requests, only: [:index, :create, :update]
 
   get 'about', to: 'application#about'

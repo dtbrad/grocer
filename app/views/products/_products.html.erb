@@ -11,7 +11,7 @@
   <tbody>
     <% products.each do |product| %>
       <tr>
-        <td> <%= link_to product.nickname, product_line_items_path(product) %> </td>
+        <td> <%= link_to product.nickname, product_path(product) %> </td>
         <td> <%= product.times_bought(current_user) %> </td>
         <td> <%= number_to_currency(product.highest_price_by_user(current_user)) %> </td>
         <td> <%= number_to_currency(product.lowest_price_by_user(current_user)) %> </td>

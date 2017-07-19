@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :ensure_domain
+  helper_method :set_graph, :sort_column, :sort_direction
 
   def about; end
 
@@ -14,6 +15,23 @@ class ApplicationController < ActionController::Base
   def log_out_to_register
     reset_session
     redirect_to new_user_registration_path
+  end
+
+  def set_graph
+    @graph_config =
+      if params[:graph_config]
+        GraphConfig.new(graph_config_params)
+      else
+        GraphConfig.new(start_date: params[:start], end_date: params[:end], unit: params[:unit])
+      end
+  end
+
+  def sort_column
+    params[:sort]
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 
   private

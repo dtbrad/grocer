@@ -13,18 +13,22 @@ class GraphConfig
   end
 
   def proper_dates
-    start_date = DateTime.parse(@start_date)
-    end_date = DateTime.parse(@end_date)
-    return unless end_date < start_date
+    @start_date = @start_date.class == DateTime ? @start_date : DateTime.parse(@start_date)
+    @end_date = @end_date.class == DateTime ? @end_date : DateTime.parse(@end_date)
+    # start_date = DateTime.parse(@start_date)
+    # end_date = DateTime.parse(@end_date)
+    return unless @end_date < @start_date
     errors.add(:start_date, 'cannot be after the end date')
   end
 
   def proper_unit
-    start_date = DateTime.parse(@start_date)
-    end_date = DateTime.parse(@end_date)
-    if end_date - start_date < (7 / 1) && @unit != 'day'
+    @start_date = @start_date.class == DateTime ? @start_date : DateTime.parse(@start_date)
+    @end_date = @end_date.class == DateTime ? @end_date : DateTime.parse(@end_date)
+    # start_date = DateTime.parse(@start_date)
+    # end_date = DateTime.parse(@end_date)
+    if @end_date - @start_date < (7 / 1) && @unit != 'day'
       errors.add(:unit, 'ranges under a week must be shown in days')
-    elsif end_date - start_date < (30 / 1) && @unit == 'month'
+    elsif @end_date - @start_date < (30 / 1) && @unit == 'month'
       errors.add(:unit, 'ranges under a month must be shown in weeks or days')
     end
   end
