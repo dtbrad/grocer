@@ -1,0 +1,53 @@
+</br></br>
+<div id="chart">
+  <%= product_spending(@coll, @graph_config) %>
+</div>
+
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="list-item">
+      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last 6 months</h3>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="list-item text-right" style="padding-top: 13px">
+      <%= render partial: 'shared_partials/graph_control', locals: {path: product_line_items_path} %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-6">
+    <div class="list-item text-right">
+      <label style="color: red" id="graph_error_explanation"></label>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <h4 class="panel-title pull-left" style="padding-left: 15px;padding-top: 15px">
+        You've purchased <span id="nickname"><%= @product.nickname %></span> <%= @product.times_bought(@user).to_i %> <% if @product.times_bought(@user) != 1 %> times.<% else %> time.<% end %>
+        <% if @product.highest_price == @product.lowest_price %>
+          Its price has remained stable at <%= number_to_currency(@product.highest_price) %>
+        <% else %>
+          In the past it has sold for as high as <%= number_to_currency(@product.highest_price) %> and as low as <%= number_to_currency(@product.lowest_price) %></h5>
+        <% end %>
+      </h4>
+      <div data-toggle="popover" data-placement="top" tabindex="0" data-trigger="hover" data-content="New Seasons doesn't always provide the clearest product names in their receipts. You can suggest a better display name using this input." class="panel-title pull-right form-inline" style="padding-top: 7px; padding-right: 20px">
+        <%= render 'products/form', product: @product  %>
+      </div>
+    </row>
+    </div>
+  </div>
+
+  <div id="line_items_table" class="panel-body">
+    <%= render partial: 'line_items', locals: { line_items: @line_items } %>
+  </div>
+  <div class="text-center" id="paginator">
+    <%= paginate @line_items, theme: 'twitter-bootstrap-3', params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit}, remote: true %>
+  </div>
+</div>

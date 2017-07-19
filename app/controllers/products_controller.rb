@@ -34,7 +34,9 @@ class ProductsController < ApplicationController
   def set_variables
     @user = current_user
     @product = Product.find(params[:id])
+    @graph_config = GraphConfig.new
     @line_items = @product.this_users_line_items(@user)
+                          .from_graph(@graph_config)
                           .custom_sort(sort_column, sort_direction)
                           .page params[:page]
   end

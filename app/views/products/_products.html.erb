@@ -1,17 +1,17 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th><%= sort_record_by("sort_nickname", "Name") %></th>
-      <th><%= sort_record_by("sort_times_bought", "Total Purchased") %></th>
-      <th><%= sort_record_by("sort_highest_price", "Highest Price") %></th>
-      <th><%= sort_record_by("sort_lowest_price", "Lowest Price") %></th>
-      <th><%= sort_record_by("sort_most_recently_purchased", "Most Recently Purchased") %></th>
+      <th><%= sort_products_record_by("sort_nickname", "Name") %></th>
+      <th><%= sort_products_record_by("sort_times_bought", "Total Purchased") %></th>
+      <th><%= sort_products_record_by("sort_highest_price", "Highest Price") %></th>
+      <th><%= sort_products_record_by("sort_lowest_price", "Lowest Price") %></th>
+      <th><%= sort_products_record_by("sort_most_recently_purchased", "Most Recently Purchased") %></th>
     </tr>
   </thead>
   <tbody>
     <% products.each do |product| %>
       <tr>
-        <td> <%= link_to product.nickname, product_path(product) %> </td>
+        <td> <%= link_to product.nickname, product_line_items_path(product) %> </td>
         <td> <%= product.times_bought(current_user) %> </td>
         <td> <%= number_to_currency(product.highest_price_by_user(current_user)) %> </td>
         <td> <%= number_to_currency(product.lowest_price_by_user(current_user)) %> </td>
