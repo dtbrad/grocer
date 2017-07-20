@@ -1,29 +1,16 @@
 class ProductsController < ApplicationController
-  helper_method :sort_column, :sort_direction
+  include ApplicationHelper
+  # this includes helper_method :sort_column, :sort_direction, :set_graph
   before_action :set_variables, only: %i[show update]
   before_action :authenticate_user!, except: :product_summaries
 
   def index
-    @products =
-      if params[:search]
-        current_user.products.filtered_products.search(params[:search])
-                    .custom_sort(sort_column, sort_direction).page params[:page]
-      else
-        current_user.products.filtered_products.custom_sort(sort_column, sort_direction).page params[:page]
-      end
+    @products = current_user.products.filtered_products.search(params[:search])
+                            .custom_sort(sort_column, sort_direction).page params[:page]
   end
 
   def show
-    set_graph
-    respond_to do |format|
-      format.html do
-        @graph_config = GraphConfig.new
-        @line_items = current_user.line_items.where(product: @product).from_graph(@graph_config).page params[:page]
-      end
-      format.js do
-        set_up_state
-      end
-    end
+    set_up_state
   end
 
   def create; end
@@ -49,7 +36,7 @@ class ProductsController < ApplicationController
   end
 
   def set_up_state
-    # set_graph is inside ApplicationController
+    # set_graph is inside ApplicationHelper
     set_graph
     set_table
   end

@@ -17,23 +17,6 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_registration_path
   end
 
-  def set_graph
-    @graph_config =
-      if params[:graph_config]
-        GraphConfig.new(graph_config_params)
-      else
-        GraphConfig.new(start_date: params[:start], end_date: params[:end], unit: params[:unit])
-      end
-  end
-
-  def sort_column
-    params[:sort]
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
-  end
-
   private
 
   def ensure_domain

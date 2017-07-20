@@ -11,8 +11,8 @@ class Product < ApplicationRecord
   paginates_per 10
   after_initialize :set_nickname, if: :new_record?
 
-  def self.search(search)
-    where('name iLIKE ? OR nickname iLIKE ?', "%#{search}%", "%#{search}%")
+  def self.search(search = nil)
+    search.nil? ? where("name  <> ''") : where('name iLIKE ? OR nickname iLIKE ?', "%#{search}%", "%#{search}%")
   end
 
   def self.custom_sort(category, direction)
