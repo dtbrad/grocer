@@ -51,4 +51,7 @@
   <div class="panel-body" id="line_items_table">
     <%= render partial: 'line_items', locals: { line_items: @line_items } %>
   </div>
+  <div class="text-center" id="paginator">
+    <%= paginate @line_items, theme: 'twitter-bootstrap-3', params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit}, remote: true %>
+  </div>
 </div>
