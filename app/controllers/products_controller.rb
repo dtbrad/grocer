@@ -1,6 +1,4 @@
 class ProductsController < ApplicationController
-  include ApplicationHelper
-  # this includes helper_method :sort_column, :sort_direction, :set_graph
   before_action :set_variables, only: %i[show update]
   before_action :authenticate_user!, except: :product_summaries
 
@@ -10,10 +8,11 @@ class ProductsController < ApplicationController
   end
 
   def show
-    spending_state = SpendingState.new(params)
-    @graph_config = spending_state.set_graph
+    @spending_state = SpendingState.new(params)
+    @graph_config = @spending_state.set_graph
     @line_items = @product.this_users_line_items(current_user)
-                          .from_graph(@graph_config).custom_sort(sort_column, sort_direction)
+                          .from_graph(@graph_config)
+                          .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                           .page params[:page]
   end
 
@@ -33,9 +32,5 @@ class ProductsController < ApplicationController
   def set_variables
     @user = current_user
     @product = Product.find(params[:id])
-  end
-
-  def graph_config_params
-    params.require(:graph_config).permit(:start_date, :end_date, :unit, :graph_change)
   end
 end

@@ -17,12 +17,7 @@ class Product < ApplicationRecord
 
   def self.custom_sort(category, direction)
     direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    categories = %w[sort_times_bought sort_highest_price sort_highest_price sort_recently_purchased]
-    if categories.include?(category)
-      send(category, direction)
-    else
-      sort_nickname(direction)
-    end
+    send(category, direction)
   end
 
   def self.sort_times_bought(direction)
