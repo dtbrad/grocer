@@ -1,13 +1,12 @@
 class BasketsController < ApplicationController
-  include ApplicationHelper
-  # this includes helper_method :sort_column, :sort_direction
   before_action :authenticate_user!
 
   def index
-    spending_state = SpendingState.new(params)
-    @graph_config = spending_state.set_graph
+    @spending_state = SpendingState.new(params)
+    @graph_config = @spending_state.set_graph
 
-    @baskets = current_user.baskets.from_graph(@graph_config).custom_sort(sort_column, sort_direction)
+    @baskets = current_user.baskets.from_graph(@graph_config)
+                           .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                            .page params[:page]
   end
 
@@ -27,22 +26,5 @@ class BasketsController < ApplicationController
   def disassociate_user
     current_user.disassociate_baskets
     redirect_to baskets_path, flash: { alert: 'Purchase history deleted from your account' }
-  end
-
-  private
-
-  def graph_config_params
-    params.require(:graph_config).permit(:start_date, :end_date, :unit, :graph_change)
-  end
-
-  def set_up_state
-    # set_graph is inside ApplicationHelper
-    set_graph
-    set_table
-  end
-
-  def set_table
-    @baskets = current_user.baskets.from_graph(@graph_config).custom_sort(sort_column, sort_direction)
-                           .page params[:page]
   end
 end

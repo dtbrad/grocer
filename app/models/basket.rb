@@ -7,7 +7,11 @@ class Basket < ApplicationRecord
   paginates_per 10
 
   def self.from_graph(graph_config)
-    start_date = graph_config.start_date.class == DateTime ? graph_config.start_date : DateTime.parse(graph_config.start_date)
+    start_date = if graph_config.start_date.class == DateTime
+                   graph_config.start_date
+                 else
+                   DateTime.parse(graph_config.start_date)
+                 end
     end_date = graph_config.end_date.class == DateTime ? graph_config.end_date : DateTime.parse(graph_config.end_date)
     Basket.where(date: start_date..end_date)
   end
@@ -18,12 +22,7 @@ class Basket < ApplicationRecord
 
   def self.custom_sort(category, direction)
     direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
-    categories = %w[sort_date sort_items sort_total]
-    if categories.include?(category)
-      send(category, direction)
-    else
-      sort_date('desc')
-    end
+    send(category, direction)
   end
 
   def self.sort_date(direction)
