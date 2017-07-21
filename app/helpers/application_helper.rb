@@ -27,17 +27,6 @@ module ApplicationHelper
                                           end: graph_config.end_date, unit: graph_config.unit), remote: true
   end
 
-  def set_graph
-    @graph_config =
-      if params[:graph_config]
-        GraphConfig.new(graph_config_params)
-      elsif !params[:graph_config] && !params[:start]
-        GraphConfig.new
-      else
-        GraphConfig.new(start_date: params[:start], end_date: params[:end], unit: params[:unit])
-      end
-  end
-
   def sort_column
     params[:sort]
   end

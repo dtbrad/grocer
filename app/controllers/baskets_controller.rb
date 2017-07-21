@@ -1,10 +1,14 @@
 class BasketsController < ApplicationController
   include ApplicationHelper
-  # this includes helper_method :sort_column, :sort_direction, :set_graph
+  # this includes helper_method :sort_column, :sort_direction
   before_action :authenticate_user!
 
   def index
-    set_up_state
+    spending_state = SpendingState.new(params)
+    @graph_config = spending_state.set_graph
+
+    @baskets = current_user.baskets.from_graph(@graph_config).custom_sort(sort_column, sort_direction)
+                           .page params[:page]
   end
 
   def new; end

@@ -10,7 +10,11 @@ class ProductsController < ApplicationController
   end
 
   def show
-    set_up_state
+    spending_state = SpendingState.new(params)
+    @graph_config = spending_state.set_graph
+    @line_items = @product.this_users_line_items(current_user)
+                          .from_graph(@graph_config).custom_sort(sort_column, sort_direction)
+                          .page params[:page]
   end
 
   def create; end
@@ -33,17 +37,5 @@ class ProductsController < ApplicationController
 
   def graph_config_params
     params.require(:graph_config).permit(:start_date, :end_date, :unit, :graph_change)
-  end
-
-  def set_up_state
-    # set_graph is inside ApplicationHelper
-    set_graph
-    set_table
-  end
-
-  def set_table
-    @line_items = @product.this_users_line_items(current_user)
-                          .from_graph(@graph_config).custom_sort(sort_column, sort_direction)
-                          .page params[:page]
   end
 end
