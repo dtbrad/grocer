@@ -48,7 +48,7 @@ class Scraper
   end
 
   def self.prepare_original(user, email, _email_array)
-    email_date = DateTime.parse(email.payload.headers.find { |h| h.name == 'Date' }.value).change(sec: 0)
+    email_date = DateTime.parse(email.payload.headers.find { |h| h.name == 'Date' }.value).change(sec: 0)  - 7.hours
     body = email.payload.body.data unless user.baskets.find_by(user: user, date: email_date)
     my_email = {
       date: email_date,

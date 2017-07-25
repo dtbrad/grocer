@@ -18,8 +18,8 @@ class BasketsController < ApplicationController
   end
 
   def create
-    BasketWorker.perform_async(current_user.id, params[:date], session[:access_token], params[:orig_email])
-    # Scraper.process_emails(current_user, params[:date], session[:access_token], params[:orig_email])
+    # BasketWorker.perform_async(current_user.id, params[:date], session[:access_token], params[:orig_email])
+    Scraper.process_emails(current_user, params[:date], session[:access_token], params[:orig_email])
   end
 
   def disassociate_user

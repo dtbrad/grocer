@@ -2376,6 +2376,6 @@ LineItem.create!([
 ])
 
 Basket.all.each do |b|
-  b.date -= 25200
+  b.date -= 14.hours
   b.save
 end

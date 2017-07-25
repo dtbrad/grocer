@@ -1,17 +1,17 @@
 module ApplicationHelper
   def format_date(date)
     date = date.class == String ? DateTime.parse(date) : date
-    date.localtime.strftime('%A %b %d, %Y %l:%M %p')
+    date.strftime('%A %b %d, %Y %l:%M %p')
   end
 
   def short_format_date(date)
     date = date.class == String ? DateTime.parse(date) : date
-    date.localtime.strftime('%B %d, %Y')
+    date.strftime('%B %d, %Y')
   end
 
   def form_date(date)
     date = date.class == String ? DateTime.parse(date) : date
-    date.localtime.strftime('%Y-%m-%d')
+    date.strftime('%Y-%m-%d')
   end
 
   def sort_products_record_by(column, title = nil)

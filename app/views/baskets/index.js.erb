@@ -56,7 +56,7 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
       }],
       tooltip: {
                   formatter: function() {
-                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + this.y
+                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
                              }
               },
         credits: {
