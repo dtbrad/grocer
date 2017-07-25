@@ -4,7 +4,6 @@ class BasketsController < ApplicationController
   def index
     @spending_state = SpendingState.new(params)
     @graph_config = @spending_state.set_graph
-
     @baskets = current_user.baskets.from_graph(@graph_config)
                            .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                            .page params[:page]

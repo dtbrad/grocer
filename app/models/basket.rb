@@ -17,7 +17,7 @@ class Basket < ApplicationRecord
   end
 
   def self.group_baskets(obj)
-    group_by_period(obj.unit.to_s, :date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100')
+    group_by_period(obj.unit.to_s, :date, range: obj.start_date..obj.end_date).sum('baskets.total_cents / 100').to_a
   end
 
   def self.custom_sort(category, direction)
