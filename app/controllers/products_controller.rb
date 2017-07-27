@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  helper_method :sort_column, :sort_direction
   before_action :set_variables, only: %i[show update]
   before_action :authenticate_user!, except: :product_summaries
 
@@ -32,5 +33,14 @@ class ProductsController < ApplicationController
   def set_variables
     @user = current_user
     @product = Product.find(params[:id])
+  end
+
+  def sort_column
+    # binding.pry
+    params[:sort] || 'sort_nickname'
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

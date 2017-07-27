@@ -1,27 +1,24 @@
 <% if current_user && !@baskets.empty? %>
 
   </br></br>
-<div id="outerdan">
-  <div id="danielchart"></div>
-</div>
-
-
-
-
+  <div id="outerchart">
+    <div id="danielchart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>"></div>
+  </div>
 
   <div class="row">
-  <div class="col-md-4">
-    <div class="list-item">
-      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last two years</h3>
-    </div>
-  </div>
 
-  <div class="col-md-8">
-    <div class="list-item text-right" style="padding-top: 13px">
-      <%= render partial: 'shared_partials/graph_control', locals: {path: baskets_path} %>
+    <div class="col-md-4">
+      <div class="list-item">
+        <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last two years</h3>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="list-item text-right" style="padding-top: 13px">
+        <%= render partial: 'shared_partials/graph_control', locals: {path: baskets_path} %>
+      </div>
     </div>
   </div>
-</div>
 
 
   <div class="row">
@@ -41,66 +38,11 @@
     </div>
   </div>
 
-  <% elsif current_user && @baskets.empty?%>
-      <div class='alert alert-danger'>You currently have no purchase history in the database.
-      Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.</div>
-      <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
+<% elsif current_user && @baskets.empty?%>
+  <div class='alert alert-danger'>
+    You currently have no purchase history in the database.
+    Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.
+  </div>
+    <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
+
 <% end %>
-
-<script>
-  var json = '<%= current_user.baskets.group_baskets(@graph_config).to_json %>'
-  var data_array = JSON.parse(json.replace(/&quot;/g,'"'));
-  var new_array = data_array.map(function(x) {
-    return [Date.parse(x[0]), x[1]]
-  })
-  var unit = '<%= @graph_config.unit %>'
-
-  function right_date(unit) {
-    if (unit == 'month') {
-      return '%b %Y'
-    }
-    else if (unit == 'week') {
-      return 'week of %b %e, %Y'
-    }
-    else {
-      return '%b %e, %Y'
-    }
-  }
-
-  var for_graph = right_date(unit)
-
-
-  Highcharts.chart('danielchart', {
-
-      chart: { renderTo: 'danielchart', type: 'spline' },
-      title: {
-          text: 'Spending History'
-      },
-      yAxis: {
-        title: {
-            text: 'Amount Spent'
-        },
-        labels: {
-        format: '${value}'
-        }
-      },
-      xAxis: {
-       type: 'datetime',
-       title: {
-           text: 'Date'
-       }
-      },
-      series: [{
-          name: 'spending',
-          data: new_array
-      }],
-      tooltip: {
-                  formatter: function() {
-                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
-                             }
-              },
-        credits: {
-      enabled: false
-  },
-  });
-</script>

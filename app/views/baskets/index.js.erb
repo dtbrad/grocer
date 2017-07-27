@@ -1,68 +1,91 @@
-// debugger
 $('#graph_error_explanation').html("")
 var graph_change = '<%= (params[:graph_change]).to_s %>'
 var graph_valid = '<%= @graph_config.valid?.to_s %>'
 
 if (graph_change === 'yes' && graph_valid == 'true' ) {
-  $("#index-title").html("Spending: <%= short_format_date(@graph_config.start_date) %> to <%= short_format_date(@graph_config.end_date) %>")
-  $("#outerdan").html("<div id='danielchart'></div>")
+  var graph_unit = '<%= @graph_config.unit %>'
+  var graph_array = '<%= current_user.baskets.group_baskets(@graph_config).to_json %>'
+  // debugger;
+  $("#index-title").html(" Spending by <%= @graph_config.unit %>: <%= short_format_date(@graph_config.start_date) %> to <%= short_format_date(@graph_config.end_date) %>")
+  $("#outerchart").html('<div id="danielchart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2= "<%= @graph_config.unit %>"></div>')
   $('#baskets_table').html("<%= escape_javascript render partial: 'baskets', locals: { baskets: @baskets } %>");
   $('#paginator').html('<%= escape_javascript(paginate(@baskets, theme: "twitter-bootstrap-3", :remote => true).to_s) %>');
-  var json = '<%= current_user.baskets.group_baskets(@graph_config).to_json %>'
-  var data_array = JSON.parse(json.replace(/&quot;/g,'"'));
-  var new_array = data_array.map(function(x) {
-    return [Date.parse(x[0]), x[1]]
-  })
-  var unit = '<%= @graph_config.unit %>'
 
-  function right_date(unit) {
-    if (unit == 'month') {
-      return '%b %Y'
-    }
-    else if (unit == 'week') {
-      return 'week of %b %e, %Y'
-    }
-    else {
-      return '%b %e, %Y'
-    }
-  }
+  var $chartData = $("#danielchart")
+	// var data_array = $chartData.data('param1');
 
-  var for_graph = right_date(unit)
+	var formatted_array = $chartData.data('param1').map(function(x) {
+		return [Date.parse(x[0]), x[1]]
+	})
+	var unit = $chartData.data('param2');
+	var for_graph = right_date(unit);
 
+	function right_date(unit) {
+		if (unit == 'month') {
+		 return '%b %Y'
+		}
+		else if (unit == 'week') {
+			return 'week of %b %e, %Y'
+		}
+		else {
+			return '%b %e, %Y'
+		}
+	}
 
-  Highcharts.chart('danielchart', {
+	Highcharts.chart('danielchart', {
 
-      chart: { renderTo: 'danielchart', type: 'spline' },
-      title: {
-          text: 'Spending History'
-      },
-      yAxis: {
-        title: {
-            text: 'Amount Spent'
-        },
-        labels: {
-        format: '${value}'
-        }
-      },
-      xAxis: {
-       type: 'datetime',
-       title: {
-           text: 'Date'
-       }
-      },
-      series: [{
-          name: 'spending',
-          data: new_array
-      }],
-      tooltip: {
-                  formatter: function() {
-                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
-                             }
-              },
-        credits: {
-      enabled: false
-  },
-  });
+			chart: { renderTo: 'danielchart', type: 'spline' },
+			title: {
+					text: 'Spending History'
+			},
+			yAxis: {
+				title: {
+						text: 'Amount Spent'
+				},
+				labels: {
+				format: '${value}'
+				}
+			},
+			xAxis: {
+			 type: 'datetime',
+			 title: {
+					 text: 'Date'
+			 }
+			},
+			series: [{
+					name: 'spending',
+					data: formatted_array
+			}],
+			tooltip: {
+									formatter: function() {
+															return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
+														 }
+							},
+			plotOptions: {
+				series: {
+					cursor: 'pointer',
+					events: { click:  function (event) {
+						if (unit === "week" || unit === "month" ) {
+
+							var date = new Date(event.point.x).toString()
+							var new_unit = unit === "month" ? "week" : "day"
+
+							$.ajax({
+								url: 'http://localhost:3000/baskets',
+								jsonp: 'refreshSection',
+								dataType: "jsonp",
+								data: { "graph_change": "yes", "tooltip_date": date, "tooltip_unit": new_unit, "graph_change": "yes" }
+							});
+										}
+										}
+									}
+								}
+							},
+				credits: {
+			enabled: false
+			},
+	});
+
 }
 else if (graph_change === 'yes' && graph_valid == 'false') {
   $('#graph_error_explanation').append("<ul> <% @graph_config.errors.full_messages.each do |message| %> <p> <%= message %> </p> <% end %> </ul>")
