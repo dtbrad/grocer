@@ -66,16 +66,16 @@ describe Basket do
       baskets2 = @baskets2.group_baskets(@graph_config2)
       baskets3 = @baskets2.group_baskets(@graph_config3)
 
-      expect(baskets1).to eq(Date.parse('2017-01-01') => 100, Date.parse('2017-02-01') => 5,
-                             Date.parse('2017-03-01') => 2, Date.parse('2017-04-01') => 0)
+      expect(baskets1).to eq(Date.parse('2017-01-01') => 1000, Date.parse('2017-02-01') => 500,
+                             Date.parse('2017-03-01') => 200, Date.parse('2017-04-01') => 500)
 
-      expect(baskets2).to eq(Date.parse('2017-01-08') => 30, Date.parse('2017-01-15') => 70,
+      expect(baskets2).to eq(Date.parse('2017-01-08') => 3000, Date.parse('2017-01-15') => 7000,
                              Date.parse('2017-01-22') => 0, Date.parse('2017-01-29') => 0,
-                             Date.parse('2017-02-05') => 0, Date.parse('2017-02-12') => 0)
+                             Date.parse('2017-02-05') => 0, Date.parse('2017-02-12') => 500)
 
-      expect(baskets3).to eq(Date.parse('2017-01-14') => 30, Date.parse('2017-01-15') => 0,
+      expect(baskets3).to eq(Date.parse('2017-01-14') => 3000, Date.parse('2017-01-15') => 0,
                              Date.parse('2017-01-16') => 0, Date.parse('2017-01-17') => 0,
-                             Date.parse('2017-01-18') => 20, Date.parse('2017-01-19') => 50,
+                             Date.parse('2017-01-18') => 2000, Date.parse('2017-01-19') => 5000,
                              Date.parse('2017-01-20') => 0)
     end
 
@@ -99,10 +99,6 @@ describe Basket do
         expect(@baskets1.custom_sort('sort_items', 'asc').last).to eq(@basket3)
         expect(@baskets1.custom_sort('sort_items', 'desc').first).to eq(@basket3)
         expect(@baskets1.custom_sort('sort_items', 'desc').last).to eq(@basket5)
-      end
-
-      it 'defaults to sorting by descending date' do
-        expect(@baskets1.custom_sort(nil, 'asc').first).to eq(@basket6)
       end
     end
   end
