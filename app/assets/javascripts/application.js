@@ -26,4 +26,5 @@
 //= require bootstrap-modalmanager
 //= require angular-loading-bar
 //= require baskets
+//= require products
 //= require_tree

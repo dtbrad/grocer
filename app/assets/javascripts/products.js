@@ -1,13 +1,4 @@
-$('#graph_error_explanation').html("")
-var graph_change = '<%= params[:graph_change].to_s %>'
-var graph_valid = '<%= @graph_config.valid?.to_s %>'
-
-if (graph_change === 'yes' && graph_valid == 'true' ) {
-  $("#index-title").html("Purchasing history: <%= short_format_date(@graph_config.start_date) %> to <%= short_format_date(@graph_config.end_date) %>")
-  $("#product-outer-chart").html('<div id="product-history-chart" data-param1= "<%= current_user.line_items.where(product: @product).group_line_items(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3="<%= @product.id %>" data-param4="<%= ENV['WEB_FULL_URL'] %>"></div>')
-  $('#line_items_table').html("<%= escape_javascript render partial: 'line_items', locals: { line_items: @line_items } %>");
-  $('#paginator').html('<%= escape_javascript(paginate(@line_items, theme: "twitter-bootstrap-3", :remote => true).to_s) %>');
-
+$(document).ready(function() {
   var $chartData = $("#product-history-chart")
   if($chartData.data('param1') != undefined) {
   var formatted_array = $chartData.data('param1').map(function(x) {
@@ -55,7 +46,7 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
       }],
       tooltip: {
                   formatter: function() {
-                    return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - purchased '  + this.y + ' ' +(this.y > 1 ? 'times' : 'time')
+                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - purchased '  + this.y + ' ' +(this.y > 1 ? 'times' : 'time')
                              }
               },
       plotOptions: {
@@ -66,7 +57,6 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
 
               var date = new Date(event.point.x).toString()
               var new_unit = unit === "month" ? "week" : "day"
-
 
               $.ajax({
                 url: url + '/products/' + product_id,
@@ -85,11 +75,4 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
     });
   }
 
-}
-else if (graph_change === 'yes' && graph_valid == 'false') {
-  $('#graph_error_explanation').append("<ul> <% @graph_config.errors.full_messages.each do |message| %> <p> <%= message %> </p> <% end %> </ul>")
-}
-else {
-  $('#line_items_table').html("<%= escape_javascript render partial: 'line_items', locals: { line_items: @line_items } %>");
-  $('#paginator').html('<%= escape_javascript(paginate(@line_items, theme: "twitter-bootstrap-3", :remote => true).to_s) %>');
-};
+});

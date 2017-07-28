@@ -36,7 +36,6 @@ class ProductsController < ApplicationController
   end
 
   def sort_column
-    # binding.pry
     params[:sort] || 'sort_nickname'
   end
 

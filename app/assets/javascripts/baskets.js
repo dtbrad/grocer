@@ -5,7 +5,7 @@ $(document).ready(function() {
 		endDate: '-0d'
 	});
 
-	var $chartData = $("#danielchart")
+	var $chartData = $("#basket-spending-chart")
 
 	if($chartData.data('param1') != undefined) {
 	var formatted_array = $chartData.data('param1').map(function(x) {
@@ -17,6 +17,7 @@ $(document).ready(function() {
 	})
 	var unit = $chartData.data('param2');
 	var for_graph = right_date(unit);
+  var url = $chartData.data('param3');
 
 	function right_date(unit) {
 		if (unit == 'month') {
@@ -30,9 +31,9 @@ $(document).ready(function() {
 		}
 	}
 
-	Highcharts.chart('danielchart', {
+	Highcharts.chart('basket-spending-chart', {
 
-			chart: { renderTo: 'danielchart', type: 'spline' },
+			chart: { renderTo: 'basket-spending-chart', type: 'spline' },
 			title: {
 					text: 'Spending History'
 			},
@@ -69,7 +70,7 @@ $(document).ready(function() {
 							var new_unit = unit === "month" ? "week" : "day"
 
 							$.ajax({
-								url: 'http://localhost:3000/baskets',
+                url: url + "/baskets",
 								jsonp: 'refreshSection',
 								dataType: "jsonp",
 								data: { "graph_change": "yes", "tooltip_date": date, "tooltip_unit": new_unit, "graph_change": "yes" }

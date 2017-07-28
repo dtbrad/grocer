@@ -1,12 +1,13 @@
+<h3 class="text-center">Purchasing History for <%= @product.nickname %></h3>
 </br></br>
-<div id="chart">
-  <%= product_spending(@graph_config) %>
+<div id="product-outer-chart">
+  <div id="product-history-chart" data-param1= "<%= current_user.line_items.where(product: @product).group_line_items(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3="<%= @product.id %>" data-param4='<%= ENV["WEB_FULL_URL"] %>'></div>
 </div>
 
 <div class="row">
   <div class="col-md-4">
     <div class="list-item">
-      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Spending for the last two years</h3>
+      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Purchasing history for the last two years</h3>
     </div>
   </div>
 

@@ -2,7 +2,7 @@
 
   </br></br>
   <div id="outerchart">
-    <div id="danielchart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>"></div>
+    <div id="basket-spending-chart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3='<%= ENV["WEB_FULL_URL"] %>'></div>
   </div>
 
   <div class="row">

@@ -65,18 +65,19 @@ describe Basket do
       baskets1 = @baskets1.group_baskets(@graph_config1)
       baskets2 = @baskets2.group_baskets(@graph_config2)
       baskets3 = @baskets2.group_baskets(@graph_config3)
+      # binding.pry
 
-      expect(baskets1).to eq(Date.parse('2017-01-01') => 1000, Date.parse('2017-02-01') => 500,
-                             Date.parse('2017-03-01') => 200, Date.parse('2017-04-01') => 500)
+      expect(baskets1).to eq([[Date.parse('2017-01-01'), 10000], [Date.parse('2017-02-01'),500],
+                             [Date.parse('2017-03-01'), 200], [Date.parse('2017-04-01'), 500]])
 
-      expect(baskets2).to eq(Date.parse('2017-01-08') => 3000, Date.parse('2017-01-15') => 7000,
-                             Date.parse('2017-01-22') => 0, Date.parse('2017-01-29') => 0,
-                             Date.parse('2017-02-05') => 0, Date.parse('2017-02-12') => 500)
+      expect(baskets2).to eq([[Date.parse('2017-01-08'), 3000], [Date.parse('2017-01-15'), 7000],
+                             [Date.parse('2017-01-22'), 0], [Date.parse('2017-01-29'), 0],
+                             [Date.parse('2017-02-05'), 0], [Date.parse('2017-02-12'), 500]])
 
-      expect(baskets3).to eq(Date.parse('2017-01-14') => 3000, Date.parse('2017-01-15') => 0,
-                             Date.parse('2017-01-16') => 0, Date.parse('2017-01-17') => 0,
-                             Date.parse('2017-01-18') => 2000, Date.parse('2017-01-19') => 5000,
-                             Date.parse('2017-01-20') => 0)
+      expect(baskets3).to eq([[Date.parse('2017-01-14'), 3000], [Date.parse('2017-01-15'), 0],
+                             [Date.parse('2017-01-16'), 0], [Date.parse('2017-01-17'), 0],
+                             [Date.parse('2017-01-18'), 2000], [Date.parse('2017-01-19'), 5000],
+                             [Date.parse('2017-01-20'), 0]])
     end
 
     context 'Custom Sorting' do

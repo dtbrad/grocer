@@ -19,7 +19,8 @@ class LineItem < ApplicationRecord
   def self.group_line_items(obj)
     start_date = obj.start_date.class == DateTime ? obj.start_date : DateTime.parse(obj.start_date)
     end_date = obj.end_date.class == DateTime ? obj.end_date : DateTime.parse(obj.end_date)
-    group_by_period(obj.unit.to_s, :date, range: start_date..end_date).sum('line_items.quantity')
+    group_by_period(obj.unit.to_s, :date, range: start_date..end_date).sum('line_items.quantity').to_a
+
   end
 
   def formatted_weight
