@@ -1,78 +1,169 @@
 $(document).ready(function() {
   var $chartData = $("#product-history-chart")
   if($chartData.data('param1') != undefined) {
-  var formatted_array = $chartData.data('param1').map(function(x) {
-    return [Date.parse(x[0]), x[1]]
-  })
+    var formatted_array = $chartData.data('param1').map(function(x) {
+      return [Date.parse(x[0]), x[1]]
+    })
 
-  var unit = $chartData.data('param2');
-  var for_graph = right_date(unit);
-  var product_id = $chartData.data('param3');
-  var url = $chartData.data('param4');
+    var unit = $chartData.data('param2');
+    var for_graph = right_date(unit);
+    var product_id = $chartData.data('param3');
+    var url = $chartData.data('param4');
 
-  function right_date(unit) {
-    if (unit == 'month') {
-     return '%b %Y'
+    function right_date(unit) {
+      if (unit == 'month') {
+       return '%b %Y'
+      }
+      else if (unit == 'week') {
+        return 'week of %b %e, %Y'
+      }
+      else {
+        return '%b %e, %Y'
+      }
     }
-    else if (unit == 'week') {
-      return 'week of %b %e, %Y'
-    }
-    else {
-      return '%b %e, %Y'
-    }
-  }
 
-  Highcharts.chart('product-history-chart', {
+    Highcharts.chart('product-history-chart', {
 
-      chart: { renderTo: 'products-spending-chart', type: 'spline' },
-      title: {
-          text: ''
-      },
-      yAxis: {
-        allowDecimals: false,
+        chart: { renderTo: 'products-spending-chart', type: 'spline' },
         title: {
-            text: 'Qty'
-        }
-      },
-      xAxis: {
-       type: 'datetime',
-       title: {
-           text: 'Date'
-       }
-      },
-      series: [{
-          name: 'Total Purchased',
-          data: formatted_array
-      }],
-      tooltip: {
-                  formatter: function() {
-                              return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - purchased '  + this.y + ' ' +(this.y > 1 ? 'times' : 'time')
-                             }
-              },
-      plotOptions: {
-        series: {
-          cursor: 'pointer',
-          events: { click:  function (event) {
-            if (unit === "week" || unit === "month" ) {
+            text: ''
+        },
+        yAxis: {
+          allowDecimals: false,
+          title: {
+              text: 'Qty'
+          }
+        },
+        xAxis: {
+         type: 'datetime',
+         title: {
+             text: 'Date'
+         }
+        },
+        series: [{
+            name: 'Total Purchased',
+            data: formatted_array
+        }],
+        tooltip: {
+                    formatter: function() {
+                                return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - purchased '  + this.y + ' ' +(this.y > 1 ? 'times' : 'time')
+                               }
+                },
+        plotOptions: {
+          series: {
+            cursor: 'pointer',
+            events: { click:  function (event) {
+              if (unit === "week" || unit === "month" ) {
 
-              var date = new Date(event.point.x).toString()
-              var new_unit = unit === "month" ? "week" : "day"
+                var date = new Date(event.point.x).toString()
+                var new_unit = unit === "month" ? "week" : "day"
 
-              $.ajax({
-                url: url + '/products/' + product_id,
-                jsonp: 'refreshSection',
-                dataType: "jsonp",
-                data: { "graph_change": "yes", "tooltip_date": date, "tooltip_unit": new_unit, "graph_change": "yes" }
-              });
-                    }
+                $.ajax({
+                  url: url + '/products/' + product_id,
+                  jsonp: 'refreshSection',
+                  dataType: "jsonp",
+                  data: { "graph_change": "yes", "tooltip_date": date, "tooltip_unit": new_unit, "graph_change": "yes" }
+                });
+                      }
+                      }
                     }
                   }
-                }
-              },
-        credits: {
-      enabled: false
-      },
-    });
+                },
+          credits: {
+        enabled: false
+        },
+      });
   }
 
+  // Products Index Chart
+
+  var $productsSpendingData = $("#products-spending-chart")
+  var $productsPurchasedData = $("#products-purchased-chart")
+
+  if($productsSpendingData.data('param1') != undefined) {
+
+    $('#products-purchased-chart').hide();
+
+    $('#products-toggle').on('click', function(){
+      if( $('#products-purchased-chart').is( ':visible' ) ) {
+        $('#products-purchased-chart').hide();
+        $('#products-spending-chart').show();
+      }
+      else {
+        $('#products-spending-chart').hide();
+        $('#products-purchased-chart').show();
+        productsPurchasedChart.reflow();
+      }
+    })
+
+    var productsPurchasedChart = Highcharts.chart('products-purchased-chart', {
+        chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Top Ten Products by Qty Purchased'
+          },
+          xAxis: {
+                categories: $productsPurchasedData.data('param1').map(function(x){
+                  return x[0];
+                })
+              },
+              yAxis: {
+                labels: {format: '{value}'},
+                title: {
+                  text: 'Quantity'
+                }
+              },
+              tooltip: {
+                pointFormat: 'Total Purchased: <b>{point.y}</b>'
+              },
+              series: [
+                { data: $productsPurchasedData.data('param1').map(function(x){
+                  return Number(x[1]);
+                }),
+                  name: "Total Purchased", color: 'blue'},
+              ],
+              credits: {
+                enabled: false
+              }
+            });
+
+
+            var productsSpendingChart = Highcharts.chart('products-spending-chart', {
+              chart: {
+                type: 'column'
+              },
+              title: {
+                text: 'Top Ten Products by Money Spent'
+              },
+              xAxis: {
+                categories: $productsSpendingData.data('param1').map(function(x){
+                  return x[0];
+                })
+              },
+              yAxis: {
+                labels: {format: '${value}'},
+                title: {
+                  text: 'Dollar Amount'
+                }
+              },
+              tooltip: {
+                pointFormat: 'Total Spent: <b>{point.y}</b>', valuePrefix: '$'
+              },
+              plotOptions: {
+                series: {
+                  cursor: 'pointer'
+                }
+              },
+              series: [
+                { data: $productsSpendingData.data('param1').map(function(x){
+                  return Number(x[1]);
+                }),
+                  name: "Total Spent", color: 'green'},
+              ],
+              credits: {
+                enabled: false
+              },
+            });
+  }
 });

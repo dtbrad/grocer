@@ -21,10 +21,6 @@ Rails.application.routes.draw do
   get 'log_out_to_register', to: 'application#log_out_to_register'
 
   post 'disassociate_user', to: 'baskets#disassociate_user', as: 'disassociate_user'
-  get 'most_spent_chart', to: 'charts#most_spent'
-  get 'most_bought_chart', to: 'charts#most_bought'
-  get 'product_monthly_purchasing_chart', to: 'charts#product_monthly_purchasing'
-  get 'product_weekly_purchasing_chart', to: 'charts#product_weekly_purchasing'
   get 'product_summaries', to: 'products#product_summaries'
 
   get 'listmaker', to: 'angular#angular'

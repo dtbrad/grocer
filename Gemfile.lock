@@ -71,7 +71,6 @@ GEM
       xpath (~> 2.0)
     case_transform (0.2)
       activesupport
-    chartkick (2.2.4)
     childprocess (0.7.1)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
@@ -392,7 +391,6 @@ DEPENDENCIES
   brakeman
   byebug
   capybara (~> 2.10, >= 2.10.1)
-  chartkick
   coffee-rails (~> 4.2)
   database_cleaner (~> 1.5, >= 1.5.3)
   devise

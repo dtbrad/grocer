@@ -1,12 +1,15 @@
-<% if current_user && !@products.empty? %>
+<div class="container">
 
-<div class="text-center">
-  <%= link_to "By Dollar", most_spent_chart_path, remote: true, class: "btn btn-primary btn-xs"%>
-  <%= link_to "By Quantity", most_bought_chart_path, remote: true, class: "btn btn-primary btn-xs" %>
-</div>
-<div id="chart">
-  <%= most_spent %>
-</div>
+<% if current_user && !@products.empty? %>
+</br></br>
+  <div class="text-right">
+    <button class="btn btn-xs btn-default" id="products-toggle">toggle view</button>
+  </div>
+</br>
+
+
+  <div id="products-spending-chart" data-param1="<%= current_user.products.most_money_spent.to_json %>" style="width:100%" ></div>
+  <div id="products-purchased-chart" data-param1="<%= current_user.products.most_purchased.to_json %>" style="width:100%" ></div>
 
   <div class="panel panel-default">
     <div class="panel-heading" id="product_panel_heading">
@@ -18,7 +21,10 @@
       </div>
     </div>
   </div>
-  <% elsif current_user && @products.empty?%>
-    <div class='alert alert-danger'>You currently have no products. Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.</div>
-      <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
-  <% end %>
+
+<% elsif current_user && @products.empty?%>
+  <div class='alert alert-danger'>You currently have no products. Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.</div>
+    <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
+<% end %>
+
+</div>

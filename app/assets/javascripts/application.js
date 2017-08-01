@@ -16,7 +16,6 @@
 //= require bootstrap-sass
 //= require toastr
 //= require highcharts
-//= require chartkick
 //= require angular
 //= require angular-rails-templates
 //= require angular-ui-router

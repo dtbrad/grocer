@@ -56,14 +56,14 @@ class Product < ApplicationRecord
   def self.most_money_spent
     group('products.id')
       .order('sum(line_items.total_cents) desc').limit(10)
-      .pluck('products.nickname, sum(line_items.total_cents *.01)')
+      .pluck('products.nickname, sum(line_items.total_cents *.01), products.id')
   end
 
   def self.most_purchased
     filtered_products
       .group('products.id')
       .order('sum(line_items.quantity) desc').limit(10)
-      .pluck('products.nickname, sum(line_items.quantity)')
+      .pluck('products.nickname, sum(line_items.quantity), products.id')
   end
 
   def self.process_nick_name_request(user, product, params)
