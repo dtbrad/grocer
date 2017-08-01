@@ -79,8 +79,15 @@ $(document).ready(function() {
 
   var $productsSpendingData = $("#products-spending-chart")
   var $productsPurchasedData = $("#products-purchased-chart")
-
   if($productsSpendingData.data('param1') != undefined) {
+
+    var spending_data = $productsSpendingData.data('param1').map(function(x){
+      return {name: x[0], y: Number(x[1]), id: x[2]}
+    })
+    var purchasing_data = $productsPurchasedData.data('param1').map(function(x){
+      return {name: x[0], y: x[1], id: x[2]}
+    })
+    var url = $productsSpendingData.data('param2');
 
     $('#products-purchased-chart').hide();
 
@@ -96,7 +103,7 @@ $(document).ready(function() {
       }
     })
 
-    var productsPurchasedChart = Highcharts.chart('products-purchased-chart', {
+    Highcharts.chart('products-purchased-chart', {
         chart: {
             type: 'column'
           },
@@ -117,10 +124,17 @@ $(document).ready(function() {
               tooltip: {
                 pointFormat: 'Total Purchased: <b>{point.y}</b>'
               },
+              plotOptions: {
+                series: {
+                  cursor: 'pointer',
+                  events: { click:  function (event) {
+                                      location.href = url + '/products/' + event.point.id;
+                                    }
+                          }
+                }
+              },
               series: [
-                { data: $productsPurchasedData.data('param1').map(function(x){
-                  return Number(x[1]);
-                }),
+                { data: purchasing_data,
                   name: "Total Purchased", color: 'blue'},
               ],
               credits: {
@@ -128,8 +142,7 @@ $(document).ready(function() {
               }
             });
 
-
-            var productsSpendingChart = Highcharts.chart('products-spending-chart', {
+            Highcharts.chart('products-spending-chart', {
               chart: {
                 type: 'column'
               },
@@ -152,13 +165,15 @@ $(document).ready(function() {
               },
               plotOptions: {
                 series: {
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  events: { click:  function (event) {
+                                      location.href = url + '/products/' + event.point.id;
+                                    }
+                          }
                 }
               },
               series: [
-                { data: $productsSpendingData.data('param1').map(function(x){
-                  return Number(x[1]);
-                }),
+                { data: spending_data,
                   name: "Total Spent", color: 'green'},
               ],
               credits: {

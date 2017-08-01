@@ -14,7 +14,7 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
 
   var $chartData = $("#basket-spending-chart")
 	var formatted_array = $chartData.data('param1').map(function(x) {
-		return [Date.parse(x[0]), x[1]]
+		return [Date.parse(x[0]), (x[1] / 100)]
 	})
 	var unit = $chartData.data('param2');
 	var for_graph = right_date(unit);
@@ -58,7 +58,7 @@ if (graph_change === 'yes' && graph_valid == 'true' ) {
 			}],
 			tooltip: {
 									formatter: function() {
-															return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
+															return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y)
 														 }
 							},
 			plotOptions: {

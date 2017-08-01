@@ -9,12 +9,9 @@ $(document).ready(function() {
 
 	if($chartData.data('param1') != undefined) {
 	var formatted_array = $chartData.data('param1').map(function(x) {
-		return [Date.parse(x[0]), x[1]]
+		return [Date.parse(x[0]),  (x[1] / 100)]
 	})
 
-	formatted_array = $chartData.data('param1').map(function(x) {
-		return [Date.parse(x[0]), x[1]]
-	})
 	var unit = $chartData.data('param2');
 	var for_graph = right_date(unit);
   var url = $chartData.data('param3');
@@ -57,7 +54,7 @@ $(document).ready(function() {
 			}],
 			tooltip: {
 									formatter: function() {
-															return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y / 100)
+															return Highcharts.dateFormat(for_graph, new Date(this.x)) + ' - $'  + (this.y)
 														 }
 							},
 			plotOptions: {
