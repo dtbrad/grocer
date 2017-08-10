@@ -29,7 +29,7 @@ gem 'devise'
 gem 'devise-bootstrap-views'
 gem 'bootstrap-modal-rails'
 gem 'newrelic_rpm'
-
+gem 'localtunnel'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'

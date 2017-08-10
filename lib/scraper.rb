@@ -1,5 +1,22 @@
 require 'google/apis/gmail_v1'
 class Scraper
+
+  def self.process_mailgun(params)
+    body = params["body-html"]
+    email_date = DateTime.parse(body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
+    rows = get_the_right_rows_new_forwarded(body)
+    email = params["X-Envelope-From"].delete('<>')
+    user = User.find_or_create_by(email: email)
+    return if user.baskets.where(date: email_date).count > 0
+    basket = user.baskets.build(date: email_date)
+    rows.length.times do |i|
+      info = parse_new_style(rows, i)
+      build_products_and_line_items(basket, info, user)
+    end
+    basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
+    basket.save
+  end
+
   def self.process_emails(user, date, token, orig_email)
     client = Signet::OAuth2::Client.new(access_token: token)
     client.expires_in = Time.now + 1_000_000
