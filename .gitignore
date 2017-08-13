@@ -10,6 +10,7 @@ junk.js.erb
 google_api_controller_2.rb
 *.rdb
 coverage
+sample_email.json
 
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
 #

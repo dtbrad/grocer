@@ -30,6 +30,8 @@ gem 'devise-bootstrap-views'
 gem 'bootstrap-modal-rails'
 gem 'newrelic_rpm'
 gem 'localtunnel'
+gem 'rest-client', '~> 2.0', '>= 2.0.2'
+gem 'mailgun-ruby', '~>1.1.6'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'

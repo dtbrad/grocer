@@ -3,15 +3,37 @@ class Scraper
 
   def self.process_mailgun(params)
     body = params["body-html"]
-    email_date = DateTime.parse(body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
-    rows = get_the_right_rows_new_forwarded(body)
-    email = params["X-Envelope-From"].delete('<>')
-    user = User.find_or_create_by(email: email)
+    if params["Delivered-To"] # forwarded via gmail filter
+      email = params["Delivered-To"]
+      email_date = DateTime.parse(params["Date"]).change(sec: 0) - 7.hours
+    elsif params["X-Envelope-From"].include?("gmail") # forwarded manually from gmail
+      email = params["X-Envelope-From"].delete('<>')
+      email_date = DateTime.parse(body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
+    elsif params["X-Envelope-From"].include?("yahoo") # forwarded manually from yahoo
+      email = params["X-Envelope-From"].delete('<>')
+      email_date = DateTime.parse(body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
+    end
+    user = User.find_by(email: email)
     return if user.baskets.where(date: email_date).count > 0
     basket = user.baskets.build(date: email_date)
-    rows.length.times do |i|
-      info = parse_new_style(rows, i)
-      build_products_and_line_items(basket, info, user)
+    if !Nokogiri::HTML(body).css('.savings-label').empty?
+      rows = Nokogiri::HTML(body).css('.basket-body tr')
+      rows.length.times do |i|
+        info = parse_new_style(rows, i)
+        build_products_and_line_items(basket, info, user)
+      end
+    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
+      rows = get_the_right_rows_new_forwarded(body)
+      rows.length.times do |i|
+        info = parse_new_style(rows, i)
+        build_products_and_line_items(basket, info, user)
+      end
+    else
+      rows = get_the_right_rows(body)
+      rows.length.times do |i|
+        info = parse_old_style(rows, i)
+        build_products_and_line_items(basket, info, user)
+      end
     end
     basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
     basket.save

@@ -3,6 +3,6 @@ class MailGunController < ApplicationController
 
   def process_mail_gun_post_request
     Scraper.process_mailgun(params)
-    render json: { status: 200 }
+    render json: { status: 200, message: "cheers!" }
   end
 end
