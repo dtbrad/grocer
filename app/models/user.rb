@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :products, through: :line_items
   has_many :nick_name_requests
   validates :name, presence: true
-  validates :name, uniqueness: true
+  # validates :name, uniqueness: true
 
   after_initialize :set_default_role, if: :new_record?
 

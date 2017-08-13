@@ -12,8 +12,15 @@ class Scraper
     elsif params["X-Envelope-From"].include?("yahoo") # forwarded manually from yahoo
       email = params["X-Envelope-From"].delete('<>')
       email_date = DateTime.parse(body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
+    elsif params["X-Envelope-From"].include?("mac.com") # forwarded manually from macmail
+      email = params["X-Envelope-From"].delete('<>')
+      email_date = DateTime.parse(body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
     end
-    user = User.find_by(email: email)
+    user = if User.find_by(email: email)
+             User.find_by(email: email)
+           else
+             User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6))
+           end
     return if user.baskets.where(date: email_date).count > 0
     basket = user.baskets.build(date: email_date)
     if !Nokogiri::HTML(body).css('.savings-label').empty?

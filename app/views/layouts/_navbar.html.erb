@@ -57,6 +57,7 @@
           <ul class="dropdown-menu">
             <% if current_user.email != "sampleuser@mail.com" %>
             <li><%= link_to "Sign out", destroy_user_session_path, method: "delete"  %></li>
+            <li><%= link_to "Change your password", edit_user_registration_path %></li>
             <% else %>
             <li>
               <%= link_to "Register a real account!", log_out_to_register_path %></li>
