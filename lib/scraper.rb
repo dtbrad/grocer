@@ -155,7 +155,7 @@ class Scraper
   end
 
   def self.parse_old_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date')
+    unless rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
       info = { name: rows[i].css('td[class*="basket-item-desc"]').text.strip,
                total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
