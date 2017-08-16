@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     authenticated :user do
       root :to => 'baskets#index'
+      get 'edit_user_password_path', to: 'devise/passwords#edit'
     end
     unauthenticated :user do
       root :to => 'application#welcome', as: :unauthenticated_root
@@ -12,6 +13,7 @@ Rails.application.routes.draw do
   resources :baskets, only: [:index, :new, :show, :create]
   resources :products, only: [:index, :show, :create, :update]
   resources :nick_name_requests, only: [:index, :create, :update]
+  # resource :passwords
 
   get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
 
   get 'import', to: 'google_api#go_to_google', as: 'import_path'
   get 'auth/:provider/callback', to: 'google_api#callback'
+
+  post 'send_password_email', to: 'application#send_password_email'
 
   post 'mailgun', to: 'mail_gun#process_mail_gun_post_request'
 

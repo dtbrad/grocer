@@ -1,4 +1,4 @@
-user = User.create(name: "Sample User", email: "sampleuser@mail.com", password: "password", confirmed_at: Time.now)
+user = User.create(name: "Sample User", email: "sampleuser@mail.com", password: "password", confirmed_at: Time.now, generated_from_email: false, changed_password: 0)
 
 Basket.create!([
   {date: "2017-05-07 01:21:00", user: user, total_cents: 2934},

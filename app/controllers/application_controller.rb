@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :ensure_domain
   helper_method :set_graph, :sort_column, :sort_direction
+  before_action :require_password_change
 
   def about; end
 
@@ -17,7 +18,19 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_registration_path
   end
 
+  def send_password_email
+    User.find_by(email: params[:user][:email]).send_reset_password_instructions
+    redirect_to new_user_session_path, flash: { notice: 'If a user with that email exists, a reset-password email has been sent to them' }
+  end
+
   private
+
+  def require_password_change
+    if current_user && current_user.generated_from_email == true && current_user.changed_password < 1 &&
+       !['devise/registrations', 'devise/sessions'].include?(params[:controller])
+      redirect_to edit_user_registration_path, flash: { notice: 'Please change your password' }
+    end
+  end
 
   def ensure_domain
     return if request.env['HTTP_HOST'] == ENV['WEB_URL'] || Rails.env.development?
@@ -25,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    update_attrs = [:password, :password_confirmation, :current_password]
+    update_attrs = [:password, :password_confirmation, :current_password, :changed_password]
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     devise_parameter_sanitizer.permit :account_update, keys: update_attrs
   end

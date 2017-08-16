@@ -17,7 +17,7 @@ class Scraper
     user = if User.find_by(email: email)
              User.find_by(email: email)
            else
-             User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6))
+             User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6), generated_from_email: true)
            end
     return if user.baskets.where(date: email_date).count > 0
     basket = user.baskets.build(date: email_date)

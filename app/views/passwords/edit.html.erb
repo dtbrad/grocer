@@ -1,0 +1,11 @@
+<%= form_for current_user, url: passwords_path do |f| %>
+  current_password:<br />
+  <%= f.password_field :current_password %><br />
+  password:<br />
+  <%= f.password_field :password %><br />
+  password_confirmation:<br />
+  <%= f.password_field :password_confirmation %><br />
+  <%= f.hidden_field :changed_password, value: (current_user.changed_password + 1) %>
+  <br />
+  <%= f.submit %>
+<% end %>

@@ -18,7 +18,7 @@
         </center>
 
       <%= render 'layouts/flash' %>
-      <% unless controller_name == "registrations" ||
+      <% unless (controller_name == "registrations") ||
          controller_name == "sessions"  || action_name == "welcome" %>
       <%= render 'layouts/navbar' %>
       <% end %>

@@ -1,9 +1,10 @@
-<p><%= t('.greeting', recipient: @resource.email, default: "Welcome to Grocer, #{@resource.name}!") %></p>
+<p>Hello <%= @resource.name %>, welcome to Grocer.</p>
 
-<p>
-   Your password is: <%= @resource.password %>
-</p>
+<% if @resource.generated_from_email == true && @resource.changed_password == 0 %>
+  <p>Click on the confirmation link and log in with the temporary password, both provided below.</p>
+  <p>temporary password: <strong><%= @resource.password %></strong></p>
+<% end %>
 
-<p>Confirm your account email through this link :
-  <%= link_to t('.action', default: 'Confirm my account'), confirmation_url(@resource, confirmation_token: @token, locale: I18n.locale) %>
+<p>Confirm your account email here:
+  <%= link_to 'Confirm Email', confirmation_url(@resource, confirmation_token: @token, locale: I18n.locale) %>
 </p>

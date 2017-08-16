@@ -22,6 +22,14 @@
       <%= f.submit 'Log in', class: 'btn btn-primary btn-block' %>
     <% end %>
     <hr />
+    <div class="form-group">
+      <%= form_for(resource, as: resource_name, url: send_password_email_url(resource_name)) do |f| %>
+        <%= f.label "Forgot your password? We'll email you a reset link"%>
+        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+        <%= f.submit value: 'Send email with reset password link', class: 'btn btn-notice btn-block' %>
+      <% end %>
+    </div>
+    <hr>
     <div style="padding-top: 15px">
       <a href="/users/auth/google_oauth2" class="btn btn-warning btn-block">Log in with Google</a>
     </div>
@@ -33,7 +41,7 @@
       <% end %>
     </div>
   <hr>
-  <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %></h5>
+  <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %> | <a href="/users/confirmation/new" data-remote="true" data-method="get">Resend confirmation</a></h5>
 </div>
 </br>
 </div>
