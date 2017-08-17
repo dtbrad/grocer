@@ -4,15 +4,15 @@ class Scraper
     if params["Delivered-To"] # forwarded via gmail filter
       email = params["Delivered-To"]
       email_date = DateTime.parse(params["Date"]).change(sec: 0) - 7.hours
-    elsif params["X-Envelope-From"].include?("gmail") # forwarded manually from gmail
+    else  # forwarded manually from gmail
       email = params["X-Envelope-From"].delete('<>')
-      email_date = DateTime.parse(body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
-    elsif params["X-Envelope-From"].include?("yahoo") # forwarded manually from yahoo
-      email = params["X-Envelope-From"].delete('<>')
-      email_date = DateTime.parse(body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
-    elsif params["X-Envelope-From"].include?("mac.com") # forwarded manually from macmail
-      email = params["X-Envelope-From"].delete('<>')
-      email_date = DateTime.parse(body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]).change(sec: 0)
+      if email_string = body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+        email_date = DateTime.parse(email_string).change(sec: 0)
+      elsif email_string = body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+        email_date = DateTime.parse(email_string).change(sec: 0)
+      elsif email_string = body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+        email_date = DateTime.parse(email_string).change(sec: 0)
+      end
     end
     user = if User.find_by(email: email)
              User.find_by(email: email)
@@ -48,7 +48,7 @@ class Scraper
     emails = GoogleApi.retrieve_emails(user, date, token, orig_email)
     unless emails.empty?
       emails.each do |email|
-        basket = user.baskets.build(date: email[:date])
+            basket = user.baskets.build(date: email[:date])
         process_single_email(basket, email[:body], user)
       end
     end
@@ -124,7 +124,7 @@ class Scraper
   end
 
   def self.parse_new_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date')
+    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date') || ( !rows[i].attributes.empty? && rows[i].attributes["class"].value == "empty-row" )
       info = { name: rows[i].css('td[class*="item-description"]').text.strip,
                total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
@@ -144,13 +144,12 @@ class Scraper
         info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
         info[:quantity] = 1
         info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
-
       end
 
       info[:total_cents] = -info[:total_cents] if credit_promotion
 
       if has_discount
-        info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
+            info[:disc] = (rows[i + 2].text[/\d+[,.]\d+/].to_d * -100).to_i
         info[:total_cents] += info[:disc]
       else
         info[:disc] = 0
@@ -172,6 +171,7 @@ class Scraper
         price = info[:total_cents]
         weight = info[:weight]
       end
+
       basket.line_items.build(
         user: user,
         product: product,
