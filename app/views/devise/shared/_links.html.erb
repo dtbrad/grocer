@@ -1,3 +1,5 @@
+<div class="text-center">
+
 <% if controller_name != 'sessions' %>
   <%= link_to t('.sign_in', default: 'Sign in'), new_session_path(resource_name) %><br />
 <% end %>
@@ -17,3 +19,4 @@
 <% if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <%= link_to t('.didn_t_receive_unlock_instructions', default: "Didn't receive unlock instructions?"), new_unlock_path(resource_name) %><br />
 <% end %>
+</div>

@@ -19,7 +19,9 @@ class ApplicationController < ActionController::Base
   end
 
   def send_password_email
-    User.find_by(email: params[:user][:email]).send_reset_password_instructions
+    if u = User.find_by(email: params[:user][:email])
+      u.send_reset_password_instructions
+    end
     redirect_to new_user_session_path, flash: { notice: 'If a user with that email exists, a reset-password email has been sent to them' }
   end
 

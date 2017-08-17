@@ -21,13 +21,26 @@
       <% end %>
       <%= f.submit 'Log in', class: 'btn btn-primary btn-block' %>
     <% end %>
-    <hr />
-    <div class="form-group">
-      <%= form_for(resource, as: resource_name, url: send_password_email_url(resource_name)) do |f| %>
-        <%= f.label "Forgot your password? We'll email you a reset link"%>
-        <%= f.email_field :email, autofocus: true, class: 'form-control' %>
-        <%= f.submit value: 'Send email with reset password link', class: 'btn btn-notice btn-block' %>
-      <% end %>
+    <h5 class="text-center"> <a class="fake-link" id="toggle_reset_password">Forget password?</a> | <a class="fake-link" id="toggle_resend_confirmation_instructions">Resend confirmation?</a></h5>
+    <div id="reset_password">
+      <hr />
+            <div class="form-group">
+              <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, role: "form" }) do |f| %>
+              <%= f.label "Forgot your password? We'll email you a reset link" %>
+              <%= f.email_field :email, autofocus: true, class: 'form-control' %>
+            </div>
+            <%= f.submit t('.send_me_reset_password_instructions', default: 'Send me reset password instructions'), class: 'btn btn-notice btn-block' %>
+          <% end %>
+    </div>
+    <div id="resend_confirmation_instructions">
+      <hr />
+      <div class="form-group">
+      <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name)) do |f| %>
+              <%= f.label "Lose your confirmation email? We'll email you a new one" %>
+              <%= f.email_field :email, autofocus: true, class: "form-control"  %>
+            <%= f.submit value: "Resend confirmation email", class: 'btn btn-notice btn-block' %>
+          <% end %>
+        </div>
     </div>
     <hr>
     <div style="padding-top: 15px">
@@ -41,7 +54,7 @@
       <% end %>
     </div>
   <hr>
-  <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %> | <a href="/users/confirmation/new" data-remote="true" data-method="get">Resend confirmation</a></h5>
+  <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %> </h5>
 </div>
 </br>
 </div>

@@ -26,4 +26,5 @@
 //= require angular-loading-bar
 //= require baskets
 //= require products
+//= require users
 //= require_tree

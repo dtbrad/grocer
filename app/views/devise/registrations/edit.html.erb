@@ -7,11 +7,7 @@
       <% if current_user.generated_from_email && current_user.changed_password == 0 %>
         <h4 class="text-center">Welcome <%= current_user.name %>, please create a permanent password </h4>
       <% else %>
-        <h4 class="text-center">Edit User Account</h4>
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true, class: 'form-control' %>
-        </div>
+        <h4 class="text-center">Change Your Password</h4>
       <% end %>
       <div class="form-group">
         <%= f.label 'New Password' %>

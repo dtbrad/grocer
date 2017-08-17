@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     authenticated :user do
       root :to => 'baskets#index'
-      get 'edit_user_password_path', to: 'devise/passwords#edit'
     end
     unauthenticated :user do
       root :to => 'application#welcome', as: :unauthenticated_root
