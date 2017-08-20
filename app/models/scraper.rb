@@ -96,7 +96,9 @@ class Scraper
 
   def self.parse_old_style(rows, i)
     unless rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
-      info = { name: rows[i].css('td[class*="basket-item-desc"]').text.strip,
+      name_value = rows[i].css('td[class*="basket-item-desc"]').text.strip
+      name = name_value.empty? ? "blank item" : name_value
+      info = { name: name,
                total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
       unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
       has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
