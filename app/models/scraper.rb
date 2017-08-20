@@ -1,68 +1,71 @@
 class Scraper
+
   def self.process_mailgun(params)
-    body = params["body-html"]
-    if params["Delivered-To"] # forwarded via gmail filter
-      email = params["Delivered-To"]
-      email_date = DateTime.parse(params["Date"]).change(sec: 0) - 7.hours
-    else  # forwarded manually from gmail
-      email = params["X-Envelope-From"].delete('<>')
-      if email_string = body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-        email_date = DateTime.parse(email_string).change(sec: 0)
-      elsif email_string = body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-        email_date = DateTime.parse(email_string).change(sec: 0)
-      elsif email_string = body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-        email_date = DateTime.parse(email_string).change(sec: 0)
+      body = params["body-html"]
+      if params["Delivered-To"] # forwarded via gmail filter
+        email = params["Delivered-To"]
+        email_date = DateTime.parse(params["Date"]).change(sec: 0) - 7.hours
+      else  # forwarded manually from gmail
+        email = params["X-Envelope-From"].delete('<>')
+        if email_string = body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+          email_date = DateTime.parse(email_string).change(sec: 0)
+        elsif email_string = body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+          email_date = DateTime.parse(email_string).change(sec: 0)
+        elsif email_string = body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+          email_date = DateTime.parse(email_string).change(sec: 0)
+        end
       end
+      user = if User.find_by(email: email)
+               User.find_by(email: email)
+             else
+               User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6), generated_from_email: true)
+             end
+      return if user.baskets.where(date: email_date).count > 0
+      basket = user.baskets.build(date: email_date)
+      if !Nokogiri::HTML(body).css('.empty-row').empty?
+        rows = Nokogiri::HTML(body).css('.basket-body tr')
+        rows.length.times do |i|
+          info = parse_new_style(rows, i)
+          build_products_and_line_items(basket, info, user)
+        end
+      elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
+        rows = get_the_right_rows_new_forwarded(body)
+        rows.length.times do |i|
+          info = parse_new_style(rows, i)
+          build_products_and_line_items(basket, info, user)
+        end
+      else
+        rows = get_the_right_rows(body)
+        rows.length.times do |i|
+          info = parse_old_style(rows, i)
+          build_products_and_line_items(basket, info, user)
+        end
+      end
+      basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
+      basket.save
     end
-    user = if User.find_by(email: email)
-             User.find_by(email: email)
-           else
-             User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6), generated_from_email: true)
-           end
-    return if user.baskets.where(date: email_date).count > 0
-    basket = user.baskets.build(date: email_date)
-    if !Nokogiri::HTML(body).css('.savings-label').empty?
-      rows = Nokogiri::HTML(body).css('.basket-body tr')
-      rows.length.times do |i|
-        info = parse_new_style(rows, i)
-        build_products_and_line_items(basket, info, user)
-      end
-    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
-      rows = get_the_right_rows_new_forwarded(body)
-      rows.length.times do |i|
-        info = parse_new_style(rows, i)
-        build_products_and_line_items(basket, info, user)
-      end
-    else
-      rows = get_the_right_rows(body)
-      rows.length.times do |i|
-        info = parse_old_style(rows, i)
-        build_products_and_line_items(basket, info, user)
-      end
+
+  def self.process_emails(user, date, token)
+    gmail = GoogleApi.new(token)
+    return unless email_ids = gmail.grab_email_ids(user, date).messages
+    email_ids.each do |email_id|
+      gmail_object = gmail.get_full_email(email_id.id, user)
+      basket = self.process_single_email(gmail_object, user) if gmail_object
     end
-    basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
-    basket.save
   end
 
-  def self.process_emails(user, date, token, orig_email)
-    emails = GoogleApi.retrieve_emails(user, date, token, orig_email)
-    unless emails.empty?
-      emails.each do |email|
-            basket = user.baskets.build(date: email[:date])
-        process_single_email(basket, email[:body], user)
-      end
-    end
-  end
-
-  def self.process_single_email(basket, body, user)
-    if !Nokogiri::HTML(body).css('.savings-label').empty? # newer email format original or auto-forwarded
-      rows = Nokogiri::HTML(body).css('.basket-body tr')
+  def self.process_single_email(gmail_object, user)
+    gmail = JSON.parse(gmail_object.data)
+    email_date = DateTime.parse(gmail["payload"]["headers"].find{ |h| h["name"] == 'Date'}["value"]).change(sec:0) - 7.hours
+    basket = user.baskets.build(date: email_date, google_mail_object: gmail_object)
+    body = gmail["payload"]["body"]["data"] unless user.baskets.find_by(user: user, date: email_date)
+    return unless body
+    decoded_body = Base64.urlsafe_decode64(body)
+    if !Nokogiri::HTML(decoded_body).css('.empty-row').empty? # new email format
+      rows = Nokogiri::HTML(decoded_body).css('.basket-body tr')
       parse_method = 'parse_new_style'
-    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty? # newer email format manually forwarded
-      rows = get_the_right_rows_new_forwarded(body)
-      parse_method = 'parse_new_style'
-    else # older email format (original or forwarded)
-      rows = get_the_right_rows(body)
+    else # older email format
+      rows = get_the_right_rows(decoded_body)
       parse_method = 'parse_old_style'
     end
     rows.length.times do |i|
@@ -171,7 +174,6 @@ class Scraper
         price = info[:total_cents]
         weight = info[:weight]
       end
-
       basket.line_items.build(
         user: user,
         product: product,

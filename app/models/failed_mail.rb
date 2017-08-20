@@ -1,0 +1,2 @@
+class FailedMail < ApplicationRecord
+end

@@ -10,18 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170816025920) do
+ActiveRecord::Schema.define(version: 20170820052121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "baskets", force: :cascade do |t|
     t.datetime "date"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "user_id"
     t.integer  "total_cents"
-    t.boolean  "deleted",     default: false
+    t.boolean  "deleted",               default: false
+    t.integer  "google_mail_object_id"
+  end
+
+  create_table "failed_mails", force: :cascade do |t|
+    t.jsonb    "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "google_mail_objects", force: :cascade do |t|
+    t.jsonb    "data"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.datetime "date"
+    t.integer  "recipient_id"
+    t.string   "delivered_to"
   end
 
   create_table "items", force: :cascade do |t|

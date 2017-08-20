@@ -2,6 +2,7 @@ class Basket < ApplicationRecord
   belongs_to :user, optional: true
   has_many :line_items
   has_many :products, through: :line_items
+  belongs_to :google_mail_object
   validates :date, presence: true
   monetize :total_cents, as: 'total', disable_validation: true
   paginates_per 10

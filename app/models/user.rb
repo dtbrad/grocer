@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :line_items, through: :baskets
   has_many :products, through: :line_items
   has_many :nick_name_requests
+  has_many :google_mail_objects
   validates :name, presence: true
   # validates :name, uniqueness: true
 
