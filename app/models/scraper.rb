@@ -1,71 +1,31 @@
 class Scraper
-
   def self.process_mailgun(params)
-      body = params["body-html"]
-      if params["Delivered-To"] # forwarded via gmail filter
-        email = params["Delivered-To"]
-        email_date = DateTime.parse(params["Date"]).change(sec: 0) - 7.hours
-      else  # forwarded manually from gmail
-        email = params["X-Envelope-From"].delete('<>')
-        if email_string = body[/(Sun|Mon|Tue|Wed|Thu|Fri|Sat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} at [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-          email_date = DateTime.parse(email_string).change(sec: 0)
-        elsif email_string = body[/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, [0-9]{1,4} [0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-          email_date = DateTime.parse(email_string).change(sec: 0)
-        elsif email_string = body[/(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}, \d{4} at [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-          email_date = DateTime.parse(email_string).change(sec: 0)
-        end
-      end
-      user = if User.find_by(email: email)
-               User.find_by(email: email)
-             else
-               User.create(email: email, name: params["From"].split(" <")[0], password: Devise.friendly_token.first(6), generated_from_email: true)
-             end
-      return if user.baskets.where(date: email_date).count > 0
-      basket = user.baskets.build(date: email_date)
-      if !Nokogiri::HTML(body).css('.empty-row').empty?
-        rows = Nokogiri::HTML(body).css('.basket-body tr')
-        rows.length.times do |i|
-          info = parse_new_style(rows, i)
-          build_products_and_line_items(basket, info, user)
-        end
-      elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
-        rows = get_the_right_rows_new_forwarded(body)
-        rows.length.times do |i|
-          info = parse_new_style(rows, i)
-          build_products_and_line_items(basket, info, user)
-        end
-      else
-        rows = get_the_right_rows(body)
-        rows.length.times do |i|
-          info = parse_old_style(rows, i)
-          build_products_and_line_items(basket, info, user)
-        end
-      end
-      basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
-      basket.save
-    end
+    mailgun_message = MailgunMessage.create(data: params)
+    process_single_email(mailgun_message.date, mailgun_message.body, mailgun_message.find_or_create_user)
+  rescue
+  end
 
   def self.process_emails(user, date, token)
     gmail = GoogleApi.new(token)
     return unless email_ids = gmail.grab_email_ids(user, date).messages
     email_ids.each do |email_id|
       gmail_object = gmail.get_full_email(email_id.id, user)
-      basket = self.process_single_email(gmail_object, user) if gmail_object
+      basket = process_single_email(gmail_object.date, gmail_object.decoded_body, user) if gmail_object
+      basket.update(google_mail_object_id: gmail_object.id) if basket
     end
   end
 
-  def self.process_single_email(gmail_object, user)
-    gmail = JSON.parse(gmail_object.data)
-    email_date = DateTime.parse(gmail["payload"]["headers"].find{ |h| h["name"] == 'Date'}["value"]).change(sec:0) - 7.hours
-    basket = user.baskets.build(date: email_date, google_mail_object: gmail_object)
-    body = gmail["payload"]["body"]["data"] unless user.baskets.find_by(user: user, date: email_date)
-    return unless body
-    decoded_body = Base64.urlsafe_decode64(body)
-    if !Nokogiri::HTML(decoded_body).css('.empty-row').empty? # new email format
-      rows = Nokogiri::HTML(decoded_body).css('.basket-body tr')
+  def self.process_single_email(date, body, user)
+    basket = user.baskets.build(date: date)
+    return unless basket.valid?
+    if !Nokogiri::HTML(body).css('.empty-row').empty? # new email format manually forwarded?
+      rows = Nokogiri::HTML(body).css('.basket-body tr')
+      parse_method = 'parse_new_style'
+    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty? # new email format auto forwarded?
+      rows = get_the_right_rows_new_forwarded(body)
       parse_method = 'parse_new_style'
     else # older email format
-      rows = get_the_right_rows(decoded_body)
+      rows = get_the_right_rows(body)
       parse_method = 'parse_old_style'
     end
     rows.length.times do |i|
@@ -74,6 +34,7 @@ class Scraper
     end
     basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
     basket.save
+    basket
   end
 
   def self.get_the_right_rows(body)
@@ -95,72 +56,70 @@ class Scraper
   end
 
   def self.parse_old_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
-      name_value = rows[i].css('td[class*="basket-item-desc"]').text.strip
-      name = name_value.empty? ? "blank item" : name_value
-      info = { name: name,
-               total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
-      unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
-      has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
-      has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
+    return if rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
+    name_value = rows[i].css('td[class*="basket-item-desc"]').text.strip
+    name = name_value.empty? ? "blank item" : name_value
+    info = { name: name,
+             total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
+    unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
+    has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
+    has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
 
-      if !unit_pricing
-        info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
-        info[:quantity] = 1 unless info[:quantity].nonzero?
+    if !unit_pricing
+      info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
+      info[:quantity] = 1 unless info[:quantity].nonzero?
 
-      elsif unit_pricing && !has_weight_unit
-        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
-        info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
+    elsif unit_pricing && !has_weight_unit
+      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
+      info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
 
-      elsif unit_pricing && has_weight_unit
-        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
-        info[:quantity] = 1
-        info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_d
-      end
-
-      if has_discount
-        info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
-        info[:total_cents] += info[:disc]
-      else
-        info[:disc] = 0
-      end
-      info
+    elsif unit_pricing && has_weight_unit
+      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
+      info[:quantity] = 1
+      info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_d
     end
+
+    if has_discount
+      info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
+      info[:total_cents] += info[:disc]
+    else
+      info[:disc] = 0
+    end
+    info
   end
 
   def self.parse_new_style(rows, i)
-    unless rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date') || ( !rows[i].attributes.empty? && rows[i].attributes["class"].value == "empty-row" )
-      info = { name: rows[i].css('td[class*="item-description"]').text.strip,
-               total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
-      unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
-      has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
-      has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
-      credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value.include?('basket-discount-item')
+    return if rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date') || ( !rows[i].attributes.empty? && rows[i].attributes["class"].value == "empty-row" )
+    info = { name: rows[i].css('td[class*="item-description"]').text.strip,
+             total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
+    unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
+    has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
+    has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
+    credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value.include?('basket-discount-item')
 
-      if !unit_pricing
-        info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
-        info[:quantity] = 1 unless info[:quantity].nonzero?
+    if !unit_pricing
+      info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
+      info[:quantity] = 1 unless info[:quantity].nonzero?
 
-      elsif unit_pricing && !has_weight_unit
-        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
-        info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
+    elsif unit_pricing && !has_weight_unit
+      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
+      info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
 
-      elsif unit_pricing && has_weight_unit
-        info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
-        info[:quantity] = 1
-        info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
-      end
-
-      info[:total_cents] = -info[:total_cents] if credit_promotion
-
-      if has_discount
-            info[:disc] = (rows[i + 2].text[/\d+[,.]\d+/].to_d * -100).to_i
-        info[:total_cents] += info[:disc]
-      else
-        info[:disc] = 0
-      end
-      info
+    elsif unit_pricing && has_weight_unit
+      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
+      info[:quantity] = 1
+      info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
     end
+
+    info[:total_cents] = -info[:total_cents] if credit_promotion
+
+    if has_discount
+      info[:disc] = (rows[i + 2].text[/\d+[,.]\d+/].to_d * -100).to_i
+      info[:total_cents] += info[:disc]
+    else
+      info[:disc] = 0
+    end
+    info
   end
 
   def self.build_products_and_line_items(basket, info, user)

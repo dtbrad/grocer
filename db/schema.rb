@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820052121) do
+ActiveRecord::Schema.define(version: 20170820184149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(version: 20170820052121) do
     t.integer  "total_cents"
     t.integer  "discount_cents", default: 0
     t.boolean  "deleted",        default: false
+  end
+
+  create_table "mailgun_messages", force: :cascade do |t|
+    t.jsonb    "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "nick_name_requests", force: :cascade do |t|

@@ -4,3 +4,11 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+
+task :clear_sidekiq do
+  require 'sidekiq/api'
+  Sidekiq::Queue.new("infinity").clear
+  Sidekiq::RetrySet.new.clear
+  Sidekiq::ScheduledSet.new.clear
+end

@@ -4,6 +4,7 @@ class Basket < ApplicationRecord
   has_many :products, through: :line_items
   belongs_to :google_mail_object
   validates :date, presence: true
+  validates :date, uniqueness: { scope: :user }
   monetize :total_cents, as: 'total', disable_validation: true
   paginates_per 10
 
