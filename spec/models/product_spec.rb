@@ -24,7 +24,8 @@ describe Product do
 
       @line_item_one = @product_one.line_items.create(basket_id: @basket_one.id, quantity: 1, price_cents: 900, total_cents: 900)
       @line_item_two = @product_two.line_items.create(basket_id: @basket_one.id, quantity: 20, price_cents: 500, total_cents: 10000)
-      @basket_two = @user.baskets.create(date: '2016-01-01')
+
+      @basket_two = @user.baskets.create(date: '2016-01-02')
       @line_item_two = @product_one.line_items.create(basket_id: @basket_two.id, quantity: 5, price_cents: 300, total_cents: 1500)
 
       @basket_three = @user_two.baskets.create(date: '2016-01-01')

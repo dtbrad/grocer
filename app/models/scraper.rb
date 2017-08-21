@@ -1,7 +1,9 @@
 class Scraper
   def self.process_mailgun(params)
-    mailgun_message = MailgunMessage.create(data: params)
-    process_single_email(mailgun_message.date, mailgun_message.body, mailgun_message.find_or_create_user)
+    mailgun_message = MailgunMessage.new(data: params)
+    unless mailgun_message.finalize.nil?
+      process_single_email(mailgun_message.date, mailgun_message.body, mailgun_message.user)
+    end
   rescue
   end
 
@@ -9,8 +11,8 @@ class Scraper
     gmail = GoogleApi.new(token)
     return unless email_ids = gmail.grab_email_ids(user, date).messages
     email_ids.each do |email_id|
-      gmail_object = gmail.get_full_email(email_id.id, user)
-      basket = process_single_email(gmail_object.date, gmail_object.decoded_body, user) if gmail_object
+      gmail_object = gmail.get_full_email(email_id.id)
+      basket = process_single_email(gmail_object.date, gmail_object.body, gmail_object.user) if gmail_object
       basket.update(google_mail_object_id: gmail_object.id) if basket
     end
   end

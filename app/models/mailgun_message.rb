@@ -1,4 +1,18 @@
 class MailgunMessage < ApplicationRecord
+  belongs_to :user
+  after_initialize :set_user, if: :new_record?
+  after_initialize :set_date, if: :new_record?
+  validates :date, uniqueness: { scope: :user }
+
+  def finalize
+    if valid?
+      save
+      self
+    else
+      MailgunMessage.find_by_date_and_user_id(date, user_id)
+    end
+  end
+
   def body
     data["body-html"]
   end
@@ -15,19 +29,17 @@ class MailgunMessage < ApplicationRecord
     data["From"].split(" <")[0]
   end
 
-  def date
-    body = data["body-plain"]
+  def set_date
     date_string = body[/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, \d{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
-    DateTime.parse(date_string).change(sec:0)
+    self.date = DateTime.parse(date_string)
   end
 
-  def find_or_create_user
-    if User.find_by(email: recipient)
-      User.find_by(email: recipient)
+  def set_user
+    if !User.find_by(email: recipient).nil?
+      self.user = User.find_by(email: recipient)
     else
-      u = User.create(email: recipient, name: shoppers_name, password: Devise.friendly_token.first(6), generated_from_email: true)
-      u
+      self.user = User.create(email: recipient, name: shoppers_name, password: Devise.friendly_token.first(6),
+                              generated_from_email: true)
     end
   end
-
 end

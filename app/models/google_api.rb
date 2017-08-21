@@ -19,11 +19,9 @@ class GoogleApi
     )
   end
 
-  def get_full_email(email_id, user)
+  def get_full_email(email_id)
     email = service.get_user_message('me', email_id)
     email_json = email.to_json
-    j = JSON.parse(email_json) # don't understand why, but need to use both google's and rails' json methods to make work
-    email_date = DateTime.parse(j["payload"]["headers"].find{|h| h["name"] == 'Date' }["value"]).change(sec: 0)  - 7.hours
-    GoogleMailObject.create(user: user, data: email_json, date: email_date)
+    GoogleMailObject.create(data: email_json)
   end
 end
