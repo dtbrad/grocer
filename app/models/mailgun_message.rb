@@ -4,29 +4,25 @@ class MailgunMessage < ApplicationRecord
   after_initialize :set_date, if: :new_record?
   validates :date, uniqueness: { scope: :user }
 
-  def finalize
-    if valid?
-      save
-      self
+  def self.process_mailgun(params)
+    m = MailgunMessage.new(data: params)
+    if m.save
     else
-      MailgunMessage.find_by_date_and_user_id(date, user_id)
+      m = MailgunMessage.find_by_date_and_user_id(m.date, m.user_id)
     end
+    { date: m.date, body: m.body, user: m.user } if m
   end
 
   def body
     data["body-html"]
   end
 
-  def forwarded_via_gmail_filter?
-    !data["Delivered-To"].nil?
+  def forwarded_via_filter?
+    data["From"] == "New Seasons Receipts <receipts@newseasonsmarket.com>"
   end
 
   def recipient
-    forwarded_via_gmail_filter? ? data["Delivered-To"] : data["X-Envelope-From"].delete('<>')
-  end
-
-  def shoppers_name
-    data["From"].split(" <")[0]
+    forwarded_via_filter? ? data["To"].gsub(/(\<|\>)/, "") : data["X-Envelope-From"].gsub(/(\<|\>)/, "")
   end
 
   def set_date
@@ -38,7 +34,7 @@ class MailgunMessage < ApplicationRecord
     if !User.find_by(email: recipient).nil?
       self.user = User.find_by(email: recipient)
     else
-      self.user = User.create(email: recipient, name: shoppers_name, password: Devise.friendly_token.first(6),
+      self.user = User.create(email: recipient, name: recipient, password: Devise.friendly_token.first(6),
                               generated_from_email: true)
     end
   end

@@ -1,5 +1,4 @@
 class GoogleApi
-
   attr_accessor :service
 
   def initialize(token)
@@ -9,9 +8,20 @@ class GoogleApi
     @service.authorization = client
   end
 
+  def self.process_api_request(user, date, token)
+    gmail = GoogleApi.new(token)
+    return unless email_ids = gmail.grab_email_ids(user, date).messages
+    email_ids.each do |email_id|
+      gmail_object = gmail.get_full_email(email_id.id)
+      email = { date: gmail_object.date, body: gmail_object.body, user: gmail_object.user }
+      email_data = EmailDataProcessor.new(email)
+      email_data.process_single_email
+    end
+  end
+
   def grab_email_ids(user, date)
     q = "subject:'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com} after:#{date} to:#{user.email}"
-    emails = service.list_user_messages(
+    service.list_user_messages(
       'me',
       include_spam_trash: nil,
       max_results: 1000,

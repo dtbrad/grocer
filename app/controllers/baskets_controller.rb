@@ -19,7 +19,7 @@ class BasketsController < ApplicationController
 
   def create
     BasketWorker.perform_async(current_user.id, params[:date], session[:access_token])
-    # Scraper.process_emails(current_user, params[:date], session[:access_token])
+    # GoogleApi.process_api_request(current_user, params[:date], session[:access_token])
   end
 
   def disassociate_user

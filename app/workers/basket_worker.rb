@@ -12,7 +12,7 @@ class BasketWorker
       </div>"
     }
 
-    Scraper.process_emails(user, date, token)
+    GoogleApi.process_api_request(user, date, token)
 
     if user.baskets.count > orig_count
       ActionCable.server.broadcast "notifications:#{user.id}", {html:

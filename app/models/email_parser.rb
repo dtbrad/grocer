@@ -1,45 +1,39 @@
-class Scraper
-  def self.process_mailgun(params)
-    mailgun_message = MailgunMessage.new(data: params)
-    unless mailgun_message.finalize.nil?
-      process_single_email(mailgun_message.date, mailgun_message.body, mailgun_message.user)
-    end
-  rescue
+class EmailParser
+
+  attr_accessor :body, :rows
+
+  def initialize(body)
+    @body = body
   end
 
-  def self.process_emails(user, date, token)
-    gmail = GoogleApi.new(token)
-    return unless email_ids = gmail.grab_email_ids(user, date).messages
-    email_ids.each do |email_id|
-      gmail_object = gmail.get_full_email(email_id.id)
-      basket = process_single_email(gmail_object.date, gmail_object.body, gmail_object.user) if gmail_object
-      basket.update(google_mail_object_id: gmail_object.id) if basket
-    end
-  end
-
-  def self.process_single_email(date, body, user)
-    basket = user.baskets.build(date: date)
-    return unless basket.valid?
-    if !Nokogiri::HTML(body).css('.empty-row').empty? # new email format manually forwarded?
+  def parse_email
+    if new_format_manually_forwarded
       rows = Nokogiri::HTML(body).css('.basket-body tr')
-      parse_method = 'parse_new_style'
-    elsif Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty? # new email format auto forwarded?
-      rows = get_the_right_rows_new_forwarded(body)
-      parse_method = 'parse_new_style'
+      parse_method = 'parse_new_format'
+    elsif new_format_auto_forwarded
+      rows = pick_rows_alternate
+      parse_method = 'parse_new_format'
     else # older email format
-      rows = get_the_right_rows(body)
-      parse_method = 'parse_old_style'
+      rows = pick_rows
+      parse_method = 'parse_old_format'
     end
+    info_array = []
     rows.length.times do |i|
       info = eval("#{parse_method}(rows, i)")
-      build_products_and_line_items(basket, info, user)
+      info_array << info
     end
-    basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
-    basket.save
-    basket
+    info_array
   end
 
-  def self.get_the_right_rows(body)
+  def new_format_manually_forwarded
+    !Nokogiri::HTML(body).css('.empty-row').empty?
+  end
+
+  def new_format_auto_forwarded
+    Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
+  end
+
+  def pick_rows
     noko_body = Nokogiri::HTML(body)
     noko_body.xpath(
       '//tr[td[contains(@class, "basket-item-desc modifier") or contains(@class, "basket-item-desc") ]
@@ -48,7 +42,7 @@ class Scraper
     )
   end
 
-  def self.get_the_right_rows_new_forwarded(body)
+  def pick_rows_alternate
     noko_body = Nokogiri::HTML(body)
     noko_body.xpath(
       '//tr[td[contains(@class, "item-description")]
@@ -57,7 +51,7 @@ class Scraper
     )
   end
 
-  def self.parse_old_style(rows, i)
+  def parse_old_format(rows, i)
     return if rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
     name_value = rows[i].css('td[class*="basket-item-desc"]').text.strip
     name = name_value.empty? ? "blank item" : name_value
@@ -90,7 +84,7 @@ class Scraper
     info
   end
 
-  def self.parse_new_style(rows, i)
+  def parse_new_format(rows, i)
     return if rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date') || ( !rows[i].attributes.empty? && rows[i].attributes["class"].value == "empty-row" )
     info = { name: rows[i].css('td[class*="item-description"]').text.strip,
              total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
@@ -124,28 +118,4 @@ class Scraper
     info
   end
 
-  def self.build_products_and_line_items(basket, info, user)
-    unless info.nil?
-      product = Product.find_or_create_by(name: info[:name].titleize)
-      if !info[:price_cents].nil?
-        price = info[:price_cents]
-        weight = info[:weight]
-      elsif info[:price_cents].nil? && product.real_unit_price_cents
-        price = product.real_unit_price_cents.to_d
-        weight = (info[:total_cents].to_d / price).round(2)
-      else
-        price = info[:total_cents]
-        weight = info[:weight]
-      end
-      basket.line_items.build(
-        user: user,
-        product: product,
-        price_cents: price,
-        quantity: info[:quantity],
-        weight: weight,
-        total_cents: info[:total_cents],
-        discount_cents: info[:disc]
-      )
-    end
-  end
 end
