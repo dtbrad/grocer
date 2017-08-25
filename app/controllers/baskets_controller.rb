@@ -22,8 +22,8 @@ class BasketsController < ApplicationController
     # GoogleApi.process_api_request(current_user, params[:date], session[:access_token])
   end
 
-  def disassociate_user
-    current_user.disassociate_baskets
-    redirect_to baskets_path, flash: { alert: 'Purchase history deleted from your account' }
+  def destroy_all
+    current_user.baskets.destroy_all
+    redirect_to baskets_path, flash: { alert: 'Your purchase history has been removed' }
   end
 end

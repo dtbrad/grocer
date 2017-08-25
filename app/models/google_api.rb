@@ -13,9 +13,7 @@ class GoogleApi
     return unless email_ids = gmail.grab_email_ids(user, date).messages
     email_ids.each do |email_id|
       gmail_object = gmail.get_full_email(email_id.id)
-      email = { date: gmail_object.date, body: gmail_object.body, user: gmail_object.user }
-      email_data = EmailDataProcessor.new(email)
-      email_data.process_single_email
+      gmail_object.make_shopping_data
     end
   end
 

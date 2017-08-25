@@ -19,6 +19,12 @@ class GoogleMailObject < ApplicationRecord
     Base64.urlsafe_decode64(body)
   end
 
+  def make_shopping_data
+    email = { date: date, body: body, user: user }
+    email_data = EmailDataProcessor.new(email)
+    email_data.process_single_email
+  end
+
   def set_date
     date_string = body[/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, \d{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
     self.date = DateTime.parse(date_string)

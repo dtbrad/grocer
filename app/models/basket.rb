@@ -1,6 +1,6 @@
 class Basket < ApplicationRecord
   belongs_to :user, optional: true
-  has_many :line_items
+  has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
   belongs_to :google_mail_object
   validates :date, presence: true

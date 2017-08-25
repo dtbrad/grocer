@@ -9,7 +9,15 @@ Rails.application.routes.draw do
     end
   end
   resources :shopping_lists, only: [:show, :index, :create]
+
   resources :baskets, only: [:index, :new, :show, :create]
+
+  resources :baskets do
+    collection do
+      delete :destroy_all
+    end
+  end
+
   resources :products, only: [:index, :show, :create, :update]
   resources :nick_name_requests, only: [:index, :create, :update]
   # resource :passwords
@@ -21,7 +29,6 @@ Rails.application.routes.draw do
   get 'sample_user_message', to: 'application#sample_user_message'
   get 'log_out_to_register', to: 'application#log_out_to_register'
 
-  post 'disassociate_user', to: 'baskets#disassociate_user', as: 'disassociate_user'
   get 'product_summaries', to: 'products#product_summaries'
 
   get 'listmaker', to: 'angular#angular'

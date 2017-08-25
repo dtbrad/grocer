@@ -33,7 +33,7 @@
               <% end %>
               <li><%= link_to "Import Receipts", import_path_url, data: { confirm: 'You will be directed to your gmail now.' } %></li>
               <% if current_user.baskets.length > 0 %>
-                <li><%= link_to "Delete Purchase History", disassociate_user_path(current_user.baskets.all), method: "post", data: { confirm: 'Are you certain you want to delete your history?' } %></li>
+                <li><%= link_to "Delete Purchase History", destroy_all_baskets_path(current_user.baskets), method: "delete", data: { confirm: 'Are you certain you want to delete your history?' } %></li>
               <% end %>
             <% end %>
           <% end %>
