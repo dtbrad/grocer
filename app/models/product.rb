@@ -35,7 +35,7 @@ class Product < ApplicationRecord
     select('products.*', 'MIN(line_items.price_cents) as min_price').group('products.id').order(order)
   end
 
-  def self.sort_recently_purchased(direction)
+  def self.sort_most_recently_purchased(direction)
     order = ["MAX(baskets.date)", direction].join(" ")
     select('products.*', 'MAX(baskets.date) as max_date').group('products.id').order(order)
   end
