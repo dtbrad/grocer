@@ -5,9 +5,9 @@ var graph_valid = '<%= @graph_config.valid?.to_s %>'
 
 if (graph_change === 'yes' && graph_valid == 'true' ) {
   var graph_unit = '<%= @graph_config.unit %>'
-  var graph_array = '<%= current_user.baskets.group_baskets(@graph_config).to_json %>'
+  var graph_array = '<%= @my_user.baskets.group_baskets(@graph_config).to_json %>'
   $("#index-title").html(" Spending by <%= @graph_config.unit %>: <%= short_format_date(@graph_config.start_date) %> to <%= short_format_date(@graph_config.end_date) %>")
-  $("#outerchart").html('<div id="basket-spending-chart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2= "<%= @graph_config.unit %>" data-param3="<%= ENV['WEB_FULL_URL'] %>"></div>')
+  $("#outerchart").html('<div id="basket-spending-chart" data-param1= "<%= @my_user.baskets.group_baskets(@graph_config).to_json %>" data-param2= "<%= @graph_config.unit %>" data-param3="<%= ENV['WEB_FULL_URL'] %>"></div>')
   $('#baskets_table').html("<%= escape_javascript render partial: 'baskets', locals: { baskets: @baskets } %>");
   $('#paginator').html('<%= escape_javascript(paginate(@baskets, theme: "twitter-bootstrap-3", :remote => true).to_s) %>');
   $('#graph-form').html('<div class="list-item text-right" style="padding-top: 13px"><%= escape_javascript render partial: "shared_partials/graph_control", locals: {path: baskets_path} %></div>');

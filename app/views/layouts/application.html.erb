@@ -22,7 +22,15 @@
          controller_name == "sessions"  || action_name == "welcome" %>
       <%= render 'layouts/navbar' %>
       <% end %>
+
+      <% if !current_user  && !["registrations", "sessions", "application", "angular", "shopping_lists", "passwords"].include?(controller_name) %>
+        <div class="alert alert-warning text-center" role="alert">
+          <h4>This is a sample user's purchase history. To get started on seeing your own, click <%= link_to "here!", about_path %></h4>
+        </div>
+      <% end %>
+
       <%= yield %>
+
     </br></br>
 
     </div>

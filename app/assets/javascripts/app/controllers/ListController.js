@@ -50,7 +50,7 @@ function ListController(dataService, $window, $timeout) {
       dataService.createList(list)
       .then(function(result){
         setTimeout(function() {
-        if(result.data.user.email === "sampleuser@mail.com"){
+        if(result.data.status === 403){
           Command: toastr["info"]('If you do this with a live account, your list will be saved and emailed to you.');
         }
        else {

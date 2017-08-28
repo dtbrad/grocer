@@ -11,7 +11,9 @@ class ApplicationController < ActionController::Base
 
   def tos; end
 
-  def welcome; end
+  def welcome
+    redirect_to baskets_path if current_user
+  end
 
   def log_out_to_register
     reset_session
@@ -26,6 +28,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def my_user
+    @my_user = current_user || User.find_by(email: "sampleuser@mail.com")
+  end
 
   def require_password_change
     if current_user && current_user.generated_from_email == true && current_user.changed_password < 1 &&

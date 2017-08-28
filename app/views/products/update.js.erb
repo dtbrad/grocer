@@ -1,15 +1,15 @@
-if (("<%=escape_javascript(current_user.role)%>") === 'admin')
+if (("<%=escape_javascript(@my_user.role)%>") === 'admin')
 {
   $('#error_explanation').html("");
 
   <% if @product.valid? %>
+  $("#prod-headline").html("<h3 class='text-center' id='prod-headline'>Purchasing History for <%= @product.nickname %></h3>")
     $("#nickname").html("<%= escape_javascript(@product.nickname ) %> ");
   <% else %>
     <% @product.errors.full_messages.each do |message| %>
       $('#error_explanation').append("<li> <%= escape_javascript(message) %> </li>");
     <% end %>
   <% end %>
-
 }
 
 else {

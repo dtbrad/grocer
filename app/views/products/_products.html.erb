@@ -12,10 +12,10 @@
     <% products.each do |product| %>
       <tr>
         <td> <%= link_to product.nickname, product_path(product) %> </td>
-        <td> <%= product.times_bought(current_user) %> </td>
-        <td> <%= number_to_currency(product.highest_price_by_user(current_user)) %> </td>
-        <td> <%= number_to_currency(product.lowest_price_by_user(current_user)) %> </td>
-        <td> <%= format_date(product.most_recently_purchased(current_user)) %> </td>
+        <td> <%= product.times_bought(my_user) %> </td>
+        <td> <%= number_to_currency(product.highest_price_by_user(my_user)) %> </td>
+        <td> <%= number_to_currency(product.lowest_price_by_user(my_user)) %> </td>
+        <td> <%= format_date(product.most_recently_purchased(my_user)) %> </td>
       </tr>
     <% end %>
   </tbody>

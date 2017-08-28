@@ -1,17 +1,20 @@
 class ProductsController < ApplicationController
   helper_method :sort_column, :sort_direction
-  before_action :set_variables, only: %i[show update]
-  before_action :authenticate_user!, except: :product_summaries
+  before_action :my_user, only: %i[index show update]
+  before_action :set_product, only: %i[show update]
+  before_action :authenticate_user!, except: %i[product_summaries index show update]
 
   def index
-    @products = current_user.products.filtered_products.search(params[:search])
-                            .custom_sort(sort_column, sort_direction).page params[:page]
+    return unless @my_user
+    @products = @my_user.products.filtered_products.search(params[:search])
+                        .custom_sort(sort_column, sort_direction).page params[:page]
   end
 
   def show
+    return unless @my_user
     @spending_state = SpendingState.new(params)
     @graph_config = @spending_state.set_graph
-    @line_items = @product.this_users_line_items(current_user)
+    @line_items = @product.this_users_line_items(@my_user)
                           .from_graph(@graph_config)
                           .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                           .page params[:page]
@@ -20,7 +23,8 @@ class ProductsController < ApplicationController
   def create; end
 
   def update
-    Product.process_nick_name_request(@user, @product, params)
+    return unless @my_user
+    Product.process_nick_name_request(my_user, @product, params)
   end
 
   def product_summaries
@@ -30,8 +34,7 @@ class ProductsController < ApplicationController
 
   private
 
-  def set_variables
-    @user = current_user
+  def set_product
     @product = Product.find(params[:id])
   end
 

@@ -1,8 +1,8 @@
-<% if current_user && !@baskets.empty? %>
+<% if @baskets && !@baskets.empty? %>
 
   </br></br>
   <div id="outerchart">
-    <div id="basket-spending-chart" data-param1= "<%= current_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3='<%= ENV["WEB_FULL_URL"] %>'></div>
+    <div id="basket-spending-chart" data-param1= "<%= @my_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3='<%= ENV["WEB_FULL_URL"] %>'></div>
   </div>
 
   <div class="row">
@@ -38,9 +38,9 @@
     </div>
   </div>
 
-<% elsif current_user && @baskets.empty?%>
+<% else %>
   <div class='alert alert-danger'>
-    You currently have no purchase history in the database.
+    There is no purchase history in the database.
     Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.
   </div>
     <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>

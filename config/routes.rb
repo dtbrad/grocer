@@ -1,26 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-  devise_scope :user do
-    authenticated :user do
-      root :to => 'baskets#index'
-    end
-    unauthenticated :user do
-      root :to => 'application#welcome', as: :unauthenticated_root
-    end
-  end
-  resources :shopping_lists, only: [:show, :index, :create]
-
-  resources :baskets, only: [:index, :new, :show, :create]
-
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  root to: 'application#welcome'
+  resources :shopping_lists, only: %i[show index create]
+  resources :baskets, only: %i[index new show create]
   resources :baskets do
     collection do
       delete :destroy_all
     end
   end
-
-  resources :products, only: [:index, :show, :create, :update]
-  resources :nick_name_requests, only: [:index, :create, :update]
-  # resource :passwords
+  resources :products, only: %i[index show create update]
+  resources :nick_name_requests, only: %i[index create update]
 
   get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
@@ -42,5 +31,4 @@ Rails.application.routes.draw do
   post 'mailgun', to: 'mail_gun#process_mail_gun_post_request'
 
   mount ActionCable.server => '/cable'
-
 end

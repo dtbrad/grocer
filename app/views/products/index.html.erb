@@ -1,6 +1,4 @@
-<div class="container">
-
-  <% if current_user && !@products.empty? %>
+  <% if @products && !@products.empty? %>
     </br></br>
     <div class="text-right">
       <button class="btn btn-xs btn-default" id="products-toggle">toggle view</button>
@@ -8,8 +6,8 @@
     </br>
 
 
-    <div id="products-spending-chart" data-param1="<%= current_user.products.most_money_spent.to_json %>" data-param2='<%= ENV["WEB_FULL_URL"] %>' style="width:100%" ></div>
-    <div id="products-purchased-chart" data-param1="<%= current_user.products.most_purchased.to_json %>" data-param2='<%= ENV["WEB_FULL_URL"] %>' style="width:100%" ></div>
+    <div id="products-spending-chart" data-param1="<%= @my_user.products.most_money_spent.to_json %>" data-param2='<%= ENV["WEB_FULL_URL"] %>' style="width:100%" ></div>
+    <div id="products-purchased-chart" data-param1="<%= @my_user.products.most_purchased.to_json %>" data-param2='<%= ENV["WEB_FULL_URL"] %>' style="width:100%" ></div>
 
     <div class="panel panel-default">
       <div class="panel-heading" id="product_panel_heading">
@@ -17,14 +15,12 @@
       </div>
       <div class="panel-body">
         <div id="products_table" class="panel-body">
-          <%= render partial: 'products', locals: { products: @products } %>
+          <%= render partial: 'products', locals: { products: @products, my_user: @my_user } %>
         </div>
       </div>
     </div>
 
-  <% elsif current_user && @products.empty?%>
+  <% elsif !@products || @products.empty?%>
     <div class='alert alert-danger'>You currently have no products. Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.</div>
       <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
   <% end %>
-
-</div>

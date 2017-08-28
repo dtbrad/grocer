@@ -46,13 +46,6 @@
     <div style="padding-top: 15px">
       <a href="/users/auth/google_oauth2" class="btn btn-warning btn-block">Log in with Google</a>
     </div>
-    <div style="padding-top: 15px">
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: 'form' }) do |f| %>
-        <%= f.hidden_field :email, autofocus: true, class: 'form-control', value: 'sampleuser@mail.com'%>
-        <%= f.hidden_field :password, autocomplete: 'off', class: 'form-control', value: 'password'%>
-        <%= f.submit value: 'Log in as a sample user', class: 'btn btn-success btn-block' %>
-      <% end %>
-    </div>
   <hr>
   <h5 class="text-center"> <%= link_to "Sign up", new_user_registration_path %> | <%= link_to "Home", root_path %> </h5>
 </div>
