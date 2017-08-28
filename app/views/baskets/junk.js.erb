@@ -1,3 +1,0 @@
-$("#index-title").html("Spending for <%= @graph_form.start_date.localtime.strftime("%b %d, %Y") %> to <%= @graph_form.end_date.localtime.strftime("%b %d, %Y") %>")
-$("#stat").html(av_freq + av_total)
-$("#chart").html("<%= escape_javascript(basket_spending(@graph_form)) %>");

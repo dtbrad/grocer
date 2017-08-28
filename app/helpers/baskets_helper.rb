@@ -5,23 +5,4 @@ module BasketsHelper
     link_to title, baskets_path(sort_column: column, sort_direction: direction, start: graph_config.start_date,
                                 end: graph_config.end_date, unit: graph_config.unit), remote: true
   end
-
-
-  # _____Unused methods____________________________________________________________
-
-#   def freq_formatter(num)
-#     if num == 10_000
-#       ''
-#     elsif !num
-#       'You did not shop during the selected time period. '
-#     elsif num == 1
-#       'When active during this period you shopped on average every day. '
-#     else
-#       "When active during this period you shopped on average every #{num} days. "
-#     end
-#   end
-#
-#   def avg_formatter(num)
-#     "Your average total per trip during this time was #{num}." if num
-#   end
 end
