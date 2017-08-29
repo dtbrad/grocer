@@ -1,9 +1,9 @@
 <table class="table">
   <thead>
     <tr class="fake-link">
-      <th><%= sort_line_item_record_by("date_purchased", @graph_config, "Date Purchased") %></th>
+      <th><%= sort_line_item_record_by("sort_date", @graph_config, "Date Purchased") %></th>
       <th><%= sort_line_item_record_by("price_cents", @graph_config, "Price") %></th>
-      <th><%= sort_line_item_record_by("qty_purchased", @graph_config, "Qty Purchased") %></th>
+      <th><%= sort_line_item_record_by("quantity", @graph_config, "Qty Purchased") %></th>
       <th><%= sort_line_item_record_by("weight", @graph_config) %></th>
       <th><%= sort_line_item_record_by("total_cents", @graph_config, "Total Price") %></th>
     </tr>

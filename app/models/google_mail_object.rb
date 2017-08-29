@@ -15,7 +15,11 @@ class GoogleMailObject < ApplicationRecord
   end
 
   def body
-    body = json_data["payload"]["body"]["data"]
+    body = if json_data["payload"]["parts"]
+             json_data["payload"]["parts"][0]["body"]["data"]
+           else
+             json_data["payload"]["body"]["data"]
+           end
     Base64.urlsafe_decode64(body)
   end
 

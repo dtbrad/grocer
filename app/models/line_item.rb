@@ -20,7 +20,6 @@ class LineItem < ApplicationRecord
     start_date = obj.start_date.class == DateTime ? obj.start_date : DateTime.parse(obj.start_date)
     end_date = obj.end_date.class == DateTime ? obj.end_date : DateTime.parse(obj.end_date)
     group_by_period(obj.unit.to_s, :date, range: start_date..end_date).sum('line_items.quantity').to_a
-
   end
 
   def formatted_weight
@@ -32,15 +31,21 @@ class LineItem < ApplicationRecord
   end
 
   def self.custom_sort(category, direction)
-    direction = direction.downcase == 'asc' ? 'asc' : 'desc'
-    if category == 'date_purchased'
-      line_items = select('line_items.*').joins(:basket).order("baskets.date #{direction}")
-    elsif LineItem.column_names.include?(category)
-      category = sanitize_sql(category)
-      line_items = select('line_items.*').order(category + ' ' + direction)
+    direction = 'asc'.casecmp(direction).zero? ? 'asc' : 'desc'
+    if category == "sort_date"
+      send("sort_date", direction)
     else
-      line_items = select('line_items.*').joins(:basket).order('baskets.date desc')
+      attribute_sort(category, direction)
     end
-    line_items
+  end
+
+  def self.sort_date(direction)
+    order = ["baskets.date", direction].join(" ")
+    select('line_items.*').joins(:basket).order(order)
+  end
+
+  def self.attribute_sort(attribute, direction)
+    attribute = sanitize_sql(attribute)
+    select('line_items.*').order(attribute + ' ' + direction)
   end
 end
