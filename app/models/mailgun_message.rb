@@ -35,7 +35,8 @@ class MailgunMessage < ApplicationRecord
       self.user = User.find_by(email: recipient)
     else
       self.user = User.create(email: recipient, name: recipient, password: Devise.friendly_token.first(6),
-                              generated_from_email: true)
+                              generated_from_email: true, confirmed_at: DateTime.now)
+      user.send_reset_password_instructions
     end
   end
 end

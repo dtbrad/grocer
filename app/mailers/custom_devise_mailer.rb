@@ -17,6 +17,7 @@ class CustomDeviseMailer < Devise::Mailer
   end
 
   def reset_password_instructions(record, token, opts = {})
+    opts["subject"] = "Welcome To Grocer!" if record.sign_in_count.zero?
     my_mail = devise_mail(record, :reset_password_instructions, opts)
     target_mailbox = 'Sent Items'
     imap = Net::IMAP.new('mail.hover.com')
