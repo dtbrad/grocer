@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :ensure_domain
+  before_action :authenticate_user!, only: :import
   helper_method :set_graph, :sort_column, :sort_direction
 
   def about; end
@@ -12,6 +13,9 @@ class ApplicationController < ActionController::Base
 
   def welcome
     redirect_to baskets_path if current_user
+  end
+
+  def import
   end
 
   def log_out_to_register

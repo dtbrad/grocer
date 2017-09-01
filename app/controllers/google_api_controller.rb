@@ -23,6 +23,11 @@ class GoogleApiController < ApplicationController
     )
     response = client.fetch_access_token!
     session[:access_token] = response['access_token']
-    redirect_to new_basket_path
+    redirect_to grab_gmails_path
+  end
+
+  def grab_gmails
+    BasketWorker.perform_async(current_user.id, session[:access_token])
+    # GoogleApi.process_api_request(current_user, session[:access_token])
   end
 end

@@ -19,7 +19,7 @@
           <li><%= link_to "View Shopping Trips", baskets_path %></li>
           <li><%= link_to "View Products Purchased", products_path %></li>
           <% if current_user %>
-            <li><%= link_to "Import Receipts", import_path_url, data: { confirm: 'You will be directed to your gmail now.' } %></li></li>
+            <li><%= link_to "Import Receipts", import_path %></li></li>
             <li><%= link_to "Delete Purchase History", destroy_all_baskets_path(current_user.baskets), method: "delete", data: { confirm: 'Are you certain you want to delete your history?' } %></li>
           <% end %>
         </ul>

@@ -25,7 +25,13 @@
 
       <% if !current_user  && !["registrations", "sessions", "application", "angular", "shopping_lists", "passwords"].include?(controller_name) %>
         <div class="alert alert-warning text-center" role="alert">
-          <h4>This is a sample user's purchase history. To get started on seeing your own, <%= link_to "sign up", new_user_registration_path %> or <%= link_to "log in", new_user_session_path %> </h4>
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+              <h4>This is a sample user's purchase history. To get started on seeing your own,  email one of your receipts to <%= mail_to "intake@receipts.my-grocer.com" %></h4>
+
+          </div>
+
+          </div>
         </div>
       <% end %>
 

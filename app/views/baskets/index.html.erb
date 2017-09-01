@@ -1,3 +1,4 @@
+<div id="notifications">
 <% if @baskets && !@baskets.empty? %>
 
   </br></br>
@@ -43,6 +44,8 @@
     There is no purchase history in the database.
     Click below to import receipts, or if you just imported your receipts and are still seeing this, try refreshing the page.
   </div>
-    <%= link_to "Import Receipts", import_path_url, class: "btn btn-primary btn-block", data: { confirm: 'You will now be directed to your gmail to import your receipts.' } %>
+    <%= link_to "Import Receipts", import_path, class: "btn btn-primary btn-block" %>
 
 <% end %>
+
+</div>

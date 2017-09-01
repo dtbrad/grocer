@@ -41,11 +41,11 @@ class LineItem < ApplicationRecord
 
   def self.sort_date(direction)
     order = ["baskets.date", direction].join(" ")
-    select('line_items.*').joins(:basket).order(order)
+    joins(:basket).order(order)
   end
 
   def self.attribute_sort(attribute, direction)
     attribute = sanitize_sql(attribute)
-    select('line_items.*').order(attribute + ' ' + direction)
+    order(attribute + ' ' + direction)
   end
 end

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   root to: 'application#welcome'
   resources :shopping_lists, only: %i[show index create]
-  resources :baskets, only: %i[index new show create]
+  resources :baskets, only: %i[index show]
   resources :baskets do
     collection do
       delete :destroy_all
@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   get 'listmaker', to: 'angular#angular'
   get 'listmaker/*all', to: 'angular#angular'
 
-  get 'import', to: 'google_api#go_to_google', as: 'import_path'
+  get 'google_api', to: 'google_api#go_to_google', as: 'google_api_path'
+  get 'grab_gmails', to: 'google_api#grab_gmails', as: 'grab_gmails'
+  get 'import', to: 'application#import'
   get 'auth/:provider/callback', to: 'google_api#callback'
 
   post 'send_password_email', to: 'application#send_password_email'

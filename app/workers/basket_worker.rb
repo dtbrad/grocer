@@ -1,7 +1,7 @@
 class BasketWorker
   include Sidekiq::Worker
 
-  def perform(id, date, token)
+  def perform(id, token)
     user = User.find(id)
     orig_count = user.baskets.count
 
@@ -12,7 +12,7 @@ class BasketWorker
       </div>"
     }
 
-    GoogleApi.process_api_request(user, date, token)
+    GoogleApi.process_api_request(user, token)
 
     if user.baskets.count > orig_count
       ActionCable.server.broadcast "notifications:#{user.id}", {html:
