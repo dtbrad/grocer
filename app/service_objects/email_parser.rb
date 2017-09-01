@@ -107,7 +107,7 @@ class EmailParser
       info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
     end
 
-    info[:total_cents] = -info[:total_cents] if credit_promotion
+    info[:total_cents] = -info[:total_cents] if credit_promotion && info[:total_cents] >= 0
 
     if has_discount
       info[:disc] = (rows[i + 2].text[/\d+[,.]\d+/].to_d * -100).to_i
