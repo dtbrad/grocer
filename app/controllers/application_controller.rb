@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :ensure_domain
   before_action :authenticate_user!, only: :import
   helper_method :set_graph, :sort_column, :sort_direction
+  before_action :set_raven_context
+
+  def test_exception_notifier
+    raise "Testing Sentry's error monitoring."
+  end
 
   def about; end
 
@@ -59,4 +64,10 @@ class ApplicationController < ActionController::Base
   def after_sign_out_path_for(_resource_or_scope)
     new_user_session_path
   end
+
+  def set_raven_context
+    Raven.user_context(id: session[:current_user_id]) # or anything else in session
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
 end

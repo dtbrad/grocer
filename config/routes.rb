@@ -32,5 +32,8 @@ Rails.application.routes.draw do
 
   post 'mailgun', to: 'mail_gun#process_mail_gun_post_request'
 
+  get "test_exception_notifier" => "application#test_exception_notifier"
+
+
   mount ActionCable.server => '/cable'
 end

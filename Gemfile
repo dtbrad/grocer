@@ -32,6 +32,7 @@ gem 'newrelic_rpm'
 gem 'localtunnel'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 gem 'mailgun-ruby', '~>1.1.6'
+gem "sentry-raven"
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
