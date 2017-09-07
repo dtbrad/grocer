@@ -1,121 +1,67 @@
 class EmailParser
-
-  attr_accessor :body, :rows
+  attr_accessor :item_rows
 
   def initialize(body)
-    @body = body
+    rows = Nokogiri::HTML(body).search('//text()').map(&:text).delete_if { |x| x !~ /\w/ }.collect(&:squish)
+    items_beg = rows.find_index { |i| %w[Price Cost].include?(i) }
+    items_end = rows.find_index { |i| ["SUB TOTAL", "Subtotal"].include?(i) }
+    @item_rows = rows[(items_beg + 1)..(items_end - 1)]
   end
 
   def parse_email
-    if new_format_manually_forwarded
-      rows = Nokogiri::HTML(body).css('.basket-body tr')
-      parse_method = 'parse_new_format'
-    elsif new_format_auto_forwarded
-      rows = pick_rows_alternate
-      parse_method = 'parse_new_format'
-    else # older email format
-      rows = pick_rows
-      parse_method = 'parse_old_format'
-    end
-    info_array = []
-    rows.length.times do |i|
-      info = eval("#{parse_method}(rows, i)")
-      info_array << info
-    end
-    info_array
+    item_rows.collect.with_index { |_row, i| item_info(i) }.compact
   end
 
-  def new_format_manually_forwarded
-    !Nokogiri::HTML(body).css('.empty-row').empty?
+  def item_info(i)
+    return unless credit_promotion_name(i) || item_name(i)
+    { name: credit_promotion_name(i) || item_name(i), total_cents: credit_promotion_amount(i) || total_price(i),
+      qty: qty(i), unit_price: unit_price(i), weight: weight(i), price_per_pound: price_per_pound(i) }
   end
 
-  def new_format_auto_forwarded
-    Nokogiri::HTML(body).css('td[class*="basket-item-desc"]').empty?
+  def integer_string?(i)
+    item_rows[i] && item_rows[i][/(^\d+$)|(^\.$)/]
   end
 
-  def pick_rows
-    noko_body = Nokogiri::HTML(body)
-    noko_body.xpath(
-      '//tr[td[contains(@class, "basket-item-desc modifier") or contains(@class, "basket-item-desc") ]
-       and td[contains(@class, "basket-item-qty modifier") or contains(@class, "basket-item-qty") ]
-       and td[contains(@class, "basket-item-amt modifier") or contains(@class, "basket-item-amt") ] or td[span]]'
-    )
+  def float_string?(i)
+    item_rows[i] && item_rows[i][/^[-+]?[$]?[0-9]+\.[0-9]+$/]
   end
 
-  def pick_rows_alternate
-    noko_body = Nokogiri::HTML(body)
-    noko_body.xpath(
-      '//tr[td[contains(@class, "item-description")]
-       and td[contains(@class, "item-amount")]
-       and td[contains(@class, "item-qty")] or td[span]]'
-    )
+  def credit_promotion_name(i)
+    item_rows[i] if float_string?(i + 1) && !integer_string?(i - 1)
   end
 
-  def parse_old_format(rows, i)
-    return if rows[i].css('span').text.include?('$') || ['Discount', 'Transaction Date', 'Terms & Conditions | Privacy', 'Unsubscribe | Change email address | Not your receipt?'].include?(rows[i].text)
-    name_value = rows[i].css('td[class*="basket-item-desc"]').text.strip
-    name = name_value.empty? ? "blank item" : name_value
-    info = { name: name,
-             total_cents: (rows[i].css('td[class*="basket-item-amt"]').text.to_d * 100).to_i }
-    unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
-    has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
-    has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
-
-    if !unit_pricing
-      info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
-      info[:quantity] = 1 unless info[:quantity].nonzero?
-
-    elsif unit_pricing && !has_weight_unit
-      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
-      info[:quantity] = rows[i].css('td[class*="basket-item-qty"]').text.to_i
-
-    elsif unit_pricing && has_weight_unit
-      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
-      info[:quantity] = 1
-      info[:weight] = rows[i + 1].text[/([\d.]+)\s/].to_d
-    end
-
-    if has_discount
-      info[:disc] = (rows[i + 1].text[/\d+[,.]\d+/].to_d * -100).to_i
-      info[:total_cents] += info[:disc]
-    else
-      info[:disc] = 0
-    end
-    info
+  def credit_promotion_amount(i)
+    return unless credit_promotion_name(i)
+    amt = (item_rows[i + 1].delete("$").to_d * 100).to_i
+    amt <= 0 ? amt : -amt
   end
 
-  def parse_new_format(rows, i)
-    return if rows[i].css('span').text.include?('$') || rows[i].text.include?('Discount') || rows[i].text.include?('Transaction Date') || ( !rows[i].attributes.empty? && rows[i].attributes["class"].value == "empty-row" )
-    info = { name: rows[i].css('td[class*="item-description"]').text.strip,
-             total_cents: (rows[i].css('td[class*="item-amount"]').text.strip.tr('$', '').to_d * 100).to_i }
-    unit_pricing = rows[i + 1] && rows[i + 1].css('span').text.include?('$')
-    has_weight_unit = rows[i + 1] && rows[i + 1].text.include?('@')
-    has_discount = rows[i + 1] && rows[i + 1].text.include?('Discount')
-    credit_promotion = !rows[i].attributes['class'].nil? && rows[i].attributes['class'].value.include?('basket-discount-item')
-
-    if !unit_pricing
-      info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
-      info[:quantity] = 1 unless info[:quantity].nonzero?
-
-    elsif unit_pricing && !has_weight_unit
-      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d * 100).to_i
-      info[:quantity] = rows[i].css('td[class*="item-qty"]').text.to_i
-
-    elsif unit_pricing && has_weight_unit
-      info[:price_cents] = (rows[i + 1].text[/\$\s*(\d+\.\d+)/, 1].to_d. * 100).to_i
-      info[:quantity] = 1
-      info[:weight] = rows[i + 1].css('span').text.strip.split('@')[0].to_d
-    end
-
-    info[:total_cents] = -info[:total_cents] if credit_promotion && info[:total_cents] >= 0
-
-    if has_discount
-      info[:disc] = (rows[i + 2].text[/\d+[,.]\d+/].to_d * -100).to_i
-      info[:total_cents] += info[:disc]
-    else
-      info[:disc] = 0
-    end
-    info
+  def item_name(i)
+    item_rows[i + 1] if integer_string?(i) && float_string?(i + 2)
   end
 
+  def total_price(i)
+    (item_rows[i + 2].delete("$").to_d * 100).to_i if float_string?(i + 2)
+  end
+
+  def qty(i)
+    item_rows[i][/^[0-9]$/].to_i
+  end
+
+  def weight(i)
+    row = item_rows[i + 3]
+    row.split(%r{@|\/|\$})[0].to_d if row && ["$", "@"].all? { |char| row.include?(char) }
+  end
+
+  def price_per_pound(i)
+    return unless weight(i)
+    row = item_rows[i + 3]
+    (row.split(%r{@|\/|\$})[2].to_d * 100).to_i if row && ["$", "@"].all? { |char| row.include?(char) }
+  end
+
+  def unit_price(i)
+    return if weight(i)
+    row = item_rows[i + 3]
+    (row.split(/\s|\$/)[1].to_d * 100).to_i if row && ["$", "each"].all? { |char| row.include?(char) }
+  end
 end
