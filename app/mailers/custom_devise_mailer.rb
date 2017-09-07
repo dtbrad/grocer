@@ -26,6 +26,7 @@ class CustomDeviseMailer < Devise::Mailer
     imap.append(target_mailbox, my_mail.to_s)
     imap.logout
     imap.disconnect
+    record.update(fresh: false) if record.fresh
     super
   end
 end

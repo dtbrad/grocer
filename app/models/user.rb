@@ -25,7 +25,7 @@ class User < ApplicationRecord
     unless user
       name = User.find_by(name: data['name']) ? data['email'] : data['name']
       user = User.new(
-        name: name, email: data['email'], password: Devise.friendly_token[0, 20], confirmed_at: Time.now
+        name: name, email: data['email'], password: Devise.friendly_token[0, 20], fresh: false, confirmed_at: Time.now
       )
       user.save
 

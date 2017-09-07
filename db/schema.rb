@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821195654) do
+ActiveRecord::Schema.define(version: 20170903133504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,10 +64,15 @@ ActiveRecord::Schema.define(version: 20170821195654) do
 
   create_table "mailgun_messages", force: :cascade do |t|
     t.jsonb    "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.integer  "user_id"
     t.datetime "date"
+    t.text     "body"
+    t.text     "body_field"
+    t.string   "to_field"
+    t.string   "from_field"
+    t.string   "x_envelope_from_field"
   end
 
   create_table "nick_name_requests", force: :cascade do |t|
@@ -120,6 +125,7 @@ ActiveRecord::Schema.define(version: 20170821195654) do
     t.datetime "confirmation_sent_at"
     t.boolean  "generated_from_email",   default: false
     t.integer  "changed_password",       default: 0
+    t.boolean  "fresh",                  default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
