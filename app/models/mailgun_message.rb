@@ -7,7 +7,13 @@ class MailgunMessage < ApplicationRecord
   end
   validates :date, uniqueness: { scope: :user }
   validate :proper_date_format
+  before_save :wipe_cc
   before_save :welcome_user
+
+  def wipe_cc
+    cc_field = EmailParser.cc_field(body_field)
+    body_field.gsub!(cc_field, "CREDIT CARD INFO REMOVED") if cc_field
+  end
 
   def self.process_new_mailgun(params)
     mailgun_message = MailgunMessage.new(params)
