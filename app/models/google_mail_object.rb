@@ -1,36 +1,45 @@
 class GoogleMailObject < ApplicationRecord
   belongs_to :user
   has_many :baskets
+  before_validation :set_date, if: :new_record?
   validates :date, uniqueness: { scope: :user }
-  after_initialize :set_user, if: :new_record?
-  after_initialize :set_date, if: :new_record?
+  validate :proper_date_format
+  before_save :wipe_cc
 
-  def json_data
-    JSON.parse(data)
+  def wipe_cc
+    cc_field = EmailParser.cc_field(body_field)
+    body_field.gsub!(cc_field, "CREDIT CARD INFO REMOVED") if cc_field
   end
 
-  def set_user
-    email = json_data["payload"]["headers"].find { |h| h["name"] == 'Delivered-To' }["value"]
-    self.user = User.find_by(email: email)
+  def self.process_new_gmail(raw_gmail_object)
+    google_mail_object = GoogleMailObject.new(user: raw_gmail_object[:user], body_field: raw_gmail_object[:body_field])
+    if google_mail_object.save
+      google_mail_object.package
+    else
+      google_mail_object.handle_invalid(raw_gmail_object[:data], raw_gmail_object[:user])
+    end
   end
 
-  def body
-    body = if json_data["payload"]["parts"]
-             json_data["payload"]["parts"][0]["body"]["data"]
-           else
-             json_data["payload"]["body"]["data"]
-           end
-    Base64.urlsafe_decode64(body)
+  def package
+    { date: date, body: body_field, user: user }
   end
 
-  def make_shopping_data
-    email = { date: date, body: body, user: user }
-    email_data = EmailDataProcessor.new(email)
-    email_data.process_single_email
+  def handle_invalid(data, user)
+    if errors.size == 1 && errors.full_messages.include?("Date has already been taken")
+      GoogleMailObject.find_by(date: date, user: user).package
+    else
+      FailedGmail.create(data: data, user: user)
+      nil
+    end
+  end
+
+  def proper_date_format
+    return if date.is_a?(ActiveSupport::TimeWithZone)
+    errors.add(:date, "not a proper date")
   end
 
   def set_date
-    date_string = body[/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, \d{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+    date_string = EmailParser.transaction_date(body_field)
     self.date = DateTime.parse(date_string)
   end
 end

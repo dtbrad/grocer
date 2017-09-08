@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :products, through: :line_items
   has_many :nick_name_requests
   has_many :google_mail_objects
+  has_many :failed_gmails
   has_many :mailgun_messages
   validates :name, presence: true
   # validates :name, uniqueness: true

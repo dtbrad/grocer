@@ -30,9 +30,12 @@ class MailgunMessage < ApplicationRecord
   end
 
   def handle_invalid(data)
-    return if errors.size == 1 && errors.full_messages.include?("Date has already been taken")
-    FailedMail.create(data: data)
-    nil
+    if errors.size == 1 && errors.full_messages.include?("Date has already been taken")
+      MailgunMessage.find_by(date: date, user: user).package
+    else
+      FailedMail.create(data: data)
+      nil
+    end
   end
 
   def package
