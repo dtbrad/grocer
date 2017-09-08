@@ -52,7 +52,7 @@ class MailgunMessage < ApplicationRecord
   end
 
   def set_date
-    date_string = body_field[/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [0-9]{1,2}, \d{4} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2} (A|P)M/]
+    date_string = EmailParser.transaction_date(body_field)
     self.date = DateTime.parse(date_string)
   end
 

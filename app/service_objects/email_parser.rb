@@ -15,6 +15,12 @@ class EmailParser
     rows[loc + 2]
   end
 
+  def self.transaction_date(body)
+    rows = extract_text_rows(body)
+    loc = rows.find_index { |i| i == "Transaction Date" }
+    rows[loc + 1]
+  end
+
   def item_rows
     items_beg = rows.find_index { |i| %w[Price Cost].include?(i) }
     items_end = rows.find_index { |i| ["SUB TOTAL", "Subtotal"].include?(i) }
