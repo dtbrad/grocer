@@ -15,6 +15,12 @@ class MailgunMessage < ApplicationRecord
     body_field.gsub!(cc_field, "CREDIT CARD INFO REMOVED") if cc_field
   end
 
+  def self.give_google_forwarding_permission(body)
+    url = EmailParser.extract_urls(body).first
+    agent = Mechanize.new
+    agent.get(url).forms[0].submit
+  end
+
   def self.process_new_mailgun(params)
     mailgun_message = MailgunMessage.new(params)
     mailgun_message.save ? mailgun_message.package : mailgun_message.handle_invalid(params)

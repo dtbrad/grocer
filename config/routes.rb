@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   post 'mailgun', to: 'mail_gun#process_mail_gun_post_request'
 
+  post 'forwarding', to: 'mail_gun#process_forward_request'
+
   get "test_exception_notifier" => "application#test_exception_notifier"
 
 

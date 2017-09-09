@@ -7,13 +7,13 @@
 
   <div class="collapse" id="viewdetails">
     <p>
-      The only catch? You need to be signed up for email receipts and have them in your gmail. Grocer will search your gmail for New Seasons Market receipt emails, import your purchase history, and then create a rich database of your shopping trips, products, prices over time, and other analytics that will help you get a handle on your purchasing patterns. For more detailed information about how Grocer works, click <%= link_to "here", about_path %>
+      Grocer parses your New Seasons Market receipts, and from them creates a rich database of your shopping trips, products, prices over time, and other analytics that will help you get a handle on your purchasing patterns. The only thing Grocer needs are your shopping receipt emails. Manually forward them to <%= mail_to "intake@receipts.my-grocer.com", "intake@receipts.my-grocer.com", { style: "color: #AACCFF"} %> or better yet, set up your email provider to automatically forward your receipts for you. It's easy to set up a forwarding filter with Gmail (click here for a two minute walkthrough video), and many other email providers allow it too.
     </p>
     <p>
-      Even if you don't have gmail, or don't want to import your purchase history, you can still use Grocer. I've leveraged the existing product database into a "smart" shopping list maker that lets you easily and quickly build shopping lists with built-in price information. There are  <%= Product.count %> products in the database and it's growing every week. So come on in and check it out. For more detailed information about how Grocer works, click here
+      Even if you don't import your purchase history, you can still use Grocer. I've leveraged the existing product database into a "smart" shopping list maker that lets you easily and quickly build shopping lists with built-in price information. There are <%= Product.count %> products in the database and it's growing every week. So come on in and check it out. For more detailed information about how Grocer works, click here
     </p>
   </div>
-  <p><a href="#" class="welcomebutton" data-toggle="collapse" data-target="#viewdetails">Read more &raquo;</a></p>
+  <p><a href="#" class="welcomebutton" style="color: #AACCFF" data-toggle="collapse" data-target="#viewdetails">Read more &raquo;</a></p>
 
 </div>
 
