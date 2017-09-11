@@ -8,6 +8,7 @@
       <th>Baskets</th>
       <th>Products</th>
       <th>Unique Products</th>
+      <th>Masquerade</th>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,11 @@
       <td> <%= u.baskets.count %> </td>
       <td> <%= u.products.distinct.count %> </td>
       <td> <%= u.exclusive_products%> </td>
+      <td> <%= form_tag("/become", method: "post") do %>
+            <%= hidden_field_tag :id, u.id %>
+            <%= submit_tag("Sign in as", class: "btn btn-primary btn-xs") %>
+            <% end %>
+       </td>
     </tr>
     <% end %>
   </tbody>

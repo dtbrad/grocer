@@ -10,6 +10,12 @@ class NickNameRequestsController < ApplicationController
     end
   end
 
+  def become
+    return unless current_user.admin?
+    sign_in(:user, User.find(params[:id]), bypass: true)
+    redirect_to root_url
+  end
+
   def create; end
 
   def update

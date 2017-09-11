@@ -1,3 +1,7 @@
+require 'sidekiq/web'
+
+constraint = ->(request) { request.env['warden'].authenticate! && request.env['warden'].user.admin? }
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   root to: 'application#welcome'
@@ -10,6 +14,7 @@ Rails.application.routes.draw do
   end
   resources :products, only: %i[index show create update]
   resources :nick_name_requests, only: %i[index create update]
+  post 'become', to: 'nick_name_requests#become'
 
   get 'about', to: 'application#about'
   get 'welcome', to: 'application#welcome'
@@ -36,6 +41,9 @@ Rails.application.routes.draw do
 
   get "test_exception_notifier" => "application#test_exception_notifier"
 
-
   mount ActionCable.server => '/cable'
+
+  constraints constraint do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end
