@@ -73,7 +73,10 @@ $(document).ready(function() {
 								data: { "graph_change": "yes", "tooltip_date": date, "tooltip_unit": new_unit, "graph_change": "yes" }
 							});
 										}
-										}
+									},
+									legendItemClick: function () {
+			              return false
+			          }
 									}
 								}
 							},

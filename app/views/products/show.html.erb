@@ -6,27 +6,7 @@
   <div id="product-history-chart" data-param1= "<%= @my_user.line_items.where(product: @product).group_line_items(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3="<%= @product.id %>" data-param4='<%= ENV["WEB_FULL_URL"] %>'></div>
 </div>
 
-<div class="row">
-  <div class="col-md-4">
-    <div class="list-item">
-      <h3 style="font-size: 19px; padding-left: 4px" id="index-title">Purchasing history for the last two years</h3>
-    </div>
-  </div>
-
-  <div class="col-md-8">
-    <div class="list-item text-right" id='graph-form' style="padding-top: 13px">
-      <%= render partial: 'shared_partials/graph_control', locals: {path: product_path(@product)} %>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6 col-md-offset-6">
-    <div class="list-item text-right">
-      <label style="color: red" id="graph_error_explanation"></label>
-    </div>
-  </div>
-</div>
+<%= render partial: 'shared_partials/graph_control', locals: {path: product_path(@product)} %>
 
 <div class="panel panel-default">
   <div class="panel-heading">
