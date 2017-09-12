@@ -3,9 +3,9 @@ class BasketsController < ApplicationController
   before_action :my_user, only: %i[index show]
 
   def index
-    @spending_state = SpendingState.new(params)
+    return unless @my_user && !my_user.baskets.empty?
+    @spending_state = SpendingState.new(my_user, my_user.baskets, params)
     @graph_config = @spending_state.set_graph
-    return unless @my_user
     @baskets = @my_user.baskets.from_graph(@graph_config)
                        .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                        .page params[:page]

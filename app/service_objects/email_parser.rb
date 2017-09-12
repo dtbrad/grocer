@@ -40,7 +40,7 @@ class EmailParser
   end
 
   def item_info(i) # process range of rows in vicinity of i row to produce item info object using lots of helper methods
-    return unless credit_promotion_name(i) || item_name(i)
+     return unless credit_promotion_name(i) || item_name(i)
     { name: credit_promotion_name(i) || item_name(i), total_cents: credit_promotion_amount(i) || total_price(i),
       qty: qty(i), unit_price: unit_price(i), weight: weight(i), price_per_pound: price_per_pound(i) }
   end

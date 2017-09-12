@@ -7,9 +7,9 @@ class GraphConfig
   validate :proper_unit
 
   def initialize(params = {})
-    @start_date = params.fetch(:start_date, ((DateTime.now - 24.months)).to_s)
-    @end_date = params.fetch(:end_date, DateTime.now.to_s)
-    @unit = params.fetch(:unit, 'month')
+    @start_date = params.fetch(:start_date)
+    @end_date = params.fetch(:end_date)
+    @unit = params.fetch(:unit)
   end
 
   def proper_dates

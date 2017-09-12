@@ -50,7 +50,9 @@ class Product < ApplicationRecord
                              'Beer Deposit 60 C', '$5 Off $30 Offer',
                              '$10 Off Coupon', '25% Wine Discount',
                              'Bag Refund', 'Bag It Forward', '$5 Off $30 offer',
-                             '$5 Off Coupon', 'Beer Deposit 30C', '$6 Off $40 Offer'])
+                             '$5 Off Coupon', 'Beer Deposit 30C', '$6 Off $40 Offer',
+                             '$5 Off $35 Offer', '10% Discount', 'Pabst Blue Ribbn Discount',
+                             'Free Reusable Bag'])
   end
 
   def self.most_money_spent

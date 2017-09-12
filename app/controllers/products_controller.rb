@@ -12,7 +12,8 @@ class ProductsController < ApplicationController
 
   def show
     return unless @my_user
-    @spending_state = SpendingState.new(params)
+    sorted_line_items = @product.this_users_line_items(@my_user).joins(:basket).order("baskets.date")
+    @spending_state = SpendingState.new(my_user, sorted_line_items, params)
     @graph_config = @spending_state.set_graph
     @line_items = @product.this_users_line_items(@my_user)
                           .from_graph(@graph_config)
