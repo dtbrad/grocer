@@ -7,7 +7,12 @@
   <% end %>
 </div>
 
-<h4 class="text-center">Users</h4>
+<h4 class="text-center">Users With Baskets</h4>
 <div class="panel panel-default">
-  <%= render partial: 'users', locals: { users: @users } %>
+  <%= render partial: 'users', locals: { users: @users_with_baskets } %>
+</div>
+
+<h4 class="text-center">Users Without Baskets</h4>
+<div class="panel panel-default">
+  <%= render partial: 'users', locals: { users: @users_without_baskets } %>
 </div>

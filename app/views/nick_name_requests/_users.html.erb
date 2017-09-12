@@ -6,8 +6,9 @@
       <th>Role</th>
       <th>Date Joined</th>
       <th>Baskets</th>
+      <th>Most Recent Import</th>
       <th>Products</th>
-      <th>Unique Products</th>
+      <!-- <th>Unique Products</th> -->
       <th>Masquerade</th>
     </tr>
   </thead>
@@ -17,10 +18,11 @@
       <td> <%= u.name %> </td>
       <td> <%= u.email %> </td>
       <td> <%= u.role %> </td>
-      <td> <%= format_date(u.created_at) %> </td>
+      <td> <%= short_format_date(u.created_at) %> </td>
       <td> <%= u.baskets.count %> </td>
+      <td> <%= u.baskets.empty? ? "NA" : format_date(u.most_recent_basket_date.localtime) %> </td>
       <td> <%= u.products.distinct.count %> </td>
-      <td> <%= u.exclusive_products%> </td>
+      <!-- <td> <%= u.exclusive_products%> </td> -->
       <td> <%= form_tag("/become", method: "post") do %>
             <%= hidden_field_tag :id, u.id %>
             <%= submit_tag("Sign in as", class: "btn btn-primary btn-xs") %>

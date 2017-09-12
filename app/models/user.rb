@@ -50,4 +50,8 @@ class User < ApplicationRecord
     result = LineItem.execute_with_params(query, id)
     result.field_values('my_result').empty? ? 0 : result[0]['my_result']
   end
+
+  def most_recent_basket_date
+    baskets.empty? ? "NA" : baskets.order(:created_at).last.created_at
+  end
 end
