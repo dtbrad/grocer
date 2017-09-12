@@ -5,6 +5,7 @@
       <th>Email</th>
       <th>Role</th>
       <th>Date Joined</th>
+      <th>Confirmed?</th>
       <th>Baskets</th>
       <th>Most Recent Import</th>
       <th>Products</th>
@@ -19,6 +20,7 @@
       <td> <%= u.email %> </td>
       <td> <%= u.role %> </td>
       <td> <%= short_format_date(u.created_at) %> </td>
+      <td> <%= u.confirmed? %> </td>
       <td> <%= u.baskets.count %> </td>
       <td> <%= u.baskets.empty? ? "NA" : format_date(u.most_recent_basket_date.localtime) %> </td>
       <td> <%= u.products.distinct.count %> </td>

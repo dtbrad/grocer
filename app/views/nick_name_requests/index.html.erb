@@ -16,3 +16,29 @@
 <div class="panel panel-default">
   <%= render partial: 'users', locals: { users: @users_without_baskets } %>
 </div>
+
+<h4 class="text-center">Problem Baskets</h4>
+<div class="panel panel-default">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>User</th>
+      <th>Date</th>
+      <th>Total in Basket</th>
+      <th>Total in Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @baskets.each do |basket| %>
+      <tr>
+        <td> <%= basket.id %> </td>
+        <td> <%= basket.user.email %> </td>
+        <td> <%= basket.date %> </td>
+        <td> <%= number_to_currency(basket.total) %> </td>
+        <td> <%= EmailParser.total_string(basket.google_mail_object.body_field) %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>

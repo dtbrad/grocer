@@ -51,6 +51,15 @@ class Basket < ApplicationRecord
   def quantity
     line_items.sum('quantity')
   end
+
+  def google_mail_object
+    GoogleMailObject.find_by(date: date, user: user)
+  end
+
+  def check_for_fishy_total
+    g_body = google_mail_object.body_field
+    EmailDataProcessor.fishy_total?(self, g_body)
+  end
 end
 
 # _____Unused methods____________________________________________________________

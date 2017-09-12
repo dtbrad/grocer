@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170908204848) do
+ActiveRecord::Schema.define(version: 20170912182033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20170908204848) do
     t.integer  "total_cents"
     t.boolean  "deleted",               default: false
     t.integer  "google_mail_object_id"
+    t.boolean  "fishy_total"
   end
 
   create_table "failed_gmails", force: :cascade do |t|

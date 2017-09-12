@@ -6,6 +6,7 @@ class NickNameRequestsController < ApplicationController
       @nick_name_requests = NickNameRequest.where(status: 'unreviewed')
       @users_without_baskets = User.where('id NOT IN (SELECT DISTINCT(user_id) FROM baskets)')
       @users_with_baskets = User.group('users.id').joins(:baskets).order('MAX(baskets.created_at) desc')
+      @baskets = Basket.where(fishy_total: true)
     else
       redirect_to root_path, flash: { alert: 'You do not have access to this page' }
     end

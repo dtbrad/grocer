@@ -13,8 +13,14 @@ class EmailDataProcessor
     basket = user.baskets.build(date: date)
     receipt_items.each { |ri| build_products_and_line_items(basket, ri) }
     basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
+    basket.fishy_total = true if EmailDataProcessor.fishy_total?(basket, body)
     basket.save
     basket
+  end
+
+  def self.fishy_total?(basket, body)
+    total_from_email = (EmailParser.total_string(body).delete("$").to_d * 100).to_i
+    (basket.total_cents - total_from_email).abs > 30
   end
 
   def build_products_and_line_items(basket, info)
