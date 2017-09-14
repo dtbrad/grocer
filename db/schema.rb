@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912182033) do
+ActiveRecord::Schema.define(version: 20170913224524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20170912182033) do
     t.boolean  "deleted",               default: false
     t.integer  "google_mail_object_id"
     t.boolean  "fishy_total"
+    t.integer  "tax_cents"
+    t.integer  "subtotal_cents"
   end
 
   create_table "failed_gmails", force: :cascade do |t|
@@ -47,6 +49,16 @@ ActiveRecord::Schema.define(version: 20170912182033) do
     t.datetime "date"
     t.string   "delivered_to"
     t.text     "body_field"
+  end
+
+  create_table "hemails", force: :cascade do |t|
+    t.date     "my_date"
+    t.string   "my_subject"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "email"
+    t.string   "old_forwarded"
+    t.string   "new_forwarded"
   end
 
   create_table "items", force: :cascade do |t|

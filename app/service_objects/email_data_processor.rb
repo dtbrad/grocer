@@ -12,7 +12,9 @@ class EmailDataProcessor
     receipt_items = email_body.parse_email
     basket = user.baskets.build(date: date)
     receipt_items.each { |ri| build_products_and_line_items(basket, ri) }
-    basket.total_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
+    basket.subtotal_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
+    basket.tax_cents = (EmailParser.tax(body).delete("$").to_d * 100).to_i
+    basket.total_cents = basket.subtotal_cents + basket.tax_cents
     basket.fishy_total = true if EmailDataProcessor.fishy_total?(basket, body)
     basket.save
     basket

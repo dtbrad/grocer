@@ -1,0 +1,20 @@
+<tr class='hide-border'>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>subtotal:</td>
+  <% if @basket.discount? %>
+    <td></td>
+  <% end %>
+  <td><%= number_to_currency(@basket.subtotal) %></td>
+</tr>
+<tr class='hide-border'>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>tax:</td>
+  <% if @basket.discount? %>
+    <td></td>
+  <% end %>
+  <td><%= number_to_currency(@basket.tax) %></td>
+</tr>

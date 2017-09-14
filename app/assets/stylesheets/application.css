@@ -88,3 +88,7 @@ body {
     width:100% !important;
     height:100% !important;
 }
+
+.table tbody>tr.hide-border.hide-border>td {
+  border-bottom: 1px solid white;
+}

@@ -6,6 +6,8 @@ class Basket < ApplicationRecord
   validates :date, presence: true
   validates :date, uniqueness: { scope: :user }
   monetize :total_cents, as: 'total', disable_validation: true
+  monetize :subtotal_cents, as: 'subtotal', disable_validation: true
+  monetize :tax_cents, as: 'tax', disable_validation: true
   paginates_per 10
 
   def self.from_graph(graph_config)

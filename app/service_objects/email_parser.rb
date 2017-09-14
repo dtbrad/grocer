@@ -15,6 +15,12 @@ class EmailParser
     rows[loc + 2]
   end
 
+  def self.tax(body)
+    rows = extract_text_rows(body)
+    loc = rows.find_index { |i| i [/^(Tax|TAX)$/] }
+    rows[loc + 1]
+    end
+
   def self.extract_email(value)
     value.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).first
   end

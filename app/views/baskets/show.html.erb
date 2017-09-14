@@ -10,7 +10,7 @@
   </div>
 
   <div class="panel-body">
-    <table id="basketTable" class="tablesorter table table-hover">
+    <table id="basketTable" class="table table-borderless table-hover">
       <thead>
         <tr>
           <th>Item</th>
@@ -46,11 +46,14 @@
         <% end %>
         </tbody>
         <tbody>
-        <tr>
-          <td><strong>Total:</strong></td>
+
+        <%= render partial: "subtotal_tax", locals: { basket: @basket } unless @basket.tax_cents == 0 %>
+
+        <tr class='rowC2'>
           <td></td>
           <td></td>
           <td></td>
+          <td><strong>TOTAL:</strong></td>
           <% if @basket.discount? %>
             <td></td>
           <% end %>
