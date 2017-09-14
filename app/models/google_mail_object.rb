@@ -8,7 +8,7 @@ class GoogleMailObject < ApplicationRecord
 
   def wipe_cc
     cc_field = EmailParser.cc_field(body_field)
-    body_field.gsub!(cc_field, "CREDIT CARD INFO REMOVED") if cc_field
+    [cc_field, cc_field.delete(" ")].each { |w| body_field.gsub!(w, "CREDIT CARD INFO REMOVED") } if cc_field
   end
 
   def self.process_new_gmail(raw_gmail_object)
