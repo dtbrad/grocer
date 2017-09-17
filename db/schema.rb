@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913224524) do
+ActiveRecord::Schema.define(version: 20170917141106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,12 @@ ActiveRecord::Schema.define(version: 20170913224524) do
     t.string   "x_envelope_from_field"
   end
 
+  create_table "mailgun_objects", force: :cascade do |t|
+    t.jsonb    "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "nick_name_requests", force: :cascade do |t|
     t.string   "suggestion"
     t.integer  "product_id"
@@ -146,7 +152,7 @@ ActiveRecord::Schema.define(version: 20170913224524) do
     t.datetime "confirmation_sent_at"
     t.boolean  "generated_from_email",   default: false
     t.integer  "changed_password",       default: 0
-    t.boolean  "fresh",                  default: true
+    t.boolean  "fresh",                  default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

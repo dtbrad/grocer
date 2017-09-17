@@ -26,11 +26,22 @@ class User < ApplicationRecord
     unless user
       name = User.find_by(name: data['name']) ? data['email'] : data['name']
       user = User.new(
-        name: name, email: data['email'], password: Devise.friendly_token[0, 20], fresh: false, confirmed_at: Time.now
+        name: name, email: data['email'], password: Devise.friendly_token[0, 20], confirmed_at: Time.now
       )
       user.save
 
     end
+    user
+  end
+
+  def self.from_mailgun(recipient)
+    user = User.find_or_create_by(email: recipient) do |u|
+      u.name = recipient
+      u.password = Devise.friendly_token.first(6)
+      u.confirmed_at = DateTime.now
+      u.fresh = true
+    end
+    user.send_reset_password_instructions if user.fresh
     user
   end
 

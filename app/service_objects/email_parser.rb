@@ -1,44 +1,10 @@
 class EmailParser
+  include MessageHelper
+
   attr_accessor :rows
 
   def initialize(body)
-    @rows = EmailParser.extract_text_rows(body)
-  end
-
-  def self.extract_text_rows(body)
-    Nokogiri::HTML(body).search('//text()').map(&:text).delete_if { |x| x !~ /\w/ }.collect(&:squish)
-  end
-
-  def self.cc_field(body)
-    rows = extract_text_rows(body)
-    loc = rows.find_index { |i| i [/^(Total|TOTAL)$/] }
-    rows[loc + 2]
-  end
-
-  def self.tax(body)
-    rows = extract_text_rows(body)
-    loc = rows.find_index { |i| i [/^(Tax|TAX)$/] }
-    rows[loc + 1]
-    end
-
-  def self.extract_email(value)
-    value.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).first
-  end
-
-  def self.total_string(body)
-    rows = extract_text_rows(body)
-    loc = rows.find_index { |i| i [/^(Total|TOTAL)$/] }
-    rows[loc + 1]
-  end
-
-  def self.extract_urls(value)
-    value.scan(/https:+\/\/\S+/)
-  end
-
-  def self.transaction_date(body)
-    rows = extract_text_rows(body)
-    loc = rows.find_index { |i| i == "Transaction Date" }
-    rows[loc + 1]
+    @rows = extract_text_rows(body)
   end
 
   def item_rows

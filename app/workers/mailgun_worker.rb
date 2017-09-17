@@ -1,13 +1,17 @@
 class MailgunWorker
   include Sidekiq::Worker
+  include MessageHelper
 
-  def perform(body_html, to_field, from_field, x_envelope_from_field, params)
-    mailgun_object = { body_field: body_html,
-                       to_field: to_field,
-                       from_field: from_field,
-                       x_envelope_from_field: x_envelope_from_field,
-                       data: params }
-    return unless mailgun_package = MailgunMessage.process_new_mailgun(mailgun_object)
-    EmailDataProcessor.new(mailgun_package).process_single_email
+  def perform(id)
+    mailgun_object = MailgunObject.find(id)
+    shopper = User.from_mailgun(mailgun_object.recipient)
+    return unless mailgun_message = shopper.mailgun_messages.find_or_create_by(date: mailgun_object.transaction_date) do |mm|
+      mm.body_field = mailgun_object.body_field
+      mm.x_envelope_from_field = mailgun_object.x_envelope_from_field
+      mm.to_field = mailgun_object.to_field
+      mm.from_field = mailgun_object.from_field
+    end
+    EmailDataProcessor.new(mailgun_message).process_single_email
+    mailgun_object.destroy
   end
 end
