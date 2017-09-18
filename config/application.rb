@@ -20,6 +20,8 @@ module NewSeasons
   class Application < Rails::Application
 
     config.autoload_paths << Rails.root.join('lib')
+    config.receipt_email = ENV["receipt_email"] || "receipts@newseasonsmarket.com"
+    config.receipt_email_2 = ENV["receipt_email"] || "noreply@index.com"
 
     config.generators do |g|
       g.test_framework :rspec,

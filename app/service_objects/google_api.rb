@@ -14,14 +14,14 @@ class GoogleApi
     return if email_ids.messages.nil?
     email_ids.messages.each do |email_id|
       raw_gmail_object = gmail.get_full_email(user, email_id.id)
-      if gmail_package = GoogleMailObject.process_new_gmail(raw_gmail_object)
-        EmailDataProcessor.new(gmail_package).process_single_email
+      if gmail_object = GoogleMailObject.process_new_gmail(raw_gmail_object)
+        EmailDataProcessor.new(gmail_object).process_single_email
       end
     end
   end
 
   def grab_email_ids
-    q = "subject:'Your New Seasons Market Email Receipt' {from: receipts@newseasonsmarket.com from: noreply@index.com}"
+    q = "subject:'Your New Seasons Market Email Receipt' {from: #{Rails.application.config.receipt_email} from: #{Rails.application.config.receipt_email_2}}"
     service.list_user_messages(
       'me',
       include_spam_trash: nil,

@@ -26,7 +26,7 @@ class MailgunObject < ApplicationRecord
   end
 
   def forwarded_via_filter?
-    extract_email(from_field) == "receipts@newseasonsmarket.com"
+    extract_email(from_field) == Rails.application.config.receipt_email
   end
 
   def transaction_date
