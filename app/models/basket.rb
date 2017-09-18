@@ -58,6 +58,14 @@ class Basket < ApplicationRecord
     GoogleMailObject.find_by(date: date, user: user)
   end
 
+  def mailgun_message
+    MailgunMessage.find_by(date: date, user: user)
+  end
+
+  def source
+    google_mail_object || mailgun_message
+  end
+
   def check_for_fishy_total
     g_body = google_mail_object.body_field
     EmailDataProcessor.fishy_total?(self, g_body)

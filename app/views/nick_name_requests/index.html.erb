@@ -36,7 +36,7 @@
         <td> <%= basket.user.email %> </td>
         <td> <%= basket.date %> </td>
         <td> <%= number_to_currency(basket.total) %> </td>
-        <td> <%= total_string(basket.google_mail_object.body_field) %> </td>
+        <td> <%= total_string(basket.source.body_field) %> </td>
       </tr>
     <% end %>
   </tbody>
