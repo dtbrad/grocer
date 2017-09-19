@@ -1,5 +1,6 @@
 class MailgunMessage < ApplicationRecord
   include MessageHelper
+  extend MessageHelper
   belongs_to :user
   validates_each :to_field, :x_envelope_from_field, :from_field do |record, attr, value|
     record.errors.add(attr, 'invalid email') if record.extract_email(value).nil?
