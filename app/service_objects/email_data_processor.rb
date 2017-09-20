@@ -1,11 +1,13 @@
 class EmailDataProcessor
   include MessageHelper
-  attr_accessor :date, :body_field, :user
+  attr_accessor :date, :body_field, :user, :message_id, :message_class
 
   def initialize(message)
     @date = message.date
     @body_field = message.body_field
     @user = message.user
+    @message_id = message.id
+    @message_class = message.class
   end
 
   def process_single_email
@@ -17,8 +19,8 @@ class EmailDataProcessor
     basket.tax_cents = (tax(body_field).delete("$").to_d * 100).to_i
     basket.total_cents = basket.subtotal_cents + basket.tax_cents
     basket.fishy_total = true if fishy_total?(basket)
-    basket.save
-    basket
+    return if basket.save
+    message_class.find(message_id).update(failed_parse: true)
   end
 
   def fishy_total?(basket)

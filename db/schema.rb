@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917141106) do
+ActiveRecord::Schema.define(version: 20170920200845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170917141106) do
     t.datetime "date"
     t.string   "delivered_to"
     t.text     "body_field"
+    t.boolean  "failed_parse"
   end
 
   create_table "hemails", force: :cascade do |t|
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170917141106) do
     t.string   "to_field"
     t.string   "from_field"
     t.string   "x_envelope_from_field"
+    t.boolean  "failed_parse"
   end
 
   create_table "mailgun_objects", force: :cascade do |t|
