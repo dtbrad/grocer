@@ -7,16 +7,16 @@
   </li>
   <li class="list-group-item">
     <h4>Manually forward existing email receipts</h4>
-    <p>Manually forward your New Seasons Market email receipts to <%= mail_to "intake@receipts.my-grocer.com" %></p>
+    <p>Manually forward your New Seasons Market email receipts to <%= mail_to Rails.application.config.intake_email %></p>
   </li>
   <li class="list-group-item">
     <h4>Automatically forward future email receipts</h4>
-    <p class="mb-1">Automatically forward all future New Seasons Market email receipts to <%= mail_to "intake@receipts.my-grocer.com" %> using a filter on your email client. It is very easy to do in Gmail (watch a two minute walkthrough video <%= link_to "here", about_path %>). Your mileage may vary with other email providers.
+    <p class="mb-1">Automatically forward all future New Seasons Market email receipts to <%= mail_to Rails.application.config.intake_email %> using a filter on your email client. It is very easy to do in most email clients, including Gmail, iCloud, Comcast and iCloud (there are short walkthrough videos for these providers <%= link_to "here", about_path %>).
     </p>
   </li>
   <li class="list-group-item">
     <h4 class="mb-1">Is there some faster way to import my backlog of 200+ existing email receipts?</h4>
     <p class="mb-1">If they're in your gmail, yes. You can import them all at once by clicking on the button below. Note this feature requires permission to access your gmail inbox to extract those receipts. You will be sent to a gmail sign-in page and and redirected here after logging in. This is the fastest way to get all of your existing receipts at once. But remember you can also just manually forward your emails, which goes much more quickly than you might think if you are efficient in your keystrokes and mouseclicks :-) </p>
   </li>
-  <%= link_to "Click Here For Bulk Import", google_api_path_url, class: "btn btn-warning btn-block btn-lg" %>
+  <%= link_to "Click Here For Gmail Bulk Import", google_api_path_url, class: "btn btn-warning btn-block btn-lg" %>
 </ul>

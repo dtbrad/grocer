@@ -21,8 +21,12 @@ module NewSeasons
 
     config.autoload_paths << Rails.root.join('lib')
     config.receipt_email = ENV["receipt_email"] || "receipts@newseasonsmarket.com"
-    config.receipt_email_2 = ENV["receipt_email"] || "noreply@index.com"
-
+    config.receipt_email_2 = ENV["receipt_email_2"] || "noreply@index.com"
+    config.intake_email = ENV["intake@receipts.my-grocer.com"] || "intake@receipts.my-grocer.com"
+    config.gmail_walkthrough = ENV["gmail_walkthrough"] || "https://www.youtube.com/embed/LMNTOvYtDI4"
+    config.icloud_walkthrough = ENV["icloud_walkthrough"] || "https://www.youtube.com/embed/NtWn9pVuM90"
+    config.comcast_walkthrough = ENV["comcast_walkthrough"] || "https://www.youtube.com/embed/cxHLcNwbQwU"
+    config.outlook_walkthrough = ENV["outlook_walkthrough"] || "https://www.youtube.com/embed/s6FIzyvKFwg"
     config.generators do |g|
       g.test_framework :rspec,
       fixtures: true,

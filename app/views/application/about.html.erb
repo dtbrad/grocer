@@ -1,13 +1,46 @@
-</br></br>
 
+    <h3 class="jumbotron text-center" style="background-color: #CED919; color: black">
+      E-Receipt Auto-Forwarding Walkthrough
+    </h3>
+    <h5>
+      You can always manually forward existing email receipts to <%= mail_to Rails.application.config.intake_email %>, but it will be easier in the long run if you set up a forwarding filter in your email to do it automatically for you. 
+    </h5>
+    <h5>
+      Most email providers allow rule/filter-based forwarding based on the sender's email. All you need to do is create a filter that captures emails from receipts@newseasonsmarket.com and forwards them to <%= mail_to Rails.application.config.intake_email %>.
+    </h5>
+    <h5>
+      Here are short walkthrough videos for the most popular email providers:
+    </h5>
 
-<div class="jumbotron" style="background-color: #CED919; color: black">
+<ul id="myTab" class="nav nav-tabs nav-center">
+  <li class="active"><a href="#gmail" data-toggle="tab">Gmail</a></li>
+  <li><a href="#icloud" data-toggle="tab">iCloud</a></li>
+  <li><a href="#comcast" data-toggle="tab">Comcast</a></li>
+  <li><a href="#outlook" data-toggle="tab">Outlook</a></li>
+</ul>
 
-  <div class="text-center">
-    <h4>Walkthrough Videos</h4>
+<div class="tab-content text-center">
+      
+  <div class="tab-pane fade in active" id="gmail">
     </br>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/zmVqwiTtwik" frameborder="0" allowfullscreen></iframe>
+    <iframe width="560" height="315" src=<%=Rails.application.config.gmail_walkthrough %> frameborder="0" allowfullscreen></iframe>
+  </div>
+    
+  <div class="tab-pane fade" id="icloud">
+    </br>
+    <iframe width="560" height="315" src=<%=Rails.application.config.icloud_walkthrough %> frameborder="0" allowfullscreen></iframe>
+  </div>
+    
+  <div class="tab-pane fade" id="comcast">
+    </br>
+    <iframe width="560" height="315" src=<%=Rails.application.config.comcast_walkthrough %> frameborder="0" allowfullscreen></iframe>
+  </div>
+    
+  <div class="tab-pane fade" id="outlook">
+    </br>
+    <iframe width="560" height="315" src=<%=Rails.application.config.outlook_walkthrough %> frameborder="0" allowfullscreen></iframe>
   </div>
 
-
 </div>
+
+</br></br>
