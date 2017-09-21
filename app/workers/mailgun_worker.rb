@@ -4,7 +4,7 @@ class MailgunWorker
 
   def perform(id)
     mailgun_object = MailgunObject.find(id)
-    shopper = User.from_mailgun(mailgun_object.recipient)
+    shopper = User.from_mailgun(mailgun_object.shopper_email, mailgun_object.shopper_name)
     return unless mailgun_message = shopper.mailgun_messages.find_or_create_by(date: mailgun_object.transaction_date) do |mm|
       mm.body_field = mailgun_object.body_field
       mm.x_envelope_from_field = mailgun_object.x_envelope_from_field

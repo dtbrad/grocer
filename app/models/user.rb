@@ -34,9 +34,9 @@ class User < ApplicationRecord
     user
   end
 
-  def self.from_mailgun(recipient)
-    user = User.find_or_create_by(email: recipient) do |u|
-      u.name = recipient
+  def self.from_mailgun(shopper_email, shopper_name)
+    user = User.find_or_create_by(email: shopper_email) do |u|
+      u.name = shopper_name
       u.password = Devise.friendly_token.first(6)
       u.confirmed_at = DateTime.now
       u.fresh = true

@@ -21,8 +21,12 @@ class MailgunObject < ApplicationRecord
     value.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).first
   end
 
-  def recipient
+  def shopper_email
     forwarded_via_filter? ? extract_email(to_field) : extract_email(x_envelope_from_field)
+  end
+
+  def shopper_name
+    forwarded_via_filter? ? extract_email(to_field) : from_field.split("<")[0].strip
   end
 
   def forwarded_via_filter?

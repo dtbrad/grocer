@@ -3,7 +3,7 @@
   <%= bootstrap_devise_error_messages! %>
 </br>
 <% if User.with_reset_password_token(resource.reset_password_token).sign_in_count == 0 %>
-  <h4 class="alert alert-success text-center"> Welcome to Grocer! </h4>
+  <h4 class="alert alert-success text-center"> Welcome to Grocer, <%= User.with_reset_password_token(resource.reset_password_token).name.split(" ").first %>! </h4>
   <p class="text-center">Please create a password for your account</p>
 <% else %>
 <h4 class="text-center"> Reset Your Password </h4>
