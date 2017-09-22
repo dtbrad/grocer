@@ -19,6 +19,7 @@ class EmailDataProcessor
     basket.tax_cents = (tax(body_field).delete("$").to_d * 100).to_i
     basket.total_cents = basket.subtotal_cents + basket.tax_cents
     basket.fishy_total = true if fishy_total?(basket)
+    user.baskets.where(date: basket.date.change(sec: 0), total_cents: basket.total_cents, old: true).destroy_all
     return if basket.save
     message_class.find(message_id).update(failed_parse: true)
   end
