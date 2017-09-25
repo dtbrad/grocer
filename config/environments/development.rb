@@ -2,16 +2,23 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
+
+config.action_mailer.delivery_method = :mailgun
+# config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.mailgun_settings = {
+      api_key: ENV["mailgun_api_key"],
+      domain: 'updates.my-grocer.com'
+    }
+  # config.action_mailer.delivery_method = :smtp
 # SMTP settings for gmail
-  config.action_mailer.smtp_settings = {
-    :address              => "mail.hover.com",
-    :port                 => 587,
-    :user_name            => ENV['hover_username'],
-    :password             => ENV['hover_password'],
-    :authentication       => "plain",
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "mail.hover.com",
+  #   :port                 => 587,
+  #   :user_name            => ENV['hover_username'],
+  #   :password             => ENV['hover_password'],
+  #   :authentication       => "plain",
+  #   :enable_starttls_auto => true
+  # }
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

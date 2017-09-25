@@ -11,6 +11,7 @@ google_api_controller_2.rb
 *.rdb
 coverage
 sample_email.json
+/app/views/update_mailer/*
 
 # See https://help.github.com/articles/ignoring-files for more about ignoring files.
 #

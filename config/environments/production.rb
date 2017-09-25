@@ -1,18 +1,24 @@
 Rails.application.configure do
 
 # SMTP settings for gmail
-  config.action_mailer.smtp_settings = {
-    :address              => "mail.hover.com",
-    :port                 => 587,
-    :user_name            => ENV['hover_username'],
-    :password             => ENV['hover_password'],
-    :authentication       => "plain",
-    :enable_starttls_auto => true
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "mail.hover.com",
+  #   :port                 => 587,
+  #   :user_name            => ENV['hover_username'],
+  #   :password             => ENV['hover_password'],
+  #   :authentication       => "plain",
+  #   :enable_starttls_auto => true
+  # }
+
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: ENV["mailgun_api_key"],
+    domain: 'updates.my-grocer.com'
   }
 
   config.action_mailer.default_url_options = { host: ENV['host_url'] }
 
-  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 

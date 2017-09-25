@@ -34,6 +34,8 @@ gem 'rest-client', '~> 2.0', '>= 2.0.2'
 gem 'mailgun-ruby', '~>1.1.6'
 gem "sentry-raven"
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
+gem 'mailgun_rails'
+gem 'letter_opener', '~> 1.4', '>= 1.4.1'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
