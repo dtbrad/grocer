@@ -4,11 +4,12 @@ var graph_change = '<%= (params[:graph_change]).to_s %>'
 var graph_valid = '<%= @graph_config.valid?.to_s %>'
 
 if (graph_change === 'yes' && graph_valid == 'true' ) {
+
   var graph_unit = '<%= @graph_config.unit %>'
   var graph_array = '<%= @my_user.baskets.group_baskets(@graph_config).to_json %>'
   $("#outerchart").html('<div id="basket-spending-chart" data-param1= "<%= @my_user.baskets.group_baskets(@graph_config).to_json %>" data-param2= "<%= @graph_config.unit %>" data-param3="<%= ENV['WEB_FULL_URL'] %>"></div>')
   $('#baskets_table').html("<%= escape_javascript render partial: 'baskets', locals: { baskets: @baskets } %>");
-  $('#paginator').html('<%= escape_javascript(paginate(@baskets, theme: "twitter-bootstrap-3", :remote => true).to_s) %>');
+  $('#paginator').html('<%= escape_javascript(paginate @baskets, theme: "twitter-bootstrap-3", params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit, graph_change: "no"}, remote: true) %>');
 
   var $chartData = $("#basket-spending-chart")
 	var formatted_array = $chartData.data('param1').map(function(x) {
