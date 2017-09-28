@@ -19,6 +19,8 @@ Bundler.require(*Rails.groups)
 module NewSeasons
   class Application < Rails::Application
 
+    config.middleware.use Rack::Attack
+
     config.autoload_paths << Rails.root.join('lib')
     config.receipt_email = ENV["receipt_email"] || "receipts@newseasonsmarket.com"
     config.receipt_email_2 = ENV["receipt_email_2"] || "noreply@index.com"
