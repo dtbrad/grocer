@@ -4,9 +4,11 @@ class BasketsController < ApplicationController
 
   def index
     return unless @my_user && !my_user.baskets.empty?
-    @spending_state = SpendingState.new(my_user, my_user.baskets, params)
+    all_baskets = my_user.baskets
+    default_start = all_baskets.order(:transaction_date).first.transaction_date
+    @spending_state = SpendingState.new(default_start, params)
     @graph_config = @spending_state.set_graph
-    @baskets = @my_user.baskets.from_graph(@graph_config)
+    @baskets = all_baskets.from_graph(@graph_config)
                        .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
                        .page params[:page]
   end

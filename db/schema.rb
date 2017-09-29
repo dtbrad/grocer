@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922161252) do
+ActiveRecord::Schema.define(version: 20170928200608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "baskets", force: :cascade do |t|
-    t.datetime "date"
+    t.datetime "transaction_date"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
     t.integer  "user_id"
@@ -77,12 +77,14 @@ ActiveRecord::Schema.define(version: 20170922161252) do
     t.integer  "basket_id"
     t.integer  "quantity"
     t.integer  "price_cents"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.decimal  "weight"
     t.integer  "total_cents"
-    t.integer  "discount_cents", default: 0
-    t.boolean  "deleted",        default: false
+    t.integer  "discount_cents",   default: 0
+    t.boolean  "deleted",          default: false
+    t.integer  "user_id"
+    t.datetime "transaction_date"
   end
 
   create_table "mailgun_messages", force: :cascade do |t|

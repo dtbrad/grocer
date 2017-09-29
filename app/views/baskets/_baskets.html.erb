@@ -10,7 +10,7 @@
 
     <% baskets.each do |basket| %>
       <tr>
-        <td> <%= link_to format_date(basket.date), basket_path(basket) %> </td>
+        <td> <%= link_to format_date(basket.transaction_date), basket_path(basket) %> </td>
         <td> <%= basket.quantity %> </td>
         <td> <%= number_to_currency(basket.total) %> </td>
       </tr>

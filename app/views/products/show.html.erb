@@ -6,7 +6,8 @@
   <div id="product-history-chart" data-param1= "<%= @my_user.line_items.where(product: @product).group_line_items(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3="<%= @product.id %>" data-param4='<%= ENV["WEB_FULL_URL"] %>'></div>
 </div>
 
-<%= render partial: 'shared_partials/graph_control', locals: {path: product_path(@product)} %>
+
+<div id="graph_control"><%= render partial: 'shared_partials/graph_control', locals: {path: product_path(@product)} %></div>
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -35,7 +36,7 @@
     <%= render partial: 'line_items', locals: { line_items: @line_items, my_user: @my_user } %>
   </div>
   <div class="text-center" id="paginator">
-    <%= paginate @line_items, theme: 'twitter-bootstrap-3', params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit}, remote: true %>
+    <%= paginate @line_items, theme: 'twitter-bootstrap-3', params: {start: @graph_config.start_date, end: @graph_config.end_date, unit: @graph_config.unit, graph_change: "no"}, remote: true %>
   </div>
 </div>
 <% end %>

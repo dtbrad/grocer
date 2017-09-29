@@ -45,9 +45,9 @@ module NewSeasons
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    Raven.configure do |config|
-      config.dsn = 'https://46b5aa2a581d40b191d6c0d8bb4fbfd2:664685a874f84214817581d2a53e6878@sentry.io/211343'
-    end
+    # Raven.configure do |config|
+    #   config.dsn = 'https://46b5aa2a581d40b191d6c0d8bb4fbfd2:664685a874f84214817581d2a53e6878@sentry.io/211343'
+    # end
 
     config.action_mailer.delivery_method = :mailgun
     config.action_mailer.mailgun_settings = {

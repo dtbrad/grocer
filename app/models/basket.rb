@@ -3,8 +3,8 @@ class Basket < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
   belongs_to :google_mail_object
-  validates :date, presence: true
-  validates :date, uniqueness: { scope: :user }
+  validates :transaction_date, presence: true
+  validates :transaction_date, uniqueness: { scope: :user }
   monetize :total_cents, as: 'total', disable_validation: true
   monetize :subtotal_cents, as: 'subtotal', disable_validation: true
   monetize :tax_cents, as: 'tax', disable_validation: true
@@ -17,13 +17,13 @@ class Basket < ApplicationRecord
                    DateTime.parse(graph_config.start_date)
                  end
     end_date = graph_config.end_date.class == DateTime ? graph_config.end_date : DateTime.parse(graph_config.end_date)
-    Basket.where(date: start_date..end_date)
+    Basket.where(transaction_date: start_date..end_date)
   end
 
   def self.group_baskets(obj)
     start_date = Date.parse(obj.start_date)
     end_date = Date.parse(obj.end_date)
-    group_by_period(obj.unit.to_s, :date, range: start_date..end_date).sum('baskets.total_cents').to_a
+    group_by_period(obj.unit.to_s, :transaction_date, range: start_date..end_date).sum('baskets.total_cents').to_a
   end
 
   def self.custom_sort(category, direction)
@@ -32,7 +32,7 @@ class Basket < ApplicationRecord
   end
 
   def self.sort_date(direction)
-    order = ["baskets.date", direction].join(" ")
+    order = ["baskets.transaction_date", direction].join(" ")
     order(order)
   end
 
@@ -55,11 +55,11 @@ class Basket < ApplicationRecord
   end
 
   def google_mail_object
-    GoogleMailObject.find_by(date: date, user: user)
+    GoogleMailObject.find_by(date: transaction_date, user: user)
   end
 
   def mailgun_message
-    MailgunMessage.find_by(date: date, user: user)
+    MailgunMessage.find_by(date: transaction_date, user: user)
   end
 
   def source
@@ -69,6 +69,10 @@ class Basket < ApplicationRecord
   def check_for_fishy_total
     g_body = google_mail_object.body_field
     EmailDataProcessor.fishy_total?(self, g_body)
+  end
+
+  def self.oldest
+    order(:transaction_date).first
   end
 end
 

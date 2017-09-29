@@ -3,7 +3,7 @@
 <div class="panel panel-default">
 
   <div class="panel-heading">
-    <h5>You bought the following items on <%= format_date(@basket.date) %></h5>
+    <h5>You bought the following items on <%= format_date(@basket.transaction_date) %></h5>
     <% if @basket.fishy_total == true %>
       <h5 style="color: red">Grocer detected an anomaly in processing this receipt and is working on resolving it. Until then please check your original receipt to ensure accuracy</h5>
       <% end %>

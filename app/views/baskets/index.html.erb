@@ -6,7 +6,7 @@
     <div id="basket-spending-chart" data-param1= "<%= @my_user.baskets.group_baskets(@graph_config).to_json %>" data-param2="<%= @graph_config.unit %>" data-param3='<%= ENV["WEB_FULL_URL"] %>'></div>
   </div>
 
-  <%= render partial: 'shared_partials/graph_control', locals: {path: baskets_path} %>
+  <div id="graph_control"><%= render partial: 'shared_partials/graph_control', locals: {path: baskets_path} %></div>
 
   <div class="panel panel-default">
     <div id="baskets_table" class="panel-body">

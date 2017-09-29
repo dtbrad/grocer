@@ -13,13 +13,13 @@ class EmailDataProcessor
   def process_single_email
     email_body = EmailParser.new(body_field)
     receipt_items = email_body.parse_email
-    basket = user.baskets.build(date: date)
+    basket = user.baskets.build(transaction_date: date)
     receipt_items.each { |ri| build_products_and_line_items(basket, ri) }
     basket.subtotal_cents = basket.line_items.collect(&:total_cents).inject { |sum, n| sum + n }
     basket.tax_cents = (tax(body_field).delete("$").to_d * 100).to_i
     basket.total_cents = basket.subtotal_cents + basket.tax_cents
     basket.fishy_total = true if fishy_total?(basket)
-    user.baskets.where(date: basket.date.change(sec: 0), total_cents: basket.total_cents, old: true).destroy_all
+    user.baskets.where(transaction_date: basket.transaction_date.change(sec: 0), total_cents: basket.total_cents, old: true).destroy_all
     return if basket.save
     message_class.find(message_id).update(failed_parse: true)
   end
@@ -33,7 +33,7 @@ class EmailDataProcessor
     product = Product.find_or_create_by(name: info[:name].titleize)
     price_info = create_price_info(info, product)
     basket.line_items.build(total_cents: info[:total_cents], quantity: info[:qty], product: product,
-                            user: user, price_cents: price_info[:price_cents], weight: price_info[:weight])
+                            user: user, price_cents: price_info[:price_cents], weight: price_info[:weight], transaction_date: basket.transaction_date)
   end
 
   def create_price_info(info, product)

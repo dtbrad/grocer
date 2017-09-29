@@ -11,14 +11,15 @@ class ProductsController < ApplicationController
   end
 
   def show
-    return unless @my_user
-    sorted_line_items = @product.this_users_line_items(@my_user).joins(:basket).order("baskets.date")
-    @spending_state = SpendingState.new(my_user, sorted_line_items, params)
+    return unless my_user
+    all_line_items = @product.line_items.where("line_items.user_id = ?", @my_user.id)
+    default_start = all_line_items.oldest.transaction_date
+    @spending_state = SpendingState.new(default_start, params)
     @graph_config = @spending_state.set_graph
-    @line_items = @product.this_users_line_items(@my_user)
-                          .from_graph(@graph_config)
-                          .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
-                          .page params[:page]
+    @line_items = all_line_items
+                  .from_graph(@graph_config)
+                  .custom_sort(@spending_state.sort_column, @spending_state.sort_direction)
+                  .page params[:page]
   end
 
   def create; end

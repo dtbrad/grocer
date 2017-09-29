@@ -36,8 +36,8 @@ class Product < ApplicationRecord
   end
 
   def self.sort_most_recently_purchased(direction)
-    order = ["MAX(baskets.date)", direction].join(" ")
-    select('products.*', 'MAX(baskets.date) as max_date').group('products.id').order(order)
+    order = ["MAX(line_items.transaction_date)", direction].join(" ")
+    joins(:line_items).select('products.*', 'MAX(line_items.transaction_date)').group('products.id').order(order)
   end
 
   def self.sort_nickname(direction)
@@ -114,7 +114,7 @@ class Product < ApplicationRecord
   end
 
   def most_recently_purchased(user)
-    baskets.where(user: user).order(:date).last.date if has_line_items?
+    line_items.where('line_items.user_id=?', user.id).order(transaction_date: :desc).first.transaction_date
   end
 
   def set_nickname
