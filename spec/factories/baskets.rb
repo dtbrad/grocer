@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :basket do
-    date { Faker::Date.backward }
+    transaction_date { Faker::Date.backward }
     total_cents { Faker::Number.number(4) }
 
     trait :five_items_fifty_total do

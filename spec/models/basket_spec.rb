@@ -6,9 +6,9 @@ describe Basket do
   end
 
   it 'is invalid without a date' do
-    basket = build(:basket, date: nil)
+    basket = build(:basket, transaction_date: nil)
     basket.valid?
-    expect(basket.errors[:date]).to include("can't be blank")
+    expect(basket.errors[:transaction_date]).to include("can't be blank")
   end
 
   it 'can display its total in dollars' do
@@ -30,13 +30,13 @@ describe Basket do
 
   context 'It knows about itself' do
     before :each do
-      @basket1 =  create(:basket, :three_items_thirty_total, date: Time.parse('2017-01-14 08:59:54 -0800'))
-      @basket2 =  create(:basket, :two_items_twenty_total, date: Time.parse('2017-01-18 08:59:54 -0800'))
-      @basket3 =  create(:basket, :five_items_fifty_total, date: Time.parse('2017-01-19 08:59:54 -0800'))
-      @basket4 =  create(:basket, :five_items_five_total, date: Time.parse('2017-02-14 08:59:54 -0800'))
-      @basket5 =  create(:basket, :two_items_two_total, date: Time.parse('2017-03-14 08:59:54 -0800'))
-      @basket6 =  create(:basket, :five_items_five_total, date: Time.parse('2017-04-14 08:59:54 -0800'))
-      @basket7 =  create(:basket, :two_items_twenty_total, date: Time.parse('2017-05-14 08:59:54 -0800'))
+      @basket1 =  create(:basket, :three_items_thirty_total, transaction_date: Time.parse('2017-01-14 08:59:54 -0800'))
+      @basket2 =  create(:basket, :two_items_twenty_total, transaction_date: Time.parse('2017-01-18 08:59:54 -0800'))
+      @basket3 =  create(:basket, :five_items_fifty_total, transaction_date: Time.parse('2017-01-19 08:59:54 -0800'))
+      @basket4 =  create(:basket, :five_items_five_total, transaction_date: Time.parse('2017-02-14 08:59:54 -0800'))
+      @basket5 =  create(:basket, :two_items_two_total, transaction_date: Time.parse('2017-03-14 08:59:54 -0800'))
+      @basket6 =  create(:basket, :five_items_five_total, transaction_date: Time.parse('2017-04-14 08:59:54 -0800'))
+      @basket7 =  create(:basket, :two_items_twenty_total, transaction_date: Time.parse('2017-05-14 08:59:54 -0800'))
     end
 
     let(:graph_config1) { GraphConfig.new(start_date: '2017-01-14 08:59:54 -0800', end_date: '2017-04-14 08:59:54 -0800',
